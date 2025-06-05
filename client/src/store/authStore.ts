@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { authService } from '../services/api';
+import { mockAuthService } from '../services/mockApi';
 
 interface User {
   id: number;
@@ -77,7 +78,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   register: async (userData: any) => {
     set({ isLoading: true });
     try {
-      const response = await authService.register(userData);
+      let response;
+      try {
+        response = await authService.register(userData);
+      } catch (apiError) {
+        // Si l'API n'est pas disponible, utiliser le mock en mode démo
+        console.warn('API non disponible, utilisation du mode démo');
+        response = await mockAuthService.register(userData);
+      }
+      
       const { token, user } = response;
       
       localStorage.setItem('token', token);

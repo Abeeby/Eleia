@@ -53,7 +53,12 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 });
 
 // Démarrage du serveur
-app.listen(PORT, () => {
-  console.log(`🚀 Serveur Elaia Studio démarré sur le port ${PORT}`);
-  console.log(`📍 API disponible sur http://localhost:${PORT}/api`);
-}); 
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`🚀 Serveur Elaia Studio démarré sur le port ${PORT}`);
+    console.log(`📍 API disponible sur http://localhost:${PORT}/api`);
+  });
+}
+
+// Export pour Vercel
+export default app; 
