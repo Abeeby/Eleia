@@ -3,23 +3,56 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Créer le pool de connexions PostgreSQL
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+// Parser l'URL de connexion pour extraire les composants
+const DATABASE_URL = process.env.DATABASE_URL || '';
+let poolConfig: any = {
   ssl: {
     rejectUnauthorized: false
-  }
-});
+  },
+  connectionTimeoutMillis: 10000,
+  idleTimeoutMillis: 30000,
+  max: 20
+};
 
-// Test de connexion
-pool.connect((err, client, release) => {
-  if (err) {
-    console.error('❌ Erreur de connexion à PostgreSQL:', err.stack);
-  } else {
-    console.log('✅ Connecté à PostgreSQL (Supabase)');
-    release();
+// Si DATABASE_URL est fournie, l'utiliser
+if (DATABASE_URL) {
+  // Utiliser directement la connection string
+  poolConfig.connectionString = DATABASE_URL;
+  
+  // Ajouter une configuration spécifique pour Supabase
+  if (DATABASE_URL.includes('supabase.co')) {
+    poolConfig.ssl = {
+      rejectUnauthorized: false,
+      require: true
+    };
   }
-});
+}
+
+// Créer le pool de connexions PostgreSQL
+const pool = new Pool(poolConfig);
+
+// Test de connexion avec retry
+const testConnection = async () => {
+  let retries = 3;
+  while (retries > 0) {
+    try {
+      const client = await pool.connect();
+      console.log('✅ Connecté à PostgreSQL (Supabase)');
+      client.release();
+      break;
+    } catch (err) {
+      retries--;
+      console.error(`❌ Erreur de connexion à PostgreSQL (tentatives restantes: ${retries}):`, err);
+      if (retries === 0) {
+        console.error('Impossible de se connecter à la base de données après 3 tentatives');
+      } else {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      }
+    }
+  }
+};
+
+testConnection();
 
 // Wrapper pour exécuter une requête qui modifie la base
 export const dbRun = async (sql: string, params: any[] = []): Promise<any> => {
