@@ -103,10 +103,10 @@ CREATE TABLE IF NOT EXISTS waiting_list (
 );
 
 -- Create indexes for better performance
-CREATE INDEX idx_users_email ON users(email);
-CREATE INDEX idx_classes_start_time ON classes(start_time);
-CREATE INDEX idx_bookings_user_id ON bookings(user_id);
-CREATE INDEX idx_bookings_class_id ON bookings(class_id);
+CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
+CREATE INDEX IF NOT EXISTS idx_classes_start_time ON classes(start_time);
+CREATE INDEX IF NOT EXISTS idx_bookings_user_id ON bookings(user_id);
+CREATE INDEX IF NOT EXISTS idx_bookings_class_id ON bookings(class_id);
 
 -- Insert default class types
 INSERT INTO class_types (name, description, duration, max_participants, credits_required, color) VALUES
