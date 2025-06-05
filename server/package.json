@@ -19,7 +19,9 @@
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.7",
     "express-validator": "^7.0.1",
-    "date-fns": "^2.30.0"
+    "date-fns": "^2.30.0",
+    "@supabase/supabase-js": "^2.39.3",
+    "pg": "^8.11.3"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
