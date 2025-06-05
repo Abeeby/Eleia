@@ -9,6 +9,11 @@ interface User {
   phone?: string;
   role: string;
   is_verified: boolean;
+  address?: string;
+  city?: string;
+  postal_code?: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 interface Subscription {
@@ -36,6 +41,7 @@ interface AuthState {
   logout: () => void;
   fetchProfile: () => Promise<void>;
   updateProfile: (data: any) => Promise<void>;
+  updateUser: (user: User) => void;
   setToken: (token: string) => void;
 }
 
@@ -131,5 +137,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   setToken: (token: string) => {
     localStorage.setItem('token', token);
     set({ token, isAuthenticated: true });
+  },
+
+  updateUser: (user: User) => {
+    set({ user });
   },
 })); 
