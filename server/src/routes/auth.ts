@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { body, validationResult } from 'express-validator';
@@ -12,7 +12,7 @@ const generateToken = (user: any) => {
   return jwt.sign(
     { id: user.id, email: user.email, role: user.role },
     process.env.JWT_SECRET || 'secret',
-    { expiresIn: process.env.JWT_EXPIRE || '30d' }
+    { expiresIn: '30d' }
   );
 };
 

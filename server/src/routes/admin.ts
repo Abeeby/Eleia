@@ -195,7 +195,7 @@ router.get('/attendance/stats', async (req, res) => {
       AND status = 'scheduled'
       GROUP BY day_of_week, hour
       ORDER BY day_of_week, hour
-    `, [start_date || date('now', '-30 days'), end_date || date('now')]);
+    `, [start_date || "date('now', '-30 days')", end_date || "date('now')"]);
 
     const popularClasses = await dbAll(`
       SELECT 
@@ -208,7 +208,7 @@ router.get('/attendance/stats', async (req, res) => {
       WHERE c.start_time >= ? AND c.start_time <= ?
       GROUP BY ct.id
       ORDER BY total_bookings DESC
-    `, [start_date || date('now', '-30 days'), end_date || date('now')]);
+    `, [start_date || "date('now', '-30 days')", end_date || "date('now')"]);
 
     res.json({
       attendanceByDayHour: attendanceByDay,
