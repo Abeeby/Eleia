@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { body, validationResult } from 'express-validator';
-import { dbRun, dbGet } from '../utils/database';
+import { dbRun, dbGet } from '../utils/db';
 import { authenticateToken } from '../middleware/auth';
 
 const router = Router();

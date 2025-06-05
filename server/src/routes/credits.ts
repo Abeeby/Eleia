@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { dbRun, dbGet, dbAll } from '../utils/database';
+import { dbRun, dbGet, dbAll } from '../utils/db';
 import { authenticateToken } from '../middleware/auth';
 import { addDays } from 'date-fns';
 

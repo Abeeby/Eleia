@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { dbAll, dbGet } from '../utils/database';
+import { dbAll, dbGet } from '../utils/db';
 import { authenticateToken, authorizeAdmin } from '../middleware/auth';
 import { startOfMonth, endOfMonth, subMonths } from 'date-fns';
 

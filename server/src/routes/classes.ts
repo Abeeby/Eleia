@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { dbAll, dbGet } from '../utils/database';
+import { dbAll, dbGet } from '../utils/db';
 import { authenticateToken } from '../middleware/auth';
 import { format, startOfWeek, endOfWeek, parseISO } from 'date-fns';
 import { fr } from 'date-fns/locale';
