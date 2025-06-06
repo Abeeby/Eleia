@@ -66,6 +66,38 @@ app.post('/api/auth/register', (req, res) => {
   });
 });
 
+// Route me pour vérification du token
+app.get('/api/auth/me', (req, res) => {
+  console.log('👤 Me route called');
+  console.log('Authorization header:', req.headers.authorization);
+  
+  const authHeader = req.headers.authorization;
+  
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    console.log('❌ No valid token provided');
+    return res.status(401).json({ error: 'Token manquant' });
+  }
+  
+  const token = authHeader.substring(7); // Remove "Bearer "
+  
+  // Vérification du token de test
+  if (token === 'test-token-123') {
+    console.log('✅ Valid test token');
+    return res.json({
+      user: {
+        id: 1,
+        email: 'admin@elaiastudio.ch',
+        first_name: 'Admin',
+        last_name: 'Test',
+        role: 'admin'
+      }
+    });
+  }
+  
+  console.log('❌ Invalid token:', token);
+  res.status(401).json({ error: 'Token invalide' });
+});
+
 // Catch all 404
 app.use('*', (req, res) => {
   console.log('❓ Route not found:', req.method, req.originalUrl);
