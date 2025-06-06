@@ -81,6 +81,297 @@ app.post('/api/auth/register', (req, res) => {
   });
 });
 
+// === SIMULATION COMPLÈTE ELAIA STUDIO ===
+
+// Route pour récupérer les statistiques admin
+app.get('/api/admin/stats', (req, res) => {
+  console.log('📊 Admin stats requested');
+  
+  res.json({
+    active_clients: 127,
+    revenue_this_month: 18450,
+    bookings_this_month: 234,
+    occupancy_rate: 73,
+    new_clients_this_month: 12,
+    retention_rate: 89,
+    avg_sessions_per_client: 3.2,
+    credits_sold_this_month: 1850,
+    active_subscriptions: 89,
+    growth: {
+      active_clients: 15,
+      revenue: 22,
+      bookings: 18
+    },
+    popular_classes: [
+      { name: 'Pilates Reformer Débutant', instructor: 'Sarah Martin', bookings: 87 },
+      { name: 'Pilates Reformer Intermédiaire', instructor: 'Julie Dubois', bookings: 65 },
+      { name: 'Pilates Yoga Mat', instructor: 'Emma Rousseau', bookings: 42 }
+    ]
+  });
+});
+
+// Route pour récupérer les réservations récentes (admin)
+app.get('/api/admin/bookings', (req, res) => {
+  console.log('📅 Admin bookings requested');
+  
+  res.json([
+    {
+      id: 1,
+      client_name: 'Marie Dupont',
+      client_email: 'marie.dupont@email.com',
+      class_name: 'Pilates Reformer Débutant',
+      start_time: '2024-12-07T10:00:00Z',
+      status: 'confirmed'
+    },
+    {
+      id: 2,
+      client_name: 'Sophie Laurent',
+      client_email: 'sophie.laurent@email.com',
+      class_name: 'Pilates Yoga Mat',
+      start_time: '2024-12-07T14:30:00Z',
+      status: 'confirmed'
+    },
+    {
+      id: 3,
+      client_name: 'Camille Bernard',
+      client_email: 'camille.bernard@email.com',
+      class_name: 'Pilates Reformer Intermédiaire',
+      start_time: '2024-12-07T18:00:00Z',
+      status: 'confirmed'
+    }
+  ]);
+});
+
+// Route pour le planning
+app.get('/api/classes/schedule', (req, res) => {
+  console.log('📅 Schedule requested for date:', req.query.date);
+  
+  const baseDate = req.query.date || '2024-12-07';
+  
+  res.json([
+    {
+      id: 101,
+      start_time: `${baseDate}T09:00:00Z`,
+      end_time: `${baseDate}T10:15:00Z`,
+      class_type_name: 'Pilates Reformer Débutant',
+      credits_required: 3,
+      available_spots: 2,
+      max_participants: 8,
+      instructor_first_name: 'Sarah',
+      instructor_last_name: 'Martin'
+    },
+    {
+      id: 102,
+      start_time: `${baseDate}T10:30:00Z`,
+      end_time: `${baseDate}T11:45:00Z`,
+      class_type_name: 'Pilates Yoga Mat',
+      credits_required: 2,
+      available_spots: 5,
+      max_participants: 12,
+      instructor_first_name: 'Emma',
+      instructor_last_name: 'Rousseau'
+    },
+    {
+      id: 103,
+      start_time: `${baseDate}T14:00:00Z`,
+      end_time: `${baseDate}T15:15:00Z`,
+      class_type_name: 'Pilates Reformer Intermédiaire',
+      credits_required: 3,
+      available_spots: 0,
+      max_participants: 8,
+      instructor_first_name: 'Julie',
+      instructor_last_name: 'Dubois'
+    },
+    {
+      id: 104,
+      start_time: `${baseDate}T18:00:00Z`,
+      end_time: `${baseDate}T19:15:00Z`,
+      class_type_name: 'Pilates Reformer Avancé',
+      credits_required: 3,
+      available_spots: 3,
+      max_participants: 6,
+      instructor_first_name: 'Sarah',
+      instructor_last_name: 'Martin'
+    },
+    {
+      id: 105,
+      start_time: `${baseDate}T19:30:00Z`,
+      end_time: `${baseDate}T20:45:00Z`,
+      class_type_name: 'Pilates Yoga Mat Détente',
+      credits_required: 2,
+      available_spots: 8,
+      max_participants: 12,
+      instructor_first_name: 'Emma',
+      instructor_last_name: 'Rousseau'
+    }
+  ]);
+});
+
+// Route pour mes réservations
+app.get('/api/bookings/my-bookings', (req, res) => {
+  console.log('📋 My bookings requested, timeframe:', req.query.timeframe);
+  
+  const timeframe = req.query.timeframe;
+  
+  if (timeframe === 'future') {
+    res.json([
+      {
+        id: 1,
+        start_time: '2024-12-08T10:30:00Z',
+        class_type_name: 'Pilates Reformer Débutant',
+        credits_used: 3,
+        status: 'confirmed'
+      },
+      {
+        id: 2,
+        start_time: '2024-12-10T14:00:00Z',
+        class_type_name: 'Pilates Yoga Mat',
+        credits_used: 2,
+        status: 'confirmed'
+      }
+    ]);
+  } else {
+    res.json([
+      {
+        id: 3,
+        start_time: '2024-12-05T09:00:00Z',
+        class_type_name: 'Pilates Reformer Débutant',
+        credits_used: 3,
+        status: 'completed'
+      },
+      {
+        id: 4,
+        start_time: '2024-12-03T18:00:00Z',
+        class_type_name: 'Pilates Yoga Mat',
+        credits_used: 2,
+        status: 'completed'
+      }
+    ]);
+  }
+});
+
+// Route pour mon abonnement
+app.get('/api/subscriptions/mine', (req, res) => {
+  console.log('💳 My subscription requested');
+  
+  const authHeader = req.headers.authorization;
+  const token = authHeader?.substring(7);
+  
+  if (token === 'test-token-admin-123') {
+    res.json({
+      subscription: {
+        id: 1,
+        plan_name: 'Pack 30 crédits',
+        plan_type: 'credits',
+        credits_remaining: 24,
+        end_date: '2024-03-07',
+        usage_stats: {
+          total_bookings: 8
+        }
+      }
+    });
+  } else if (token === 'test-token-client-456') {
+    res.json({
+      subscription: {
+        id: 2,
+        plan_name: 'Pack 50 crédits',
+        plan_type: 'credits',
+        credits_remaining: 37,
+        end_date: '2024-04-15',
+        usage_stats: {
+          total_bookings: 5
+        }
+      }
+    });
+  } else {
+    res.status(401).json({ error: 'Token invalide' });
+  }
+});
+
+// Route pour les plans d'abonnement
+app.get('/api/subscriptions/plans', (req, res) => {
+  console.log('💰 Subscription plans requested');
+  
+  res.json([
+    // Plans crédits
+    {
+      id: 1,
+      name: 'Pack 30 crédits',
+      type: 'credits',
+      price: 330,
+      credits: 30,
+      description: 'Environ 10 séances Pilates Reformer'
+    },
+    {
+      id: 2,
+      name: 'Pack 50 crédits',
+      type: 'credits',
+      price: 500,
+      credits: 50,
+      description: 'Environ 16 séances Pilates Reformer'
+    },
+    {
+      id: 3,
+      name: 'Pack 70 crédits',
+      type: 'credits',
+      price: 630,
+      credits: 70,
+      description: 'Environ 23 séances Pilates Reformer'
+    },
+    // Plans mensuels
+    {
+      id: 4,
+      name: 'Abonnement 1 fois par semaine',
+      type: 'monthly',
+      price: 120,
+      max_bookings_per_week: 1,
+      description: '4 séances par mois'
+    },
+    {
+      id: 5,
+      name: 'Abonnement 2 fois par semaine',
+      type: 'monthly',
+      price: 200,
+      max_bookings_per_week: 2,
+      description: '8 séances par mois'
+    },
+    {
+      id: 6,
+      name: 'Abonnement illimité',
+      type: 'monthly',
+      price: 280,
+      max_bookings_per_week: null,
+      description: 'Accès illimité à tous les cours'
+    }
+  ]);
+});
+
+// Route pour réserver un cours
+app.post('/api/bookings/book/:classId', (req, res) => {
+  console.log('🎯 Booking class:', req.params.classId);
+  
+  const classId = parseInt(req.params.classId);
+  
+  // Simulation : cours 103 est complet
+  if (classId === 103) {
+    return res.status(400).json({
+      error: 'Ce cours est complet',
+      suggest_waiting_list: true
+    });
+  }
+  
+  // Simulation : succès
+  res.json({
+    message: 'Réservation confirmée !',
+    booking: {
+      id: Math.floor(Math.random() * 1000),
+      class_id: classId,
+      status: 'confirmed',
+      credits_used: classId === 102 || classId === 105 ? 2 : 3
+    }
+  });
+});
+
 // Route me pour vérification du token
 app.get('/api/auth/me', (req, res) => {
   console.log('👤 Me route called');
