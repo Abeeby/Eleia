@@ -9,6 +9,7 @@ import AuthLayout from './components/layouts/AuthLayout';
 
 // Pages publiques
 import HomePage from './pages/HomePage';
+import AboutPage from './pages/AboutPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import PricingPage from './pages/PricingPage';
@@ -71,6 +72,7 @@ function App() {
           <Route element={<MainLayout />}>
             {/* Pages publiques */}
             <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/faq" element={<FaqPage />} />
             <Route path="/contact" element={<ContactPage />} />
