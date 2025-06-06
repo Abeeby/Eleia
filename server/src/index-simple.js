@@ -4,34 +4,91 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware de base
-app.use(cors());
+// Configuration CORS très permissive pour debug
+app.use(cors({
+  origin: true,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 
-// Route de test simple
+// Route de test
 app.get('/api/health', (req, res) => {
+  console.log('✅ Health check OK');
   res.json({ 
     status: 'OK', 
-    message: 'Elaia Studio API is running',
     timestamp: new Date().toISOString(),
-    env: process.env.NODE_ENV || 'development'
+    message: 'Server is running'
   });
 });
 
-// Route de test pour les variables d'environnement
-app.get('/api/debug', (req, res) => {
+// Route login simplifiée pour test
+app.post('/api/auth/login', (req, res) => {
+  console.log('🔐 Login attempt:', req.body);
+  
+  const { email, password } = req.body;
+  
+  // Validation basique
+  if (!email || !password) {
+    return res.status(400).json({ 
+      error: 'Email et mot de passe requis' 
+    });
+  }
+  
+  // Test avec admin (temporaire)
+  if (email === 'admin@elaiastudio.ch' && password === 'admin123') {
+    console.log('✅ Login successful for admin');
+    return res.json({
+      token: 'test-token-123',
+      user: {
+        id: 1,
+        email: 'admin@elaiastudio.ch',
+        first_name: 'Admin',
+        last_name: 'Test',
+        role: 'admin'
+      }
+    });
+  }
+  
+  console.log('❌ Invalid credentials');
+  res.status(401).json({ error: 'Identifiants invalides' });
+});
+
+// Route register simplifiée
+app.post('/api/auth/register', (req, res) => {
+  console.log('📝 Register attempt:', req.body);
+  
   res.json({
-    port: PORT,
-    nodeEnv: process.env.NODE_ENV,
-    hasDatabase: !!process.env.DATABASE_URL,
-    hasSupabase: !!process.env.SUPABASE_URL
+    message: 'Inscription temporairement désactivée - en mode debug',
+    debug: true
   });
 });
 
-// Démarrage
+// Catch all 404
+app.use('*', (req, res) => {
+  console.log('❓ Route not found:', req.method, req.originalUrl);
+  res.status(404).json({ 
+    error: 'Route not found',
+    method: req.method,
+    path: req.originalUrl
+  });
+});
+
+// Error handler
+app.use((err, req, res, next) => {
+  console.error('💥 Server error:', err);
+  res.status(500).json({ 
+    error: 'Internal server error',
+    message: err.message
+  });
+});
+
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Serveur simple démarré sur le port ${PORT}`);
-  console.log(`📍 Mode: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`🚀 Debug server running on port ${PORT}`);
+  console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`🌐 Health check: http://0.0.0.0:${PORT}/api/health`);
 });
 
 module.exports = app; 
