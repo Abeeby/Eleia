@@ -41,13 +41,28 @@ app.post('/api/auth/login', (req, res) => {
   if (email === 'admin@elaiastudio.ch' && password === 'admin123') {
     console.log('✅ Login successful for admin');
     return res.json({
-      token: 'test-token-123',
+      token: 'test-token-admin-123',
       user: {
         id: 1,
         email: 'admin@elaiastudio.ch',
         first_name: 'Admin',
         last_name: 'Test',
         role: 'admin'
+      }
+    });
+  }
+  
+  // Test avec client (temporaire)
+  if (email === 'marie.dupont@email.com' && password === 'client123') {
+    console.log('✅ Login successful for client');
+    return res.json({
+      token: 'test-token-client-456',
+      user: {
+        id: 2,
+        email: 'marie.dupont@email.com',
+        first_name: 'Marie',
+        last_name: 'Dupont',
+        role: 'client'
       }
     });
   }
@@ -80,9 +95,9 @@ app.get('/api/auth/me', (req, res) => {
   
   const token = authHeader.substring(7); // Remove "Bearer "
   
-  // Vérification du token de test
-  if (token === 'test-token-123') {
-    console.log('✅ Valid test token');
+  // Vérification des tokens de test
+  if (token === 'test-token-admin-123') {
+    console.log('✅ Valid admin test token');
     return res.json({
       user: {
         id: 1,
@@ -90,6 +105,19 @@ app.get('/api/auth/me', (req, res) => {
         first_name: 'Admin',
         last_name: 'Test',
         role: 'admin'
+      }
+    });
+  }
+  
+  if (token === 'test-token-client-456') {
+    console.log('✅ Valid client test token');
+    return res.json({
+      user: {
+        id: 2,
+        email: 'marie.dupont@email.com',
+        first_name: 'Marie',
+        last_name: 'Dupont',
+        role: 'client'
       }
     });
   }
