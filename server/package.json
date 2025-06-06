@@ -5,8 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon --exec ts-node src/index.ts",
-    "build": "echo 'Build skipped for debugging'",
-    "start": "node src/index-simple.js",
+    "build": "tsc",
+    "start": "node dist/index.js",
     "init-db": "ts-node src/utils/initDb.ts"
   },
   "dependencies": {

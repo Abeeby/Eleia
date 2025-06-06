@@ -16,7 +16,7 @@ import contractRoutes from './routes/contracts';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = parseInt(process.env.PORT || '5000');
 
 // Middleware
 app.use(cors({
@@ -53,12 +53,11 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 });
 
 // Démarrage du serveur
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(PORT, () => {
-    console.log(`🚀 Serveur Elaia Studio démarré sur le port ${PORT}`);
-    console.log(`📍 API disponible sur http://localhost:${PORT}/api`);
-  });
-}
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Serveur Elaia Studio démarré sur le port ${PORT}`);
+  console.log(`📍 API disponible sur http://localhost:${PORT}/api`);
+  console.log(`🌍 Environnement: ${process.env.NODE_ENV || 'development'}`);
+});
 
 // Export pour Vercel
 export default app; 
