@@ -19,6 +19,9 @@ export default function MainLayout() {
     { name: 'Accueil', href: '/' },
     { name: 'Planning', href: '/schedule' },
     { name: 'Tarifs', href: '/pricing' },
+    { name: 'Notre histoire', href: '/about' },
+    { name: 'FAQ', href: '/faq' },
+    { name: 'Contact', href: '/contact' },
   ];
 
   const userNavigation = [
@@ -227,30 +230,65 @@ export default function MainLayout() {
       {/* Footer */}
       <footer className="bg-elaia-mint mt-auto">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <h3 className="text-lg font-semibold text-elaia-gray mb-4">Elaïa Studio</h3>
-              <p className="text-sm text-elaia-gray">
-                Votre studio de Pilates Reformer à Gland
+              <p className="text-sm text-elaia-gray mb-4">
+                Votre studio de Pilates Reformer à Gland. Reformer votre corps, révélez votre bien-être.
               </p>
+              <p className="text-sm text-elaia-gray">
+                rue de l'Etraz 14<br />
+                1196 Gland, Suisse
+              </p>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-elaia-gray mb-4">Navigation</h3>
+              <ul className="space-y-2 text-sm text-elaia-gray">
+                <li><Link to="/about" className="hover:text-elaia-gold">Notre histoire</Link></li>
+                <li><Link to="/pricing" className="hover:text-elaia-gold">Nos tarifs</Link></li>
+                <li><Link to="/schedule" className="hover:text-elaia-gold">Planning</Link></li>
+                <li><Link to="/faq" className="hover:text-elaia-gold">FAQ</Link></li>
+              </ul>
             </div>
             <div>
               <h3 className="text-lg font-semibold text-elaia-gray mb-4">Contact</h3>
-              <p className="text-sm text-elaia-gray">
-                Email: contact@elaiastudio.ch<br />
-                Tél: +41 22 123 45 67
-              </p>
+              <div className="text-sm text-elaia-gray space-y-2">
+                <p>
+                  <a href="mailto:contact@elaia-studio.ch" className="hover:text-elaia-gold">
+                    contact@elaia-studio.ch
+                  </a>
+                </p>
+                <p>
+                  <a href="tel:+41797181009" className="hover:text-elaia-gold">
+                    079 718 10 09
+                  </a>
+                </p>
+                <p>
+                  <Link to="/contact" className="hover:text-elaia-gold">
+                    Formulaire de contact
+                  </Link>
+                </p>
+              </div>
             </div>
             <div>
               <h3 className="text-lg font-semibold text-elaia-gray mb-4">Suivez-nous</h3>
-              <p className="text-sm text-elaia-gray">
-                Instagram: @elaia.studio
-              </p>
+              <div className="text-sm text-elaia-gray space-y-2">
+                <p>
+                  <a href="https://instagram.com/elaia.studio" target="_blank" rel="noopener noreferrer" className="hover:text-elaia-gold">
+                    @elaia.studio
+                  </a>
+                </p>
+                <p className="mt-4">
+                  <Link to="/legal" className="hover:text-elaia-gold text-xs">
+                    Mentions légales
+                  </Link>
+                </p>
+              </div>
             </div>
           </div>
           <div className="mt-8 border-t border-elaia-green/20 pt-8 text-center">
             <p className="text-sm text-elaia-gray">
-              © 2024 Elaïa Studio. Tous droits réservés.
+              © 2025 Elaïa Studio – Pilates Reformer à Gland. Tous droits réservés.
             </p>
           </div>
         </div>

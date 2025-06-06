@@ -12,6 +12,9 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import PricingPage from './pages/PricingPage';
+import FaqPage from './pages/FaqPage';
+import ContactPage from './pages/ContactPage';
+import LegalPage from './pages/LegalPage';
 
 // Pages privées
 import DashboardPage from './pages/DashboardPage';
@@ -69,6 +72,9 @@ function App() {
             {/* Pages publiques */}
             <Route path="/" element={<HomePage />} />
             <Route path="/pricing" element={<PricingPage />} />
+            <Route path="/faq" element={<FaqPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/legal" element={<LegalPage />} />
 
             {/* Pages privées */}
             <Route element={<PrivateRoute />}>
