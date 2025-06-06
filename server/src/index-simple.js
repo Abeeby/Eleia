@@ -263,7 +263,7 @@ app.get('/api/subscriptions/mine', (req, res) => {
         id: 1,
         plan_name: 'Pack 30 crédits',
         plan_type: 'credits',
-        credits_remaining: 24,
+        credits_remaining: adminCredits,
         end_date: '2024-03-07',
         usage_stats: {
           total_bookings: 8
@@ -276,12 +276,38 @@ app.get('/api/subscriptions/mine', (req, res) => {
         id: 2,
         plan_name: 'Pack 50 crédits',
         plan_type: 'credits',
-        credits_remaining: 37,
+        credits_remaining: clientCredits,
         end_date: '2024-04-15',
         usage_stats: {
           total_bookings: 5
         }
       }
+    });
+  } else {
+    res.status(401).json({ error: 'Token invalide' });
+  }
+});
+
+// Route alternative pour les crédits (si l'app appelle cette route)
+app.get('/api/credits/mine', (req, res) => {
+  console.log('💰 My credits requested');
+  
+  const authHeader = req.headers.authorization;
+  const token = authHeader?.substring(7);
+  
+  if (token === 'test-token-admin-123') {
+    res.json({
+      credits_remaining: adminCredits,
+      plan_name: 'Pack 30 crédits',
+      total_credits: 30,
+      credits_used: 30 - adminCredits
+    });
+  } else if (token === 'test-token-client-456') {
+    res.json({
+      credits_remaining: clientCredits,
+      plan_name: 'Pack 50 crédits',
+      total_credits: 50,
+      credits_used: 50 - clientCredits
     });
   } else {
     res.status(401).json({ error: 'Token invalide' });
@@ -346,11 +372,17 @@ app.get('/api/subscriptions/plans', (req, res) => {
   ]);
 });
 
+// Variables pour simuler les crédits en temps réel
+let adminCredits = 24;
+let clientCredits = 37;
+
 // Route pour réserver un cours
 app.post('/api/bookings/book/:classId', (req, res) => {
   console.log('🎯 Booking class:', req.params.classId);
   
   const classId = parseInt(req.params.classId);
+  const authHeader = req.headers.authorization;
+  const token = authHeader?.substring(7);
   
   // Simulation : cours 103 est complet
   if (classId === 103) {
@@ -360,6 +392,34 @@ app.post('/api/bookings/book/:classId', (req, res) => {
     });
   }
   
+  // Déterminer le coût en crédits
+  const creditsRequired = (classId === 102 || classId === 105) ? 2 : 3;
+  
+  // Déduire les crédits selon le token
+  if (token === 'test-token-admin-123') {
+    if (adminCredits >= creditsRequired) {
+      adminCredits -= creditsRequired;
+      console.log(`✅ Admin booking successful. Crédits restants: ${adminCredits}`);
+    } else {
+      return res.status(400).json({
+        error: 'Crédits insuffisants',
+        credits_remaining: adminCredits,
+        credits_required: creditsRequired
+      });
+    }
+  } else if (token === 'test-token-client-456') {
+    if (clientCredits >= creditsRequired) {
+      clientCredits -= creditsRequired;
+      console.log(`✅ Client booking successful. Crédits restants: ${clientCredits}`);
+    } else {
+      return res.status(400).json({
+        error: 'Crédits insuffisants',
+        credits_remaining: clientCredits,
+        credits_required: creditsRequired
+      });
+    }
+  }
+  
   // Simulation : succès
   res.json({
     message: 'Réservation confirmée !',
@@ -367,9 +427,36 @@ app.post('/api/bookings/book/:classId', (req, res) => {
       id: Math.floor(Math.random() * 1000),
       class_id: classId,
       status: 'confirmed',
-      credits_used: classId === 102 || classId === 105 ? 2 : 3
-    }
+      credits_used: creditsRequired
+    },
+    credits_remaining: token === 'test-token-admin-123' ? adminCredits : clientCredits
   });
+});
+
+// Route pour "recharger" les crédits (pour la démo)
+app.post('/api/credits/reload', (req, res) => {
+  console.log('🔄 Reloading credits for demo');
+  
+  const authHeader = req.headers.authorization;
+  const token = authHeader?.substring(7);
+  
+  if (token === 'test-token-admin-123') {
+    adminCredits = 24; // Reset admin credits
+    console.log('✅ Admin credits reloaded to 24');
+    res.json({
+      message: 'Crédits rechargés !',
+      credits_remaining: adminCredits
+    });
+  } else if (token === 'test-token-client-456') {
+    clientCredits = 37; // Reset client credits
+    console.log('✅ Client credits reloaded to 37');
+    res.json({
+      message: 'Crédits rechargés !',
+      credits_remaining: clientCredits
+    });
+  } else {
+    res.status(401).json({ error: 'Token invalide' });
+  }
 });
 
 // Route me pour vérification du token
@@ -395,7 +482,16 @@ app.get('/api/auth/me', (req, res) => {
         email: 'admin@elaiastudio.ch',
         first_name: 'Admin',
         last_name: 'Test',
-        role: 'admin'
+        role: 'admin',
+        // Ajouter les infos d'abonnement directement dans le user
+        subscription: {
+          id: 1,
+          plan_name: 'Pack 30 crédits',
+          plan_type: 'credits',
+          credits_remaining: adminCredits,
+          end_date: '2024-03-07',
+          usage_stats: { total_bookings: 8 }
+        }
       }
     });
   }
@@ -408,7 +504,16 @@ app.get('/api/auth/me', (req, res) => {
         email: 'marie.dupont@email.com',
         first_name: 'Marie',
         last_name: 'Dupont',
-        role: 'client'
+        role: 'client',
+        // Ajouter les infos d'abonnement directement dans le user
+        subscription: {
+          id: 2,
+          plan_name: 'Pack 50 crédits',
+          plan_type: 'credits',
+          credits_remaining: clientCredits,
+          end_date: '2024-04-15',
+          usage_stats: { total_bookings: 5 }
+        }
       }
     });
   }
