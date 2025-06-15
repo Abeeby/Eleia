@@ -23,6 +23,7 @@ import SchedulePage from './pages/SchedulePage';
 import BookingsPage from './pages/BookingsPage';
 import ProfilePage from './pages/ProfilePage';
 import SubscriptionPage from './pages/SubscriptionPage';
+import CreditHistoryPage from './pages/CreditHistoryPage';
 
 // Pages admin - Lazy loading pour optimiser le bundle
 import { lazy, Suspense } from 'react';
@@ -88,6 +89,7 @@ function App() {
               <Route path="/bookings" element={<BookingsPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/subscription" element={<SubscriptionPage />} />
+              <Route path="/credits/history" element={<CreditHistoryPage />} />
             </Route>
 
             {/* Pages admin */}

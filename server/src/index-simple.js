@@ -754,6 +754,128 @@ app.get('/api/auth/me', (req, res) => {
   res.status(401).json({ error: 'Token invalide' });
 });
 
+// Route pour l'historique des crédits
+app.get('/api/credits/history', (req, res) => {
+  console.log('📊 Credits history requested');
+  
+  const authHeader = req.headers.authorization;
+  const token = authHeader?.substring(7);
+  
+  if (token === 'test-token-admin-123') {
+    res.json([
+      {
+        id: 1,
+        type: 'purchase',
+        amount: 30,
+        description: 'Achat Pack 30 crédits',
+        date: '2024-11-15T10:00:00Z',
+        remaining_after: 30
+      },
+      {
+        id: 2,
+        type: 'usage',
+        amount: -3,
+        description: 'Réservation Pilates Reformer Débutant',
+        date: '2024-11-20T09:00:00Z',
+        remaining_after: 27
+      },
+      {
+        id: 3,
+        type: 'refund',
+        amount: 2,
+        description: 'Remboursement annulation',
+        date: '2024-11-25T14:30:00Z',
+        remaining_after: 29
+      }
+    ]);
+  } else if (token === 'test-token-client-456') {
+    res.json([
+      {
+        id: 4,
+        type: 'purchase',
+        amount: 50,
+        description: 'Achat Pack 50 crédits',
+        date: '2024-10-01T14:00:00Z',
+        remaining_after: 50
+      },
+      {
+        id: 5,
+        type: 'usage',
+        amount: -2,
+        description: 'Réservation Pilates Yoga Mat',
+        date: '2024-10-05T18:00:00Z',
+        remaining_after: 48
+      },
+      {
+        id: 6,
+        type: 'usage',
+        amount: -3,
+        description: 'Réservation Pilates Reformer',
+        date: '2024-10-12T11:00:00Z',
+        remaining_after: 45
+      }
+    ]);
+  } else {
+    res.status(401).json({ error: 'Token invalide' });
+  }
+});
+
+// Route pour les clients admin (simulation)
+app.get('/api/admin/clients', (req, res) => {
+  console.log('👥 Admin clients requested with params:', req.query);
+  
+  const authHeader = req.headers.authorization;
+  const token = authHeader?.substring(7);
+  
+  if (token !== 'test-token-admin-123') {
+    return res.status(403).json({ error: 'Accès refusé - Admin requis' });
+  }
+  
+  const { registered_after, limit = 10 } = req.query;
+  
+  // Simulation de clients récents
+  const clients = [
+    {
+      id: 1,
+      email: 'marie.dupont@email.com',
+      first_name: 'Marie',
+      last_name: 'Dupont',
+      registered_at: '2024-12-01T10:00:00Z',
+      credits_remaining: clientCredits,
+      total_bookings: 5
+    },
+    {
+      id: 2,
+      email: 'jean.martin@email.com',
+      first_name: 'Jean',
+      last_name: 'Martin',
+      registered_at: '2024-11-28T15:30:00Z',
+      credits_remaining: 25,
+      total_bookings: 3
+    },
+    {
+      id: 3,
+      email: 'sophie.bernard@email.com',
+      first_name: 'Sophie',
+      last_name: 'Bernard',
+      registered_at: '2024-11-25T09:15:00Z',
+      credits_remaining: 42,
+      total_bookings: 8
+    }
+  ];
+  
+  // Filtrer par date si fournie
+  let filteredClients = clients;
+  if (registered_after) {
+    const filterDate = new Date(registered_after);
+    filteredClients = clients.filter(client => 
+      new Date(client.registered_at) >= filterDate
+    );
+  }
+  
+  res.json(filteredClients.slice(0, parseInt(limit)));
+});
+
 // Catch all 404
 app.use('*', (req, res) => {
   console.log('❓ Route not found:', req.method, req.originalUrl);
