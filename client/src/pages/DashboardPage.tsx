@@ -6,6 +6,14 @@ import { fr } from 'date-fns/locale';
 import { useAuthStore } from '../store/authStore';
 import { bookingService, creditService } from '../services/api';
 
+interface Booking {
+  id: number;
+  start_time: string;
+  class_type_name: string;
+  credits_used: number;
+  status: string;
+}
+
 export default function DashboardPage() {
   const { user, subscription } = useAuthStore();
 
@@ -147,9 +155,11 @@ export default function DashboardPage() {
                     </span>
                   </div>
                 )}
-                <Link to="/subscription" className="btn-primary w-full text-center mt-4">
-                  Gérer mon abonnement
-                </Link>
+                <div className="mt-6 pt-4 border-t border-gray-200">
+                  <Link to="/subscription" className="btn-primary w-full text-center">
+                    Gérer mon abonnement
+                  </Link>
+                </div>
               </div>
             ) : (
               <div>
@@ -175,7 +185,7 @@ export default function DashboardPage() {
           
           {upcomingBookings && upcomingBookings.length > 0 ? (
             <div className="space-y-4">
-              {upcomingBookings.slice(0, 3).map((booking: any) => (
+              {upcomingBookings.slice(0, 3).map((booking: Booking) => (
                 <div key={booking.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                   <div>
                     <p className="font-medium text-elaia-gray">{booking.class_type_name}</p>

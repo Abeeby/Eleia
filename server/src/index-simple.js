@@ -212,45 +212,118 @@ app.get('/api/bookings/my-bookings', (req, res) => {
   console.log('📋 My bookings requested, timeframe:', req.query.timeframe);
   
   const timeframe = req.query.timeframe;
+  const today = new Date();
   
   if (timeframe === 'future') {
+    // Réservations futures
+    const futureDate1 = new Date(today);
+    futureDate1.setDate(today.getDate() + 2);
+    
+    const futureDate2 = new Date(today);
+    futureDate2.setDate(today.getDate() + 5);
+    
+    const futureDate3 = new Date(today);
+    futureDate3.setDate(today.getDate() + 8);
+    
     res.json([
       {
         id: 1,
-        start_time: '2024-12-08T10:30:00Z',
-        class_type_name: 'Pilates Reformer Débutant',
+        class_id: 101,
+        start_time: futureDate1.toISOString().replace('T', 'T10:30:00.000').slice(0, -5) + 'Z',
+        end_time: futureDate1.toISOString().replace('T', 'T11:45:00.000').slice(0, -5) + 'Z',
+        class_type_name: '🧘 Pilates Reformer Débutant',
         credits_used: 3,
-        status: 'confirmed'
+        status: 'confirmed',
+        instructor_first_name: 'Sarah',
+        instructor_last_name: 'Martin'
       },
       {
         id: 2,
-        start_time: '2024-12-10T14:00:00Z',
-        class_type_name: 'Pilates Yoga Mat',
+        class_id: 102,
+        start_time: futureDate2.toISOString().replace('T', 'T14:00:00.000').slice(0, -5) + 'Z',
+        end_time: futureDate2.toISOString().replace('T', 'T15:00:00.000').slice(0, -5) + 'Z',
+        class_type_name: '🌿 Pilates Yoga Mat Détente',
         credits_used: 2,
-        status: 'confirmed'
+        status: 'confirmed',
+        instructor_first_name: 'Emma',
+        instructor_last_name: 'Rousseau'
+      },
+      {
+        id: 3,
+        class_id: 103,
+        start_time: futureDate3.toISOString().replace('T', 'T18:00:00.000').slice(0, -5) + 'Z',
+        end_time: futureDate3.toISOString().replace('T', 'T19:15:00.000').slice(0, -5) + 'Z',
+        class_type_name: '💪 Pilates Reformer Intermédiaire',
+        credits_used: 3,
+        status: 'confirmed',
+        instructor_first_name: 'Julie',
+        instructor_last_name: 'Dubois'
       }
     ]);
   } else {
+    // Historique (réservations passées)
+    const pastDate1 = new Date(today);
+    pastDate1.setDate(today.getDate() - 3);
+    
+    const pastDate2 = new Date(today);
+    pastDate2.setDate(today.getDate() - 7);
+    
+    const pastDate3 = new Date(today);
+    pastDate3.setDate(today.getDate() - 10);
+    
+    const pastDate4 = new Date(today);
+    pastDate4.setDate(today.getDate() - 14);
+    
     res.json([
       {
-        id: 3,
-        start_time: '2024-12-05T09:00:00Z',
-        class_type_name: 'Pilates Reformer Débutant',
+        id: 4,
+        class_id: 201,
+        start_time: pastDate1.toISOString().replace('T', 'T09:00:00.000').slice(0, -5) + 'Z',
+        end_time: pastDate1.toISOString().replace('T', 'T10:15:00.000').slice(0, -5) + 'Z',
+        class_type_name: '🧘 Pilates Reformer Débutant',
         credits_used: 3,
-        status: 'completed'
+        status: 'completed',
+        instructor_first_name: 'Sarah',
+        instructor_last_name: 'Martin'
       },
       {
-        id: 4,
-        start_time: '2024-12-03T18:00:00Z',
-        class_type_name: 'Pilates Yoga Mat',
+        id: 5,
+        class_id: 202,
+        start_time: pastDate2.toISOString().replace('T', 'T18:00:00.000').slice(0, -5) + 'Z',
+        end_time: pastDate2.toISOString().replace('T', 'T19:00:00.000').slice(0, -5) + 'Z',
+        class_type_name: '🌿 Pilates Yoga Mat Détente',
         credits_used: 2,
-        status: 'completed'
+        status: 'completed',
+        instructor_first_name: 'Emma',
+        instructor_last_name: 'Rousseau'
+      },
+      {
+        id: 6,
+        class_id: 203,
+        start_time: pastDate3.toISOString().replace('T', 'T11:00:00.000').slice(0, -5) + 'Z',
+        end_time: pastDate3.toISOString().replace('T', 'T12:15:00.000').slice(0, -5) + 'Z',
+        class_type_name: '💪 Pilates Reformer Intermédiaire',
+        credits_used: 3,
+        status: 'completed',
+        instructor_first_name: 'Julie',
+        instructor_last_name: 'Dubois'
+      },
+      {
+        id: 7,
+        class_id: 204,
+        start_time: pastDate4.toISOString().replace('T', 'T16:30:00.000').slice(0, -5) + 'Z',
+        end_time: pastDate4.toISOString().replace('T', 'T17:30:00.000').slice(0, -5) + 'Z',
+        class_type_name: '🌿 Pilates Yoga Mat Détente',
+        credits_used: 2,
+        status: 'cancelled',
+        instructor_first_name: 'Emma',
+        instructor_last_name: 'Rousseau'
       }
     ]);
   }
 });
 
-// Route pour mon abonnement
+// Route pour mon abonnement (deux endpoints pour compatibilité)
 app.get('/api/subscriptions/mine', (req, res) => {
   console.log('💳 My subscription requested');
   
@@ -264,7 +337,7 @@ app.get('/api/subscriptions/mine', (req, res) => {
         plan_name: 'Pack 30 crédits',
         plan_type: 'credits',
         credits_remaining: adminCredits,
-        end_date: '2024-03-07',
+        end_date: '2025-06-15',
         usage_stats: {
           total_bookings: 8
         }
@@ -277,6 +350,46 @@ app.get('/api/subscriptions/mine', (req, res) => {
         plan_name: 'Pack 50 crédits',
         plan_type: 'credits',
         credits_remaining: clientCredits,
+        end_date: '2024-04-15',
+        usage_stats: {
+          total_bookings: 5
+        }
+      }
+    });
+  } else {
+    res.status(401).json({ error: 'Token invalide' });
+  }
+});
+
+// Route pour l'abonnement (endpoint que le frontend appelle)
+app.get('/api/credits/subscription', (req, res) => {
+  console.log('💳 Credits subscription requested (frontend endpoint)');
+  
+  const authHeader = req.headers.authorization;
+  const token = authHeader?.substring(7);
+  
+  if (token === 'test-token-admin-123') {
+    res.json({
+      subscription: {
+        id: 1,
+        plan_name: 'Pack 30 crédits',
+        plan_type: 'credits',
+        credits_remaining: adminCredits,
+        total_credits: 30,
+        end_date: '2025-06-15',
+        usage_stats: {
+          total_bookings: 8
+        }
+      }
+    });
+  } else if (token === 'test-token-client-456') {
+    res.json({
+      subscription: {
+        id: 2,
+        plan_name: 'Pack 50 crédits',
+        plan_type: 'credits',
+        credits_remaining: clientCredits,
+        total_credits: 50,
         end_date: '2024-04-15',
         usage_stats: {
           total_bookings: 5
@@ -433,6 +546,43 @@ app.post('/api/bookings/book/:classId', (req, res) => {
   });
 });
 
+// Route pour annuler une réservation
+app.post('/api/bookings/cancel/:bookingId', (req, res) => {
+  console.log('❌ Cancelling booking:', req.params.bookingId);
+  
+  const bookingId = parseInt(req.params.bookingId);
+  const authHeader = req.headers.authorization;
+  const token = authHeader?.substring(7);
+  
+  if (!token || (token !== 'test-token-admin-123' && token !== 'test-token-client-456')) {
+    return res.status(401).json({ error: 'Token invalide' });
+  }
+  
+  // Simuler la récupération de la réservation pour valider l'annulation
+  // En réalité, on vérifierait en base de données
+  
+  // Pour la simulation, on suppose que toutes les réservations futures peuvent être annulées
+  // sauf si c'est moins de 12h avant
+  
+  // Rembourser les crédits (simulation)
+  const creditsToRefund = bookingId <= 3 ? 3 : 2; // Estimation basée sur l'ID
+  
+  if (token === 'test-token-admin-123') {
+    adminCredits += creditsToRefund;
+    console.log(`✅ Booking ${bookingId} cancelled. ${creditsToRefund} crédits remboursés à l'admin. Total: ${adminCredits}`);
+  } else if (token === 'test-token-client-456') {
+    clientCredits += creditsToRefund;
+    console.log(`✅ Booking ${bookingId} cancelled. ${creditsToRefund} crédits remboursés au client. Total: ${clientCredits}`);
+  }
+  
+  res.json({
+    message: 'Réservation annulée avec succès',
+    booking_id: bookingId,
+    credits_refunded: creditsToRefund,
+    credits_remaining: token === 'test-token-admin-123' ? adminCredits : clientCredits
+  });
+});
+
 // Route pour "recharger" les crédits (pour la démo)
 app.post('/api/credits/reload', (req, res) => {
   console.log('🔄 Reloading credits for demo');
@@ -571,7 +721,7 @@ app.get('/api/auth/me', (req, res) => {
           plan_name: 'Pack 30 crédits',
           plan_type: 'credits',
           credits_remaining: adminCredits,
-          end_date: '2024-03-07',
+          end_date: '2025-06-15',
           usage_stats: { total_bookings: 8 }
         }
       }
