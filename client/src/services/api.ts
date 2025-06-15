@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://eleia-production.up.railway.app/api';
+const API_URL = 'http://localhost:5000/api'; // Force localhost pour dev
 
 // Créer une instance axios avec la configuration de base
 export const api = axios.create({
@@ -76,7 +76,8 @@ export const classService = {
   },
 
   getSchedule: async (params?: { date?: string; view?: string }) => {
-    const response = await api.get('/classes/schedule', { params });
+    // Cette route est publique, pas besoin de token
+    const response = await axios.get(`${API_URL}/classes/schedule`, { params });
     return response.data;
   },
 
@@ -189,6 +190,20 @@ export const adminService = {
     const response = await api.get('/admin/attendance/stats', {
       params: { start_date: startDate, end_date: endDate },
     });
+    return response.data;
+  },
+
+  // Nouvelles méthodes pour la gestion des crédits
+  addCredits: async (userEmail: string, credits: number) => {
+    const response = await api.post('/admin/add-credits', {
+      userEmail,
+      credits
+    });
+    return response.data;
+  },
+
+  getUsersWithCredits: async () => {
+    const response = await api.get('/admin/users');
     return response.data;
   },
 }; 

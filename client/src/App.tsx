@@ -24,14 +24,17 @@ import BookingsPage from './pages/BookingsPage';
 import ProfilePage from './pages/ProfilePage';
 import SubscriptionPage from './pages/SubscriptionPage';
 
-// Pages admin
-import AdminDashboard from './pages/admin/AdminDashboard';
-import AdminUsers from './pages/admin/AdminUsers';
-import AdminClasses from './pages/admin/AdminClasses';
+// Pages admin - Lazy loading pour optimiser le bundle
+import { lazy, Suspense } from 'react';
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
+const AdminUsers = lazy(() => import('./pages/admin/AdminUsers'));
+const AdminClasses = lazy(() => import('./pages/admin/AdminClasses'));
+const AdminReports = lazy(() => import('./pages/admin/AdminReports'));
 
 // Composants
 import PrivateRoute from './components/PrivateRoute';
 import AdminRoute from './components/AdminRoute';
+import LoadingSpinner from './components/LoadingSpinner';
 
 // Store
 import { useAuthStore } from './store/authStore';
@@ -77,11 +80,11 @@ function App() {
             <Route path="/faq" element={<FaqPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/legal" element={<LegalPage />} />
+            <Route path="/schedule" element={<SchedulePage />} />
 
             {/* Pages privées */}
             <Route element={<PrivateRoute />}>
               <Route path="/dashboard" element={<DashboardPage />} />
-              <Route path="/schedule" element={<SchedulePage />} />
               <Route path="/bookings" element={<BookingsPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/subscription" element={<SubscriptionPage />} />
@@ -89,9 +92,26 @@ function App() {
 
             {/* Pages admin */}
             <Route element={<AdminRoute />}>
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/admin/users" element={<AdminUsers />} />
-              <Route path="/admin/classes" element={<AdminClasses />} />
+              <Route path="/admin" element={
+                <Suspense fallback={<LoadingSpinner text="Chargement du tableau de bord..." />}>
+                  <AdminDashboard />
+                </Suspense>
+              } />
+              <Route path="/admin/users" element={
+                <Suspense fallback={<LoadingSpinner text="Chargement des utilisateurs..." />}>
+                  <AdminUsers />
+                </Suspense>
+              } />
+              <Route path="/admin/classes" element={
+                <Suspense fallback={<LoadingSpinner text="Chargement des cours..." />}>
+                  <AdminClasses />
+                </Suspense>
+              } />
+              <Route path="/admin/reports" element={
+                <Suspense fallback={<LoadingSpinner text="Chargement des rapports..." />}>
+                  <AdminReports />
+                </Suspense>
+              } />
             </Route>
           </Route>
 

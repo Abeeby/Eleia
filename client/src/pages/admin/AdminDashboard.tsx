@@ -274,10 +274,10 @@ export default function AdminDashboard() {
                 <p className="text-sm text-gray-600">Ajouter ou modifier des cours</p>
               </Link>
               
-              <Link to="/admin/clients" className="card hover:shadow-lg transition-all text-center">
+              <Link to="/admin/users" className="card hover:shadow-lg transition-all text-center">
                 <Users className="h-12 w-12 text-elaia-green mx-auto mb-4" />
-                <h3 className="font-semibold text-elaia-gray mb-2">Gérer les clients</h3>
-                <p className="text-sm text-gray-600">Voir et gérer les comptes clients</p>
+                <h3 className="font-semibold text-elaia-gray mb-2">Gérer les utilisateurs</h3>
+                <p className="text-sm text-gray-600">Voir et gérer les crédits des utilisateurs</p>
               </Link>
               
               <Link to="/admin/reports" className="card hover:shadow-lg transition-all text-center">

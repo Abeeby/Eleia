@@ -218,27 +218,6 @@ export default function ContactPage() {
           </div>
         </div>
 
-        {/* Contact rapide */}
-        <div className="mt-16 text-center">
-          <h3 className="text-2xl font-semibold text-elaia-gray mb-6">Vous préférez nous appeler ?</h3>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
-              href="tel:+41797181009" 
-              className="inline-flex items-center justify-center px-8 py-4 bg-elaia-gold text-elaia-gray rounded-lg hover:bg-elaia-green hover:text-white transition-all text-lg font-medium"
-            >
-              <Phone className="h-6 w-6 mr-3" />
-              Appeler maintenant
-            </a>
-            <a 
-              href="mailto:contact@elaia-studio.ch" 
-              className="inline-flex items-center justify-center px-8 py-4 border-2 border-elaia-gold text-elaia-gold rounded-lg hover:bg-elaia-gold hover:text-elaia-gray transition-all text-lg font-medium"
-            >
-              <Mail className="h-6 w-6 mr-3" />
-              Envoyer un email
-            </a>
-          </div>
-        </div>
-
         {/* Horaires d'ouverture */}
         <div className="mt-16">
           <div className="bg-white rounded-lg shadow-md p-8 text-center">

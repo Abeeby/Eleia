@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import { body, validationResult } from 'express-validator';
 import { dbRun, dbGet } from '../utils/db';
 import { authenticateToken } from '../middleware/auth';
+import { emailService } from '../utils/emailService';
 
 const router = Router();
 
@@ -50,6 +51,12 @@ router.post('/register', [
 
     // Récupérer l'utilisateur créé
     const user = await dbGet('SELECT * FROM users WHERE id = ?', [result.lastID]);
+
+    // Envoyer l'email de bienvenue
+    await emailService.sendWelcomeEmail(
+      user.email,
+      `${user.first_name} ${user.last_name}`
+    );
 
     // Générer le token
     const token = generateToken(user);

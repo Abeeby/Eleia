@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { dbRun, dbGet, dbAll } from '../utils/db';
 import { authenticateToken } from '../middleware/auth';
 import { differenceInHours, parseISO } from 'date-fns';
+import { emailService } from '../utils/emailService';
 
 const router = Router();
 
@@ -57,9 +58,11 @@ router.post('/book', authenticateToken, async (req, res) => {
 
     // Vérifier que le cours existe et qu'il y a de la place
     const classInfo = await dbGet(`
-      SELECT c.*, ct.credits_required 
+      SELECT c.*, ct.credits_required, ct.name as class_type_name,
+             u.first_name as instructor_first_name, u.last_name as instructor_last_name
       FROM classes c
       JOIN class_types ct ON c.class_type_id = ct.id
+      LEFT JOIN users u ON c.instructor_id = u.id
       WHERE c.id = ? AND c.status = 'scheduled'
     `, [class_id]);
 
@@ -83,6 +86,11 @@ router.post('/book', authenticateToken, async (req, res) => {
     if (existingBooking) {
       return res.status(400).json({ message: 'Vous êtes déjà inscrit à ce cours' });
     }
+
+    // Récupérer les infos utilisateur pour l'email
+    const user = await dbGet(`
+      SELECT first_name, last_name, email FROM users WHERE id = ?
+    `, [userId]);
 
     // Vérifier l'abonnement actif et les crédits
     const activeSubscription = await dbGet(`
@@ -139,6 +147,19 @@ router.post('/book', authenticateToken, async (req, res) => {
 
       await dbRun('COMMIT');
 
+      // Envoyer l'email de confirmation
+      const instructorName = classInfo.instructor_first_name ? 
+        `${classInfo.instructor_first_name} ${classInfo.instructor_last_name}` : undefined;
+
+      await emailService.sendBookingConfirmation({
+        userEmail: user.email,
+        userName: `${user.first_name} ${user.last_name}`,
+        classTypeName: classInfo.class_type_name,
+        startTime: classInfo.start_time,
+        instructorName,
+        creditsUsed: classInfo.credits_required
+      });
+
       res.status(201).json({
         message: 'Réservation confirmée',
         booking_id: result.lastID,
@@ -163,10 +184,12 @@ router.post('/cancel/:bookingId', authenticateToken, async (req, res) => {
 
     // Récupérer les informations de la réservation
     const booking = await dbGet(`
-      SELECT b.*, c.start_time, ct.credits_required
+      SELECT b.*, c.start_time, ct.credits_required, ct.name as class_type_name,
+             u.first_name, u.last_name, u.email
       FROM bookings b
       JOIN classes c ON b.class_id = c.id
       JOIN class_types ct ON c.class_type_id = ct.id
+      JOIN users u ON b.user_id = u.id
       WHERE b.id = ? AND b.user_id = ? AND b.status = 'confirmed'
     `, [bookingId, userId]);
 
@@ -211,7 +234,9 @@ router.post('/cancel/:bookingId', authenticateToken, async (req, res) => {
         [subscription.plan_id]
       );
 
+      let creditsRefunded = 0;
       if (subscriptionPlan.type === 'credits') {
+        creditsRefunded = booking.credits_required;
         await dbRun(
           'UPDATE user_subscriptions SET credits_remaining = credits_remaining + ? WHERE id = ?',
           [booking.credits_required, booking.subscription_id]
@@ -236,9 +261,18 @@ router.post('/cancel/:bookingId', authenticateToken, async (req, res) => {
 
       await dbRun('COMMIT');
 
+      // Envoyer l'email de confirmation d'annulation
+      await emailService.sendCancellationConfirmation({
+        userEmail: booking.email,
+        userName: `${booking.first_name} ${booking.last_name}`,
+        classTypeName: booking.class_type_name,
+        startTime: booking.start_time,
+        creditsRefunded
+      });
+
       res.json({
         message: 'Réservation annulée avec succès',
-        credits_refunded: subscriptionPlan.type === 'credits' ? booking.credits_required : 0
+        credits_refunded: creditsRefunded
       });
     } catch (error) {
       await dbRun('ROLLBACK');

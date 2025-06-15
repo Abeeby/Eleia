@@ -373,8 +373,8 @@ app.get('/api/subscriptions/plans', (req, res) => {
 });
 
 // Variables pour simuler les crédits en temps réel
-let adminCredits = 24;
-let clientCredits = 37;
+let adminCredits = 50; // Crédits augmentés pour l'admin
+let clientCredits = 67; // Crédits augmentés pour le client
 
 // Route pour réserver un cours
 app.post('/api/bookings/book/:classId', (req, res) => {
@@ -457,6 +457,88 @@ app.post('/api/credits/reload', (req, res) => {
   } else {
     res.status(401).json({ error: 'Token invalide' });
   }
+});
+
+// Route pour ajouter des crédits à un utilisateur (ADMIN seulement)
+app.post('/api/admin/add-credits', (req, res) => {
+  console.log('💰 Admin adding credits:', req.body);
+  
+  const authHeader = req.headers.authorization;
+  const token = authHeader?.substring(7);
+  
+  // Vérifier que c'est un admin
+  if (token !== 'test-token-admin-123') {
+    return res.status(403).json({ error: 'Accès refusé - Admin requis' });
+  }
+  
+  const { userEmail, credits } = req.body;
+  
+  if (!userEmail || !credits || credits <= 0) {
+    return res.status(400).json({ 
+      error: 'Email utilisateur et nombre de crédits (positif) requis' 
+    });
+  }
+  
+  // Ajouter les crédits selon l'utilisateur
+  if (userEmail === 'admin@elaiastudio.ch') {
+    adminCredits += parseInt(credits);
+    console.log(`✅ ${credits} crédits ajoutés à l'admin. Total: ${adminCredits}`);
+    res.json({
+      message: `${credits} crédits ajoutés avec succès !`,
+      user_email: userEmail,
+      credits_added: credits,
+      credits_remaining: adminCredits
+    });
+  } else if (userEmail === 'marie.dupont@email.com') {
+    clientCredits += parseInt(credits);
+    console.log(`✅ ${credits} crédits ajoutés au client. Total: ${clientCredits}`);
+    res.json({
+      message: `${credits} crédits ajoutés avec succès !`,
+      user_email: userEmail,
+      credits_added: credits,
+      credits_remaining: clientCredits
+    });
+  } else {
+    res.status(404).json({ 
+      error: 'Utilisateur non trouvé',
+      available_users: [
+        'admin@elaiastudio.ch',
+        'marie.dupont@email.com'
+      ]
+    });
+  }
+});
+
+// Route pour obtenir la liste des utilisateurs (ADMIN seulement)
+app.get('/api/admin/users', (req, res) => {
+  console.log('👥 Admin requesting users list');
+  
+  const authHeader = req.headers.authorization;
+  const token = authHeader?.substring(7);
+  
+  // Vérifier que c'est un admin
+  if (token !== 'test-token-admin-123') {
+    return res.status(403).json({ error: 'Accès refusé - Admin requis' });
+  }
+  
+  res.json([
+    {
+      id: 1,
+      email: 'admin@elaiastudio.ch',
+      first_name: 'Admin',
+      last_name: 'Test',
+      role: 'admin',
+      credits_remaining: adminCredits
+    },
+    {
+      id: 2,
+      email: 'marie.dupont@email.com',
+      first_name: 'Marie',
+      last_name: 'Dupont',
+      role: 'client',
+      credits_remaining: clientCredits
+    }
+  ]);
 });
 
 // Route me pour vérification du token

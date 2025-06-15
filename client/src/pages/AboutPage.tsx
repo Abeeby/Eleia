@@ -20,7 +20,7 @@ export default function AboutPage() {
           
           <div className="max-w-4xl mx-auto text-lg text-elaia-gray leading-relaxed space-y-6">
             <p>
-              Nous sommes Albina, Baptist et Carole, trois passionnés du mouvement, de la santé et de la transformation humaine. 
+              Nous sommes Albina et Baptist, deux passionnés du mouvement, de la santé et de la transformation humaine. 
               À travers nos parcours respectifs dans le fitness, le Pilates, la médecine et le yoga, nous avons développé une approche 
               globale et humaine du bien-être.
             </p>
@@ -54,15 +54,15 @@ export default function AboutPage() {
               <div className="p-8 md:flex-1">
                 <h3 className="text-2xl font-bold text-elaia-green mb-4">Albina Zeqiri</h3>
                 <div className="text-elaia-gray space-y-4">
-                  <p>
+              <p>
                     Depuis mon plus jeune âge, le sport a toujours occupé une place centrale dans ma vie. Cette passion m'a naturellement conduite à me former dans ce domaine. J'ai ainsi suivi une formation de trois ans pour obtenir un CFC de coach sportive, puis j'ai poursuivi avec le Brevet fédéral, afin de me spécialiser davantage dans les domaines du mouvement et de la santé.
-                  </p>
-                  <p>
+              </p>
+              <p>
                     Au fil des années, j'ai eu la chance de travailler dans plusieurs centres de fitness, tels que Let's Go Fitness, Harmony Fitness et Aquamed. En parallèle, j'ai enrichi mon expérience dans des studios de Pilates Reformer, ce qui m'a permis de développer une expertise variée, une grande capacité d'adaptation, et surtout, de construire un réseau solide et étendu dans le domaine du fitness et du bien-être.
-                  </p>
-                  <p>
+              </p>
+              <p>
                     Aujourd'hui, j'accomplis une étape importante de mon parcours en ouvrant mon propre studio à Gland : un espace moderne et chaleureux dédié au Pilates Reformer et à la remise en forme.
-                  </p>
+              </p>
                 </div>
               </div>
             </div>
@@ -90,34 +90,6 @@ export default function AboutPage() {
                   </p>
                   <p>
                     Mon objectif est simple : aider chacun à devenir la meilleure version de lui-même.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Carole Ducrey */}
-          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-            <div className="md:flex">
-              <div className="md:flex-shrink-0">
-                <div className="h-64 w-full md:w-64 bg-gradient-to-br from-elaia-rose to-elaia-gold flex items-center justify-center">
-                  <div className="text-white text-center">
-                    <div className="text-6xl font-bold mb-2">CD</div>
-                    <div className="text-sm">Approche Thérapeutique</div>
-                  </div>
-                </div>
-              </div>
-              <div className="p-8 md:flex-1">
-                <h3 className="text-2xl font-bold text-elaia-green mb-4">Carole Ducrey</h3>
-                <div className="text-elaia-gray space-y-4">
-                  <p>
-                    Après 27 ans dans le domaine médical, j'ai choisi en 2019 de me reconvertir pour me consacrer pleinement à ma passion : le sport, le mouvement et la santé intégrative. Depuis six ans, j'enseigne le fitness, le yoga et le Pilates (au sol et sur machines) avec une approche rigoureuse, précise et adaptée.
-                  </p>
-                  <p>
-                    Dans notre futur studio, mon objectif est d'apporter un axe thérapeutique et préventif fort, à travers des cours pensés pour certaines pathologies ou besoins particuliers.
-                  </p>
-                  <p>
-                    Notre studio se démarquera par une approche intégrative du mouvement, à la croisée de l'expérience sportive, des connaissances médicales et des pratiques corporelles thérapeutiques.
                   </p>
                 </div>
               </div>
