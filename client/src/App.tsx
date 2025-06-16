@@ -36,6 +36,8 @@ const AdminReports = lazy(() => import('./pages/admin/AdminReports'));
 import PrivateRoute from './components/PrivateRoute';
 import AdminRoute from './components/AdminRoute';
 import LoadingSpinner from './components/LoadingSpinner';
+import NotificationSystem, { useNotifications } from './components/NotificationSystem';
+import SmartChat from './components/SmartChat';
 
 // Store
 import { useAuthStore } from './store/authStore';
@@ -52,6 +54,7 @@ const queryClient = new QueryClient({
 
 function App() {
   const { isAuthenticated, fetchProfile } = useAuthStore();
+  const notifications = useNotifications();
 
   useEffect(() => {
     // Si l'utilisateur est authentifié, récupérer son profil
@@ -143,6 +146,15 @@ function App() {
           },
         }}
       />
+      
+      {/* Système de notifications global */}
+      <NotificationSystem 
+        notifications={notifications.notifications}
+        onDismiss={notifications.removeNotification}
+      />
+      
+      {/* Chatbot intelligent */}
+      <SmartChat />
     </QueryClientProvider>
   );
 }

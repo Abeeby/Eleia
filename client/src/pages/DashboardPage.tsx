@@ -5,6 +5,7 @@ import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { useAuthStore } from '../store/authStore';
 import { bookingService, creditService } from '../services/api';
+import AnimatedCounter from '../components/AnimatedCounter';
 
 interface Booking {
   id: number;
@@ -52,7 +53,42 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        {/* Cartes de statistiques */}
+        {/* Système de gamification rapide */}
+        <div className="mb-8 p-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl text-white">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-2xl font-bold">🏆 Vos Achievements</h2>
+              <p className="opacity-90">Continuez comme ça !</p>
+            </div>
+            <div className="text-right">
+              <div className="text-3xl font-bold">
+                <AnimatedCounter end={85} suffix="%" />
+              </div>
+              <p className="text-sm opacity-90">Vers le niveau Expert</p>
+            </div>
+          </div>
+          <div className="flex space-x-4 overflow-x-auto pb-2">
+            <div className="flex-shrink-0 bg-white/20 backdrop-blur-sm rounded-lg p-3 text-center min-w-[120px]">
+              <Award className="h-8 w-8 mx-auto mb-2 text-yellow-300" />
+              <p className="text-sm font-medium">Série de 7</p>
+              <p className="text-xs opacity-75">Séances</p>
+            </div>
+            <div className="flex-shrink-0 bg-white/20 backdrop-blur-sm rounded-lg p-3 text-center min-w-[120px]">
+              <Activity className="h-8 w-8 mx-auto mb-2 text-green-300" />
+              <p className="text-sm font-medium">
+                <AnimatedCounter end={450} />
+              </p>
+              <p className="text-xs opacity-75">Points Fidélité</p>
+            </div>
+            <div className="flex-shrink-0 bg-white/20 backdrop-blur-sm rounded-lg p-3 text-center min-w-[120px]">
+              <TrendingUp className="h-8 w-8 mx-auto mb-2 text-blue-300" />
+              <p className="text-sm font-medium">Niveau 3</p>
+              <p className="text-xs opacity-75">Passionné</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Cartes de statistiques améliorées */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {/* Crédits disponibles */}
           <div className="card">

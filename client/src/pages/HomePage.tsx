@@ -1,9 +1,53 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Star, Users, Heart, Award, Clock, ChevronRight, ChevronLeft } from 'lucide-react';
-import { useState } from 'react';
+import { ArrowRight, Star, Users, Heart, Award, Clock, ChevronRight, ChevronLeft, Sparkles, Target, Zap, CheckCircle, PlayCircle, Calendar, TrendingUp } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import AnimatedCounter from '../components/AnimatedCounter';
+import { useNotifications } from '../components/NotificationSystem';
 
 export default function HomePage() {
   const [currentCourseIndex, setCurrentCourseIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const [showStats, setShowStats] = useState(false);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
+  const notifications = useNotifications();
+
+  useEffect(() => {
+    setIsVisible(true);
+    
+    // Observer pour les animations lors du scroll
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.target === statsRef.current && entry.isIntersecting) {
+            setShowStats(true);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (statsRef.current) {
+      observer.observe(statsRef.current);
+    }
+
+    // Notification de bienvenue après 3 secondes
+    const welcomeTimer = setTimeout(() => {
+      notifications.showSuccess(
+        "Bienvenue chez Elaïa ! 🌿",
+        "Découvrez notre offre Welcome : 1 séance achetée + 1 offerte !",
+        {
+          label: "Voir l'offre",
+          onClick: () => document.getElementById('welcome-offer')?.scrollIntoView({ behavior: 'smooth' })
+        }
+      );
+    }, 3000);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(welcomeTimer);
+    };
+  }, [notifications]);
 
   const testimonials = [
     {
@@ -155,31 +199,140 @@ export default function HomePage() {
   return (
     <div className="bg-elaia-beige">
       {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex items-center">
+      <section ref={heroRef} className="relative min-h-[90vh] flex items-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-elaia-gold/20 to-elaia-green/20"></div>
+        
+        {/* Animated background elements */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className={`absolute top-20 left-10 transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-30' : 'translate-y-10 opacity-0'}`}>
+            <Sparkles className="h-8 w-8 text-elaia-gold animate-pulse" />
+          </div>
+          <div className={`absolute top-1/3 right-20 transform transition-all duration-1000 delay-300 ${isVisible ? 'translate-y-0 opacity-20' : 'translate-y-10 opacity-0'}`}>
+            <Target className="h-12 w-12 text-elaia-green animate-spin-slow" />
+          </div>
+          <div className={`absolute bottom-1/4 left-1/4 transform transition-all duration-1000 delay-500 ${isVisible ? 'translate-y-0 opacity-25' : 'translate-y-10 opacity-0'}`}>
+            <Zap className="h-6 w-6 text-elaia-mint animate-bounce" />
+          </div>
+        </div>
+
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
-            <h1 className="text-5xl md:text-7xl font-alex text-elaia-gold mb-6">
-              Bienvenue chez Elaïa
-            </h1>
-            <p className="text-xl md:text-2xl text-elaia-gray mb-8 max-w-3xl mx-auto">
-              Découvrez le Pilates Reformer dans notre studio à Gland et transformez votre corps en douceur
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/register" className="btn-primary text-lg px-8 py-4">
+            <div className={`transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+              <h1 className="text-5xl md:text-7xl font-alex text-elaia-gold mb-6 animate-fade-in-up">
+                Bienvenue chez Elaïa
+              </h1>
+              <div className="flex items-center justify-center mb-6">
+                <Sparkles className="h-6 w-6 text-elaia-gold mr-2 animate-pulse" />
+                <span className="text-lg font-medium text-elaia-gray">Studio de Pilates Reformer • Gland</span>
+                <Sparkles className="h-6 w-6 text-elaia-gold ml-2 animate-pulse" />
+              </div>
+            </div>
+            
+            <div className={`transform transition-all duration-1000 delay-300 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+              <p className="text-xl md:text-2xl text-elaia-gray mb-8 max-w-3xl mx-auto">
+                Découvrez le Pilates Reformer dans notre studio à Gland et transformez votre corps en douceur
+              </p>
+            </div>
+            
+            <div className={`flex flex-col sm:flex-row gap-4 justify-center transform transition-all duration-1000 delay-500 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+              <Link to="/register" className="btn-primary text-lg px-8 py-4 group hover:scale-105 transition-all">
+                <PlayCircle className="mr-2 h-5 w-5 inline group-hover:animate-pulse" />
                 Commencer maintenant
-                <ArrowRight className="ml-2 h-5 w-5 inline" />
+                <ArrowRight className="ml-2 h-5 w-5 inline group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link to="/pricing" className="btn-secondary text-lg px-8 py-4">
+              <Link to="/pricing" className="btn-secondary text-lg px-8 py-4 hover:scale-105 transition-all">
+                <Calendar className="mr-2 h-5 w-5 inline" />
                 Découvrir nos offres
               </Link>
+            </div>
+
+            {/* CTA secondaire avec stats */}
+            <div className={`mt-12 transform transition-all duration-1000 delay-700 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+              <div className="flex flex-wrap justify-center gap-8 text-sm text-elaia-gray">
+                <div className="flex items-center">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                  <span>+500 clients satisfaits</span>
+                </div>
+                <div className="flex items-center">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                  <span>Instructeurs certifiés</span>
+                </div>
+                <div className="flex items-center">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                  <span>Équipement premium</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Section Statistiques Animées */}
+      <section ref={statsRef} className="py-20 bg-gradient-to-r from-elaia-green to-elaia-mint">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Elaïa en chiffres
+            </h2>
+            <p className="text-xl text-white/90">
+              Des résultats qui parlent d'eux-mêmes
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="text-center text-white">
+              <TrendingUp className="h-12 w-12 mx-auto mb-4 text-white/90" />
+              <div className="text-4xl md:text-5xl font-bold mb-2">
+                {showStats ? (
+                  <AnimatedCounter end={500} suffix="+" duration={2000} />
+                ) : (
+                  "0"
+                )}
+              </div>
+              <p className="text-lg text-white/90">Clients actifs</p>
+            </div>
+            
+            <div className="text-center text-white">
+              <Target className="h-12 w-12 mx-auto mb-4 text-white/90" />
+              <div className="text-4xl md:text-5xl font-bold mb-2">
+                {showStats ? (
+                  <AnimatedCounter end={98} suffix="%" duration={2500} />
+                ) : (
+                  "0"
+                )}
+              </div>
+              <p className="text-lg text-white/90">Satisfaction client</p>
+            </div>
+            
+            <div className="text-center text-white">
+              <Zap className="h-12 w-12 mx-auto mb-4 text-white/90" />
+              <div className="text-4xl md:text-5xl font-bold mb-2">
+                {showStats ? (
+                  <AnimatedCounter end={15000} suffix="+" duration={3000} />
+                ) : (
+                  "0"
+                )}
+              </div>
+              <p className="text-lg text-white/90">Séances données</p>
+            </div>
+            
+            <div className="text-center text-white">
+              <Award className="h-12 w-12 mx-auto mb-4 text-white/90" />
+              <div className="text-4xl md:text-5xl font-bold mb-2">
+                {showStats ? (
+                  <AnimatedCounter end={5} duration={1500} />
+                ) : (
+                  "0"
+                )}
+              </div>
+              <p className="text-lg text-white/90">Années d'expérience</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Offre Welcome */}
-      <section className="py-16 bg-white">
+      <section id="welcome-offer" className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-gradient-to-r from-elaia-gold to-elaia-green rounded-2xl p-8 md:p-12 text-white text-center">
             <h2 className="text-4xl font-alex mb-4">Offre Welcome</h2>
@@ -265,7 +418,7 @@ export default function HomePage() {
                 className="flex transition-transform duration-500 ease-in-out"
                 style={{ transform: `translateX(-${currentCourseIndex * 100}%)` }}
               >
-                {courses.map((course, _) => (
+                {courses.map((course) => (
                   <div key={course.id} className="w-full flex-shrink-0 px-8">
                     <div className="bg-white rounded-2xl shadow-lg overflow-hidden max-w-4xl mx-auto">
                       <div className="md:flex">
