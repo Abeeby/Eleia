@@ -31,6 +31,7 @@ const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
 const AdminUsers = lazy(() => import('./pages/admin/AdminUsers'));
 const AdminClasses = lazy(() => import('./pages/admin/AdminClasses'));
 const AdminReports = lazy(() => import('./pages/admin/AdminReports'));
+const AdminMessages = lazy(() => import('./pages/admin/AdminMessages'));
 
 // Composants
 import PrivateRoute from './components/PrivateRoute';
@@ -115,6 +116,11 @@ function App() {
               <Route path="/admin/reports" element={
                 <Suspense fallback={<LoadingSpinner text="Chargement des rapports..." />}>
                   <AdminReports />
+                </Suspense>
+              } />
+              <Route path="/admin/messages" element={
+                <Suspense fallback={<LoadingSpinner text="Chargement des messages..." />}>
+                  <AdminMessages />
                 </Suspense>
               } />
             </Route>

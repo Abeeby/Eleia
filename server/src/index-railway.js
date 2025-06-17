@@ -120,6 +120,22 @@ async function initializeDatabase() {
       )
     `);
 
+    // Table pour les messages du chatbot
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS chat_messages (
+        id SERIAL PRIMARY KEY,
+        visitor_name VARCHAR(100),
+        visitor_email VARCHAR(255),
+        visitor_phone VARCHAR(50),
+        message TEXT NOT NULL,
+        response TEXT NULL,
+        status VARCHAR(50) DEFAULT 'unread', -- 'unread', 'read', 'responded'
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        responded_at TIMESTAMP NULL,
+        responded_by INTEGER REFERENCES users(id)
+      )
+    `);
+
     // Insérer des données de test
     await insertTestData();
     
@@ -472,6 +488,115 @@ app.get('/api/admin/stats', async (req, res) => {
       growthRate: 23.4,
       retentionRate: 85.2
     });
+  }
+});
+
+// === ROUTES CHATBOT ===
+
+// Recevoir un nouveau message du chatbot
+app.post('/api/chat/message', async (req, res) => {
+  try {
+    const { name, email, phone, message } = req.body;
+    
+    if (!message || message.trim() === '') {
+      return res.status(400).json({ error: 'Message requis' });
+    }
+
+    const result = await pool.query(`
+      INSERT INTO chat_messages (visitor_name, visitor_email, visitor_phone, message, status)
+      VALUES ($1, $2, $3, $4, 'unread')
+      RETURNING id, created_at
+    `, [name || null, email || null, phone || null, message.trim()]);
+
+    console.log(`💬 Nouveau message chatbot reçu (ID: ${result.rows[0].id}):`, message.substring(0, 100));
+
+    res.json({
+      success: true,
+      messageId: result.rows[0].id,
+      message: 'Message reçu avec succès ! Un conseiller vous répondra bientôt.'
+    });
+  } catch (error) {
+    console.error('❌ Erreur sauvegarde message chatbot:', error);
+    res.status(500).json({ error: 'Erreur lors de la sauvegarde du message' });
+  }
+});
+
+// Lister les messages pour l'admin
+app.get('/api/admin/chat/messages', async (req, res) => {
+  const token = req.headers.authorization?.substring(7);
+  
+  if (token !== 'test-token-admin-123') {
+    return res.status(403).json({ error: 'Accès refusé' });
+  }
+
+  try {
+    const result = await pool.query(`
+      SELECT 
+        cm.*,
+        u.first_name || ' ' || u.last_name as responded_by_name
+      FROM chat_messages cm
+      LEFT JOIN users u ON cm.responded_by = u.id
+      ORDER BY cm.created_at DESC
+      LIMIT 50
+    `);
+
+    res.json(result.rows);
+  } catch (error) {
+    console.error('❌ Erreur récupération messages:', error);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+});
+
+// Marquer un message comme lu
+app.put('/api/admin/chat/messages/:id/read', async (req, res) => {
+  const token = req.headers.authorization?.substring(7);
+  
+  if (token !== 'test-token-admin-123') {
+    return res.status(403).json({ error: 'Accès refusé' });
+  }
+
+  try {
+    const { id } = req.params;
+    
+    await pool.query(`
+      UPDATE chat_messages 
+      SET status = 'read' 
+      WHERE id = $1 AND status = 'unread'
+    `, [id]);
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('❌ Erreur marquage message lu:', error);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+});
+
+// Répondre à un message
+app.put('/api/admin/chat/messages/:id/respond', async (req, res) => {
+  const token = req.headers.authorization?.substring(7);
+  
+  if (token !== 'test-token-admin-123') {
+    return res.status(403).json({ error: 'Accès refusé' });
+  }
+
+  try {
+    const { id } = req.params;
+    const { response } = req.body;
+    
+    if (!response || response.trim() === '') {
+      return res.status(400).json({ error: 'Réponse requise' });
+    }
+
+    await pool.query(`
+      UPDATE chat_messages 
+      SET response = $1, status = 'responded', responded_at = CURRENT_TIMESTAMP, responded_by = 1
+      WHERE id = $2
+    `, [response.trim(), id]);
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('❌ Erreur réponse message:', error);
+    res.status(500).json({ error: 'Erreur serveur' });
   }
 });
 

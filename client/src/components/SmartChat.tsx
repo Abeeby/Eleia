@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MessageCircle, X, Send, Bot } from 'lucide-react';
+import { MessageCircle, X, Send, Bot, User } from 'lucide-react';
 
 interface Message {
   id: string;
@@ -8,10 +8,19 @@ interface Message {
   timestamp: Date;
 }
 
+interface ContactInfo {
+  name: string;
+  email: string;
+  phone: string;
+}
+
 export default function SmartChat() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
+  const [showContactForm, setShowContactForm] = useState(false);
+  const [contactInfo, setContactInfo] = useState<ContactInfo>({ name: '', email: '', phone: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const addMessage = (text: string, sender: 'user' | 'bot') => {
     const newMessage: Message = {
@@ -23,16 +32,70 @@ export default function SmartChat() {
     setMessages(prev => [...prev, newMessage]);
   };
 
-  const handleSendMessage = () => {
+  const sendMessageToAPI = async (message: string, contact?: ContactInfo) => {
+    try {
+      const response = await fetch('/api/chat/message', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message,
+          name: contact?.name || null,
+          email: contact?.email || null,
+          phone: contact?.phone || null,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        addMessage(data.message, 'bot');
+        return true;
+      }
+    } catch (error) {
+      console.error('Erreur envoi message:', error);
+      addMessage("Désolé, une erreur s'est produite. Veuillez réessayer.", 'bot');
+    }
+    return false;
+  };
+
+  const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
     
-    addMessage(inputValue, 'user');
+    const userMessage = inputValue;
+    addMessage(userMessage, 'user');
     setInputValue('');
+    setIsSubmitting(true);
+
+    // Première demande de message
+    if (messages.length === 0) {
+      setTimeout(() => {
+        addMessage("Merci pour votre message ! Pour mieux vous aider, pourriez-vous me donner vos coordonnées ?", 'bot');
+        setShowContactForm(true);
+        setIsSubmitting(false);
+      }, 1000);
+    } else {
+      // Messages suivants - sauvegarder en base
+      await sendMessageToAPI(userMessage, contactInfo);
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleContactSubmit = async () => {
+    if (!contactInfo.name || !contactInfo.email) {
+      addMessage("Merci de renseigner au moins votre nom et email.", 'bot');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setShowContactForm(false);
+
+    // Envoyer le message original avec les coordonnées
+    const originalMessage = messages.find(m => m.sender === 'user')?.text || '';
+    await sendMessageToAPI(originalMessage, contactInfo);
     
-    // Réponse automatique simple
-    setTimeout(() => {
-      addMessage("Merci pour votre message ! Un conseiller vous répondra bientôt.", 'bot');
-    }, 1000);
+    addMessage(`Parfait ${contactInfo.name} ! Vos coordonnées ont été enregistrées. Albina ou son équipe vous recontacteront rapidement !`, 'bot');
+    setIsSubmitting(false);
   };
 
   return (
@@ -75,6 +138,52 @@ export default function SmartChat() {
                 </div>
               </div>
             ))}
+            
+            {/* Formulaire de contact */}
+            {showContactForm && (
+              <div className="bg-blue-50 p-4 rounded-lg border">
+                <div className="flex items-center mb-3">
+                  <User className="h-4 w-4 text-blue-600 mr-2" />
+                  <span className="text-sm font-medium text-blue-800">Vos coordonnées</span>
+                </div>
+                <div className="space-y-2">
+                  <input
+                    type="text"
+                    placeholder="Votre nom *"
+                    value={contactInfo.name}
+                    onChange={(e) => setContactInfo(prev => ({ ...prev, name: e.target.value }))}
+                    className="w-full px-3 py-2 border rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  <input
+                    type="email"
+                    placeholder="Votre email *"
+                    value={contactInfo.email}
+                    onChange={(e) => setContactInfo(prev => ({ ...prev, email: e.target.value }))}
+                    className="w-full px-3 py-2 border rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  <input
+                    type="tel"
+                    placeholder="Votre téléphone (optionnel)"
+                    value={contactInfo.phone}
+                    onChange={(e) => setContactInfo(prev => ({ ...prev, phone: e.target.value }))}
+                    className="w-full px-3 py-2 border rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  <button
+                    onClick={handleContactSubmit}
+                    disabled={isSubmitting}
+                    className="w-full bg-blue-600 text-white py-2 rounded text-sm hover:bg-blue-700 disabled:opacity-50"
+                  >
+                    {isSubmitting ? 'Envoi...' : 'Envoyer'}
+                  </button>
+                </div>
+              </div>
+            )}
+            
+            {isSubmitting && (
+              <div className="text-center text-gray-500 text-sm">
+                ⏳ En cours d'envoi...
+              </div>
+            )}
           </div>
           
           <div className="p-4 border-t flex space-x-2">
@@ -82,13 +191,15 @@ export default function SmartChat() {
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+              onKeyPress={(e) => e.key === 'Enter' && !isSubmitting && handleSendMessage()}
               placeholder="Tapez votre message..."
-              className="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-elaia-gold"
+              disabled={isSubmitting}
+              className="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-elaia-gold disabled:opacity-50"
             />
             <button
               onClick={handleSendMessage}
-              className="px-4 py-2 bg-elaia-gold text-white rounded-lg hover:bg-elaia-gold/90"
+              disabled={isSubmitting}
+              className="px-4 py-2 bg-elaia-gold text-white rounded-lg hover:bg-elaia-gold/90 disabled:opacity-50"
             >
               <Send className="h-4 w-4" />
             </button>
