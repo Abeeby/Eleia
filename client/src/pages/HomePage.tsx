@@ -51,19 +51,19 @@ export default function HomePage() {
 
   const testimonials = [
     {
-      name: "Sophie L.",
+      name: "Albina - Fondatrice",
       rating: 5,
-      text: "Elaïa Studio a transformé ma pratique du Pilates. Les instructeurs sont exceptionnels et l'ambiance est toujours bienveillante.",
+      text: "Diplômée avec maîtrise fédérale, j'ai à cœur de transmettre une pratique du Pilates exigeante et bienveillante pour accompagner chacun vers ses objectifs.",
     },
     {
-      name: "Marc D.",
+      name: "Formation Continue",
       rating: 5,
-      text: "Après 6 mois, je me sens plus fort et plus équilibré. Le Pilates Reformer a vraiment changé ma vie !",
+      text: "Notre équipe suit régulièrement des formations pour vous offrir les techniques les plus actuelles et efficaces du Pilates Reformer.",
     },
     {
-      name: "Claire M.",
+      name: "Équipement Premium",
       rating: 5,
-      text: "Un studio magnifique avec des équipements de qualité. Je recommande vivement pour tous les niveaux.",
+      text: "8 Reformers haut de gamme dans un studio lumineux de 120m² à Gland, conçu spécialement pour votre confort et sécurité.",
     },
   ];
 
@@ -251,15 +251,15 @@ export default function HomePage() {
               <div className="flex flex-wrap justify-center gap-8 text-sm text-elaia-gray">
                 <div className="flex items-center">
                   <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                  <span>+500 clients satisfaits</span>
+                  <span>Ouverture juillet 2025</span>
                 </div>
                 <div className="flex items-center">
                   <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                  <span>Instructeurs certifiés</span>
+                  <span>Instructrice maîtrise fédérale</span>
                 </div>
                 <div className="flex items-center">
                   <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                  <span>Équipement premium</span>
+                  <span>Équipement Reformer premium</span>
                 </div>
               </div>
             </div>
@@ -275,7 +275,7 @@ export default function HomePage() {
               Elaïa en chiffres
             </h2>
             <p className="text-xl text-white/90">
-              Des résultats qui parlent d'eux-mêmes
+              L'excellence avant l'ouverture
             </p>
           </div>
           
@@ -284,48 +284,48 @@ export default function HomePage() {
               <TrendingUp className="h-12 w-12 mx-auto mb-4 text-white/90" />
               <div className="text-4xl md:text-5xl font-bold mb-2">
                 {showStats ? (
-                  <AnimatedCounter end={500} suffix="+" duration={2000} />
+                  <AnimatedCounter end={8} duration={2000} />
                 ) : (
                   "0"
                 )}
               </div>
-              <p className="text-lg text-white/90">Clients actifs</p>
+              <p className="text-lg text-white/90">Reformers premium</p>
             </div>
             
             <div className="text-center text-white">
               <Target className="h-12 w-12 mx-auto mb-4 text-white/90" />
               <div className="text-4xl md:text-5xl font-bold mb-2">
                 {showStats ? (
-                  <AnimatedCounter end={98} suffix="%" duration={2500} />
+                  <AnimatedCounter end={100} suffix="%" duration={2500} />
                 ) : (
                   "0"
                 )}
               </div>
-              <p className="text-lg text-white/90">Satisfaction client</p>
+              <p className="text-lg text-white/90">Certification instructeurs</p>
             </div>
             
             <div className="text-center text-white">
               <Zap className="h-12 w-12 mx-auto mb-4 text-white/90" />
               <div className="text-4xl md:text-5xl font-bold mb-2">
                 {showStats ? (
-                  <AnimatedCounter end={15000} suffix="+" duration={3000} />
+                  <AnimatedCounter end={1} duration={1500} />
                 ) : (
                   "0"
                 )}
               </div>
-              <p className="text-lg text-white/90">Séances données</p>
+              <p className="text-lg text-white/90">Maîtrise fédérale</p>
             </div>
             
             <div className="text-center text-white">
               <Award className="h-12 w-12 mx-auto mb-4 text-white/90" />
               <div className="text-4xl md:text-5xl font-bold mb-2">
                 {showStats ? (
-                  <AnimatedCounter end={5} duration={1500} />
+                  <AnimatedCounter end={10} suffix="+" duration={2000} />
                 ) : (
                   "0"
                 )}
               </div>
-              <p className="text-lg text-white/90">Années d'expérience</p>
+              <p className="text-lg text-white/90">Années d'expérience Albina</p>
             </div>
           </div>
         </div>
@@ -490,10 +490,10 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-elaia-gray mb-4">
-              Ce que disent nos clients
+              L'expertise reconnue
             </h2>
             <p className="text-lg text-gray-600">
-              Rejoignez notre communauté de pratiquants satisfaits
+              La passion et la formation au service de votre bien-être
             </p>
           </div>
           
