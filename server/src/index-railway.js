@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const { Pool } = require('pg');
 require('dotenv').config();
 
@@ -8,11 +9,16 @@ const PORT = process.env.PORT || 5000;
 
 // Configuration CORS
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000'],
+  origin: ['http://localhost:5173', 'http://localhost:3000', 'https://eleia-production.up.railway.app'],
   credentials: true
 }));
 
 app.use(express.json());
+
+// Servir les fichiers statiques du frontend (après build)
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/dist')));
+}
 
 // Configuration PostgreSQL Railway
 const pool = new Pool({
@@ -478,14 +484,27 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 404
-app.use('*', (req, res) => {
-  console.log('❓ Route non trouvée:', req.method, req.originalUrl);
-  res.status(404).json({ 
-    error: 'Route non trouvée',
-    method: req.method,
-    path: req.originalUrl 
-  });
+// Catch-all pour servir React App (SPA routing)
+app.get('*', (req, res) => {
+  // Si c'est une route API, retourner 404 JSON
+  if (req.originalUrl.startsWith('/api/')) {
+    console.log('❓ Route API non trouvée:', req.method, req.originalUrl);
+    return res.status(404).json({ 
+      error: 'Route non trouvée',
+      method: req.method,
+      path: req.originalUrl 
+    });
+  }
+  
+  // Sinon, servir index.html pour React Router
+  if (process.env.NODE_ENV === 'production') {
+    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+  } else {
+    res.status(404).json({ 
+      error: 'Frontend non disponible en développement',
+      message: 'Utilisez npm run dev dans le dossier client' 
+    });
+  }
 });
 
 // Démarrage du serveur

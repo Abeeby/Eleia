@@ -5,9 +5,9 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon --exec ts-node src/index.ts",
-    "build": "echo 'Build skipped for debugging'",
-    "start": "node src/index-simple.js",
-    "start:railway": "node start-railway.js",
+    "build": "cd ../client && npm install && npm run build",
+    "start": "node src/index-railway.js",
+    "start:railway": "npm run build && NODE_ENV=production node src/index-railway.js",
     "test:railway": "node test-railway.js",
     "init-db": "ts-node src/utils/initDb.ts"
   },
