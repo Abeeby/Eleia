@@ -141,7 +141,7 @@ const CoursesPage: React.FC = () => {
       <SEOHead 
         title="Nos Cours - Pilates & Yoga à Gland | Elaïa Studio"
         description="Découvrez notre gamme complète de cours : Reformer Classique, Yoga Doux, Pilates, cours pré/post-natal. Instructrice certifiée avec maîtrise fédérale."
-        keywords="cours pilates gland, reformer classique, yoga doux, cours prenatal, pilates accessoires, cours yoga vinyasa"
+        keywords={["cours pilates gland", "reformer classique", "yoga doux", "cours prenatal", "pilates accessoires", "cours yoga vinyasa"]}
       />
       
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
