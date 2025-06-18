@@ -16,6 +16,7 @@ import PricingPage from './pages/PricingPage';
 import FaqPage from './pages/FaqPage';
 import ContactPage from './pages/ContactPage';
 import LegalPage from './pages/LegalPage';
+import CoursesPage from './pages/CoursesPage';
 
 // Pages privées
 import DashboardPage from './pages/DashboardPage';
@@ -85,6 +86,7 @@ function App() {
             <Route path="/faq" element={<FaqPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/legal" element={<LegalPage />} />
+            <Route path="/courses" element={<CoursesPage />} />
             <Route path="/schedule" element={<SchedulePage />} />
 
             {/* Pages privées */}

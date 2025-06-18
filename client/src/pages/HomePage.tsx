@@ -397,74 +397,118 @@ export default function HomePage() {
             </p>
           </div>
           
-          <div className="relative">
+          <div className="relative h-96 flex items-center justify-center overflow-hidden">
             {/* Navigation buttons */}
             <button 
               onClick={prevCourse}
-              className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-3 hover:bg-gray-50 transition-all"
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm shadow-lg rounded-full p-3 hover:bg-white transition-all hover:scale-110"
             >
               <ChevronLeft className="h-6 w-6 text-elaia-gray" />
             </button>
             <button 
               onClick={nextCourse}
-              className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-3 hover:bg-gray-50 transition-all"
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm shadow-lg rounded-full p-3 hover:bg-white transition-all hover:scale-110"
             >
               <ChevronRight className="h-6 w-6 text-elaia-gray" />
             </button>
 
-            {/* Course carousel */}
-            <div className="overflow-hidden">
-              <div 
-                className="flex transition-transform duration-500 ease-in-out"
-                style={{ transform: `translateX(-${currentCourseIndex * 100}%)` }}
-              >
-                {courses.map((course) => (
-                  <div key={course.id} className="w-full flex-shrink-0 px-8">
-                    <div className="bg-white rounded-2xl shadow-lg overflow-hidden max-w-4xl mx-auto">
-                      <div className="md:flex">
-                        <div className="md:w-1/2">
-                          <div className="h-64 md:h-full bg-gradient-to-br from-elaia-gold/20 to-elaia-green/20 flex items-center justify-center">
-                            <div className="text-center p-8">
-                              <h3 className="text-2xl font-bold text-elaia-gray mb-4">{course.title}</h3>
-                              <div className="text-sm text-elaia-gray space-y-2">
-                                <div className="flex items-center justify-center">
-                                  <span className="font-medium mr-2">Intensité:</span>
-                                  <div className="flex">{renderStars(course.intensity)}</div>
-                                </div>
-                                <div className="flex items-center justify-center">
-                                  <span className="font-medium mr-2">Relaxation:</span>
-                                  <div className="flex">{renderStars(course.relaxation)}</div>
-                                </div>
-                                <div className="flex items-center justify-center">
-                                  <span className="font-medium mr-2">Respiration:</span>
-                                  <div className="flex">{renderStars(course.breathing)}</div>
-                                </div>
-                              </div>
+            {/* Stacked cards carousel */}
+            <div className="relative w-full max-w-5xl mx-auto h-full flex items-center justify-center">
+              {courses.map((course, index) => {
+                const offset = index - currentCourseIndex;
+                const absOffset = Math.abs(offset);
+                
+                // Calculer la position et l'échelle
+                const translateX = offset * 80; // Espacement horizontal
+                const scale = 1 - absOffset * 0.1; // Échelle réduite pour les cartes éloignées
+                const zIndex = courses.length - absOffset;
+                const opacity = absOffset <= 2 ? (1 - absOffset * 0.3) : 0;
+                
+                // Masquer les cartes trop éloignées
+                if (absOffset > 2) return null;
+                
+                return (
+                  <div
+                    key={course.id}
+                    className="absolute transition-all duration-500 ease-out cursor-pointer"
+                    style={{
+                      transform: `translateX(${translateX}px) scale(${scale})`,
+                      zIndex,
+                      opacity,
+                    }}
+                    onClick={() => setCurrentCourseIndex(index)}
+                  >
+                    <div className="w-80 bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-transparent hover:border-elaia-gold/30 transition-all">
+                      <div className="h-48 bg-gradient-to-br from-elaia-gold/20 to-elaia-green/20 flex items-center justify-center p-6">
+                        <div className="text-center">
+                          <h3 className="text-xl font-bold text-elaia-gray mb-3">{course.title}</h3>
+                          <div className="text-xs text-elaia-gray space-y-1">
+                            <div className="flex items-center justify-center">
+                              <span className="font-medium mr-2">Intensité:</span>
+                              <div className="flex">{renderStars(course.intensity)}</div>
+                            </div>
+                            <div className="flex items-center justify-center">
+                              <span className="font-medium mr-2">Relaxation:</span>
+                              <div className="flex">{renderStars(course.relaxation)}</div>
                             </div>
                           </div>
                         </div>
-                        <div className="md:w-1/2 p-8">
-                          <p className="text-gray-600 mb-6 leading-relaxed">
+                      </div>
+                      
+                      {/* Contenu détaillé visible seulement pour la carte active */}
+                      {offset === 0 && (
+                        <div className="p-6 bg-white">
+                          <p className="text-gray-600 mb-4 text-sm leading-relaxed">
                             {course.description}
                           </p>
-                          <div className="mb-6">
-                            <span className="text-elaia-gold font-semibold">
+                          <div className="mb-4">
+                            <span className="text-elaia-gold font-semibold text-sm">
                               {course.credits} crédits par séance
                             </span>
                           </div>
-                          <Link 
-                            to={`/schedule?course=${course.id}`}
-                            className="btn-primary inline-flex items-center"
-                          >
-                            Réserver dès maintenant
-                            <ArrowRight className="ml-2 h-4 w-4" />
-                          </Link>
+                          <div className="space-y-2">
+                            <Link 
+                              to="/courses"
+                              className="bg-elaia-gold/10 text-elaia-gold border border-elaia-gold/30 hover:bg-elaia-gold hover:text-white transition-colors inline-flex items-center text-sm px-4 py-2 w-full justify-center rounded-full"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              Voir détails du cours
+                              <ArrowRight className="ml-2 h-4 w-4" />
+                            </Link>
+                            <Link 
+                              to={`/schedule?course=${course.id}`}
+                              className="btn-primary inline-flex items-center text-sm px-4 py-2 w-full justify-center"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              Réserver maintenant
+                              <ArrowRight className="ml-2 h-4 w-4" />
+                            </Link>
+                          </div>
                         </div>
-                      </div>
+                      )}
+                      
+                      {/* Badge pour les cartes non-actives */}
+                      {offset !== 0 && (
+                        <div className="p-4 bg-white">
+                          <div className="text-center space-y-2">
+                            <span className="text-elaia-gold font-semibold text-sm">
+                              {course.credits} crédits
+                            </span>
+                            <p className="text-xs text-gray-500">Cliquez pour activer</p>
+                            <Link 
+                              to="/courses"
+                              className="text-xs text-elaia-gold hover:underline block"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              Voir tous les détails
+                            </Link>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
-                ))}
-              </div>
+                );
+              })}
             </div>
 
             {/* Course indicators */}

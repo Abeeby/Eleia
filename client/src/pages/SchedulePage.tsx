@@ -496,6 +496,15 @@ export default function SchedulePage() {
                 <button
                   onClick={() => {
                     setShowCourseInfo(null);
+                    navigate('/courses');
+                  }}
+                  className="bg-elaia-gold/10 text-elaia-gold border border-elaia-gold/30 hover:bg-elaia-gold hover:text-white transition-colors px-6 py-2 rounded-lg font-medium"
+                >
+                  Voir tous nos cours
+                </button>
+                <button
+                  onClick={() => {
+                    setShowCourseInfo(null);
                     navigate('/pricing');
                   }}
                   className="btn-primary flex items-center"

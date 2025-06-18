@@ -17,6 +17,7 @@ export default function MainLayout() {
 
   const navigation = [
     { name: 'Accueil', href: '/' },
+    { name: 'Nos Cours', href: '/courses' },
     { name: 'Planning', href: '/schedule' },
     { name: 'Offre Welcome', href: '/pricing', highlight: true },
     { name: 'Tarifs', href: '/pricing' },
