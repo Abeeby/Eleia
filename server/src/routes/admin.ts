@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { dbAll, dbGet } from '../utils/db';
+import { dbAll, dbGet } from '../utils/database-pg';
 import { authenticateToken, authorizeAdmin } from '../middleware/auth';
 import { startOfMonth, endOfMonth, subMonths } from 'date-fns';
 
@@ -147,13 +147,8 @@ router.get('/users', async (req, res) => {
     const users = await dbAll(`
       SELECT 
         u.*,
-        us.plan_id,
-        sp.name as plan_name,
-        us.credits_remaining,
-        us.end_date as subscription_end_date
+        COALESCE(u.credits_remaining, 0) as credits_remaining
       FROM users u
-      LEFT JOIN user_subscriptions us ON u.id = us.user_id AND us.is_active = 1
-      LEFT JOIN subscription_plans sp ON us.plan_id = sp.id
       WHERE ${whereClause}
       ORDER BY u.created_at DESC
       LIMIT ? OFFSET ?

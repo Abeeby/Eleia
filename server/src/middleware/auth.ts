@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { dbGet } from '../utils/db';
+import { dbGet } from '../utils/database-pg';
 
 // Étendre l'interface Request pour inclure l'utilisateur
 declare global {
