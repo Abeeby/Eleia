@@ -12,11 +12,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL('https://eleia.vercel.app'),
   title: {
-    default: 'Eleia - Natural Beauty & Wellness',
+    default: 'Eleia - Gestion de Studio de Pilates',
     template: '%s | Eleia'
   },
-  description: 'Découvrez Eleia, votre destination beauté naturelle. Cosmétiques bio, soins du visage et bien-être holistique.',
-  keywords: ['eleia', 'cosmétiques', 'beauté', 'naturel', 'bio', 'soins', 'wellness', 'suisse'],
+  description: 'Solution moderne de gestion pour studios de Pilates. Réservations en ligne, suivi des abonnements, tableau de bord complet.',
+  keywords: ['eleia', 'pilates', 'gestion studio', 'réservation', 'abonnement', 'reformer', 'logiciel', 'saas'],
   authors: [{ name: 'Eleia' }],
   creator: 'Eleia',
   publisher: 'Eleia',
@@ -26,8 +26,8 @@ export const metadata: Metadata = {
     telephone: false,
   },
   openGraph: {
-    title: 'Eleia - Natural Beauty & Wellness',
-    description: 'Découvrez Eleia, votre destination beauté naturelle',
+    title: 'Eleia - Gestion de Studio de Pilates',
+    description: 'Solution moderne de gestion pour studios de Pilates',
     url: 'https://eleia.vercel.app',
     siteName: 'Eleia',
     images: [
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Eleia',
-    description: 'Découvrez Eleia, votre destination beauté naturelle',
+    description: 'Solution moderne de gestion pour studios de Pilates',
     images: ['https://eleia.vercel.app/twitter-image.jpg'],
   },
   alternates: {
