@@ -18,6 +18,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, subtitle, description,
           src={image}
           alt={title}
           fill
+          sizes="100vw"
           className="object-cover"
         />
         <div className="service-card-overlay" />

@@ -82,6 +82,7 @@ export default function HomePage() {
             src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1600"
             alt="Eleia Studio Management"
             fill
+            sizes="100vw"
             className="object-cover"
             priority
           />
@@ -200,6 +201,7 @@ export default function HomePage() {
                 src="https://images.unsplash.com/photo-1600508774634-4e11d34730e2?w=800"
                 alt="Eleia Dashboard"
                 fill
+                sizes="100vw"
                 className="object-cover"
               />
             </div>
