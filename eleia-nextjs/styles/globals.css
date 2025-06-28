@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&family=Crimson+Text:wght@400;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-cream text-beige-800 antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-beige-100;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-beige-400 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-beige-500;
+  }
+}
+
+@layer components {
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .btn-primary {
+    @apply bg-beige-900 text-cream px-6 py-3 rounded-none font-medium tracking-wide hover:bg-beige-800 transition-colors duration-300;
+  }
+
+  .btn-secondary {
+    @apply border border-beige-900 text-beige-900 px-6 py-3 rounded-none font-medium tracking-wide hover:bg-beige-900 hover:text-cream transition-all duration-300;
+  }
+
+  .link-underline {
+    @apply relative inline-block;
+  }
+
+  .link-underline::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-0 h-px bg-current transition-all duration-300;
+  }
+
+  .link-underline:hover::after {
+    @apply w-full;
+  }
+
+  /* Animations */
+  .animate-on-scroll {
+    @apply opacity-0 translate-y-8 transition-all duration-700;
+  }
+
+  .animate-on-scroll.in-view {
+    @apply opacity-100 translate-y-0;
+  }
+
+  /* Product grid */
+  .product-card {
+    @apply group cursor-pointer;
+  }
+
+  .product-card img {
+    @apply transition-transform duration-500 group-hover:scale-105;
+  }
+
+  /* Hero section */
+  .hero-gradient {
+    background: linear-gradient(to bottom, rgba(250, 249, 246, 0) 0%, rgba(250, 249, 246, 0.8) 100%);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  .fade-up {
+    animation: fadeUp 0.5s ease-out;
+  }
+
+  .writing-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+}
