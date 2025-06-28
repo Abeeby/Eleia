@@ -20,58 +20,53 @@ export default function HomePage() {
 
   const services = [
     {
-      title: 'YOGA',
-      subtitle: 'Choose your personal Yoga Journey',
-      description: 'Puise dans ta force intérieure pour une nouvelle conscience corporelle et mentale.',
-      options: ['Balance', 'Release', 'Reset', 'Aerial'],
-      image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800',
+      title: 'SOINS VISAGE',
+      subtitle: 'Révélez votre éclat naturel',
+      description: 'Des soins personnalisés pour chaque type de peau. Hydratation profonde, anti-âge et éclat.',
+      options: ['Hydratation intense', 'Anti-âge', 'Peeling doux', 'Éclat & Détox'],
+      image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800',
     },
     {
-      title: 'PILATES',
-      subtitle: 'Choose your personal Pilates Journey',
-      description: 'Vivez un entraînement complet dynamique. Activez votre centre et augmentez force et flexibilité.',
-      options: ['Pilates X HIIT', 'Power Pilates', 'Dynamic Pilates', 'Barre Burn', 'Barre Deep'],
-      image: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800',
+      title: 'SOINS CORPS',
+      subtitle: 'Une expérience sensorielle unique',
+      description: 'Rituels de beauté holistiques pour nourrir votre peau et apaiser votre esprit.',
+      options: ['Gommage corporel', 'Enveloppement', 'Massage relaxant', 'Rituel détox'],
+      image: 'https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?w=800',
     },
     {
-      title: 'REFORMER',
-      subtitle: 'Choose your personal Reformer Journey',
-      description: 'Libérez votre potentiel et ressentez la différence. Efficacité maximale pour votre meilleure forme.',
-      options: ['Foundation', 'Whole Body', 'Booty & Core', 'Intense'],
-      image: 'https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=800',
+      title: 'COSMÉTIQUES',
+      subtitle: 'Beauté naturelle et bio',
+      description: 'Notre gamme exclusive de produits naturels pour sublimer votre beauté au quotidien.',
+      options: ['Sérums', 'Crèmes', 'Masques', 'Huiles précieuses'],
+      image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800',
     }
   ]
 
-  const instructors = [
-    { name: 'Sophie', image: 'https://images.unsplash.com/photo-1594381898411-846e7d193883?w=400' },
-    { name: 'Marie', image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400' },
-    { name: 'Laura', image: 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=400' },
-    { name: 'Emma', image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400' },
-    { name: 'Léa', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400' },
-    { name: 'Anna', image: 'https://images.unsplash.com/photo-1581403341630-a6e0b9d2d257?w=400' },
-    { name: 'Chloé', image: 'https://images.unsplash.com/photo-1587614382346-4ec70e388b28?w=400' },
-    { name: 'Amélie', image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400' },
-    { name: 'Sarah', image: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=400' },
-    { name: 'Julia', image: 'https://images.unsplash.com/photo-1598257006458-087169a1f08d?w=400' },
+  const team = [
+    { name: 'Sophia', role: 'Esthéticienne', image: 'https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=400' },
+    { name: 'Emma', role: 'Spa Manager', image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400' },
+    { name: 'Léa', role: 'Thérapeute', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400' },
+    { name: 'Marie', role: 'Conseillère beauté', image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400' },
+    { name: 'Julie', role: 'Esthéticienne', image: 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=400' },
   ]
 
   const testimonials = [
     {
-      title: 'Cœur, passion et savoir',
-      text: 'Je viens de Genève et je fais volontiers le trajet pour les cours de Pilates et l\'atmosphère incomparable sur place. On ressent immédiatement qu\'il y a beaucoup de cœur, de passion et de savoir.',
-      author: 'Isabelle',
+      title: 'Une expérience divine',
+      text: 'Les soins Eleia ont transformé ma peau. Les produits naturels et l\'expertise de l\'équipe font toute la différence. Je ne peux plus m\'en passer!',
+      author: 'Isabelle M.',
       rating: 5
     },
     {
-      title: 'Rafraîchissant et différent',
-      text: 'Concept génial, tout intégré dans un studio (cours sur tapis et Reformer). L\'équipe est compétente, très sympathique et le studio magnifique, conçu avec tant d\'amour du détail.',
-      author: 'Claire',
+      title: 'Qualité exceptionnelle',
+      text: 'J\'adore l\'approche holistique d\'Eleia. Ce n\'est pas juste un soin, c\'est une expérience complète de bien-être. Les résultats sont visibles immédiatement.',
+      author: 'Claire L.',
       rating: 5
     },
     {
-      title: 'Parfait pour déconnecter',
-      text: 'Votre studio est parfaitement situé au centre et agréablement calme. Les séances sont comme de petites vacances à chaque fois. Vous avez créé quelque chose de très spécial ici.',
-      author: 'Alexandra',
+      title: 'Mon rituel beauté',
+      text: 'Depuis que j\'utilise les produits Eleia, ma routine beauté est devenue un moment de plaisir. Des textures divines et des résultats probants.',
+      author: 'Alexandra P.',
       rating: 5
     }
   ]
@@ -84,13 +79,13 @@ export default function HomePage() {
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1600"
-            alt="Pilates Studio"
+            src="https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?w=1600"
+            alt="Eleia Beauty"
             fill
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-studio-black/20" />
+          <div className="absolute inset-0 bg-studio-black/30" />
         </div>
         
         <motion.div
@@ -101,18 +96,18 @@ export default function HomePage() {
           className="relative z-10 text-center text-studio-white"
         >
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-light leading-tight mb-2">
-            The perfect union of
+            La beauté naturelle
           </h1>
           <h2 className="text-5xl md:text-7xl lg:text-8xl font-light leading-tight mb-12">
-            Modern Yoga & Pilates
+            sublimée
           </h2>
           <Link href="/booking" className="btn-primary bg-studio-white text-studio-black hover:bg-studio-gray-100">
-            Réserver maintenant
+            Réserver un soin
           </Link>
         </motion.div>
       </section>
 
-      {/* Power of Holistic Training */}
+      {/* Power of Natural Beauty */}
       <section ref={powerRef} className="space-section">
         <motion.div
           initial={{ opacity: 0 }}
@@ -121,11 +116,11 @@ export default function HomePage() {
           className="container-narrow text-center"
         >
           <h2 className="text-display mb-12">
-            THE POWER OF<br />
-            HOLISTIC TRAINING
+            LE POUVOIR DE LA<br />
+            BEAUTÉ NATURELLE
           </h2>
-          <Link href="/courses" className="btn-outline">
-            Trouver un cours
+          <Link href="/shop" className="btn-outline">
+            Découvrir nos produits
           </Link>
         </motion.div>
       </section>
@@ -150,75 +145,73 @@ export default function HomePage() {
       <section className="space-section bg-studio-white">
         <div className="container-narrow">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-title mb-8">Un lieu spécial pour vous</h2>
+            <h2 className="text-title mb-8">Notre philosophie</h2>
             <p className="text-lg leading-relaxed mb-6">
-              Swiss Pilates est un studio de Yoga et Pilates d'inspiration traditionnelle avec une orientation moderne. 
-              Un lieu de transformation, de retraite et de ressourcement, un espace pour créer des liens avec les autres 
-              et avec vous-même, et enfin, pour vous défier et grandir.
+              Eleia est né de la conviction que la vraie beauté vient de l'intérieur. Nous croyons en une approche 
+              holistique qui allie soins de haute qualité, ingrédients naturels et bien-être global.
             </p>
             <p className="text-lg leading-relaxed mb-12">
-              Ici commence votre voyage vers une nouvelle conscience corporelle et mentale. Nous ne nous concentrons pas 
-              sur des idéaux conventionnels, mais nous vous offrons l'espace pour votre épanouissement authentique. 
-              Il s'agit de plus que du mouvement. Il s'agit de vous.
+              Chaque produit, chaque soin est pensé pour révéler votre beauté naturelle tout en respectant 
+              votre peau et l'environnement. Parce que prendre soin de soi, c'est aussi prendre soin du monde.
             </p>
-            <Link href="/about/philosophy" className="link-underline text-sm uppercase tracking-wider">
+            <Link href="/about" className="link-underline text-sm uppercase tracking-wider">
               En savoir plus
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Instructors Section */}
+      {/* Team Section */}
       <section className="space-section">
         <div className="container-wide">
-          <h2 className="text-title text-center mb-16">Rencontrez vos instructeurs</h2>
-          <div className="instructors-grid">
-            {instructors.map((instructor, index) => (
+          <h2 className="text-title text-center mb-16">Notre équipe d'expertes</h2>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-12">
+            {team.map((member, index) => (
               <motion.div
-                key={instructor.name}
+                key={member.name}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: index * 0.05 }}
                 viewport={{ once: true }}
               >
-                <InstructorCard {...instructor} />
+                <InstructorCard {...member} />
               </motion.div>
             ))}
           </div>
           
           <div className="text-center mt-16">
-            <Link href="/about/team" className="link-underline text-sm uppercase tracking-wider">
-              Notre équipe
+            <Link href="/team" className="link-underline text-sm uppercase tracking-wider">
+              Toute l'équipe
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Well-Being Section */}
+      {/* Natural Ingredients Section */}
       <section className="space-section bg-studio-gray-50">
         <div className="container-wide">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="relative aspect-4/5">
               <Image
-                src="https://images.unsplash.com/photo-1540206063137-4a88ca974d1a?w=800"
-                alt="Well-being"
+                src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800"
+                alt="Natural ingredients"
                 fill
                 className="object-cover"
               />
             </div>
             <div className="max-w-xl">
-              <h2 className="text-title mb-8">Votre bien-être est notre passion</h2>
+              <h2 className="text-title mb-8">Des ingrédients d'exception</h2>
               <p className="text-lg leading-relaxed mb-6">
-                Chaque personne est unique. C'est pourquoi chez Swiss Pilates, nous proposons des routines holistiques 
-                adaptées exactement à votre niveau et à vos besoins. Composez votre programme de bien-être individuel 
-                à partir de notre offre de cours variée.
+                Nous sélectionnons avec soin chaque ingrédient pour sa qualité et ses bienfaits. 
+                Huiles précieuses, extraits de plantes, actifs naturels : tout est choisi pour 
+                offrir à votre peau le meilleur de la nature.
               </p>
               <p className="text-lg leading-relaxed mb-12">
-                Swiss Pilates unit régénération, renforcement et spiritualité en un seul lieu. 
-                Pour un voyage de self-care sans compromis.
+                Nos formules sont développées dans le respect de votre peau et de l'environnement. 
+                Sans parabènes, sans sulfates, non testées sur les animaux et certifiées bio.
               </p>
-              <Link href="/about/philosophy" className="link-underline text-sm uppercase tracking-wider">
-                Plus sur notre philosophie
+              <Link href="/ingredients" className="link-underline text-sm uppercase tracking-wider">
+                Découvrir nos ingrédients
               </Link>
             </div>
           </div>
@@ -229,15 +222,15 @@ export default function HomePage() {
       <section className="space-section">
         <div className="container-narrow">
           <div className="text-center mb-16">
-            <p className="text-sm uppercase tracking-wider text-studio-gray-600 mb-4">Ce que vous dites</p>
-            <h2 className="text-title mb-4">Amour des clients</h2>
+            <p className="text-sm uppercase tracking-wider text-studio-gray-600 mb-4">Témoignages</p>
+            <h2 className="text-title mb-4">Nos clientes parlent</h2>
             <div className="flex items-center justify-center space-x-1">
               {[...Array(5)].map((_, i) => (
                 <svg key={i} className="w-5 h-5 text-studio-black" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                 </svg>
               ))}
-              <span className="ml-2 text-sm">5.00 sur 147 avis</span>
+              <span className="ml-2 text-sm">4.9 sur 236 avis</span>
             </div>
           </div>
 

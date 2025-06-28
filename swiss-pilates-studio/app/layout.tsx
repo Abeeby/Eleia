@@ -10,29 +10,29 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://swiss-pilates.ch'),
+  metadataBase: new URL('https://eleia.vercel.app'),
   title: {
-    default: 'Swiss Pilates Studio - Premium Pilates in Switzerland',
-    template: '%s | Swiss Pilates Studio'
+    default: 'Eleia - Natural Beauty & Wellness',
+    template: '%s | Eleia'
   },
-  description: 'Le studio de Pilates le plus exclusif de Suisse. Reformer, Mat, Aerial Pilates. Studios à Genève, Zurich, Lausanne.',
-  keywords: ['pilates', 'reformer', 'studio', 'suisse', 'genève', 'zurich', 'lausanne', 'yoga', 'fitness'],
-  authors: [{ name: 'Swiss Pilates Studio' }],
-  creator: 'Swiss Pilates Studio',
-  publisher: 'Swiss Pilates Studio',
+  description: 'Découvrez Eleia, votre destination beauté naturelle. Cosmétiques bio, soins du visage et bien-être holistique.',
+  keywords: ['eleia', 'cosmétiques', 'beauté', 'naturel', 'bio', 'soins', 'wellness', 'suisse'],
+  authors: [{ name: 'Eleia' }],
+  creator: 'Eleia',
+  publisher: 'Eleia',
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
   openGraph: {
-    title: 'Swiss Pilates Studio - Premium Pilates in Switzerland',
-    description: 'Le studio de Pilates le plus exclusif de Suisse',
-    url: 'https://swiss-pilates.ch',
-    siteName: 'Swiss Pilates Studio',
+    title: 'Eleia - Natural Beauty & Wellness',
+    description: 'Découvrez Eleia, votre destination beauté naturelle',
+    url: 'https://eleia.vercel.app',
+    siteName: 'Eleia',
     images: [
       {
-        url: 'https://swiss-pilates.ch/og.jpg',
+        url: 'https://eleia.vercel.app/og.jpg',
         width: 1200,
         height: 630,
       }
@@ -42,9 +42,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Swiss Pilates Studio',
-    description: 'Le studio de Pilates le plus exclusif de Suisse',
-    images: ['https://swiss-pilates.ch/twitter-image.jpg'],
+    title: 'Eleia',
+    description: 'Découvrez Eleia, votre destination beauté naturelle',
+    images: ['https://eleia.vercel.app/twitter-image.jpg'],
   },
   alternates: {
     canonical: '/',

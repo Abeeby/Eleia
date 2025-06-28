@@ -19,20 +19,18 @@ const Navbar = () => {
   }, [])
 
   const navItems = [
-    { href: '/', label: 'Home' },
-    { href: '/booking', label: 'Booking' },
+    { href: '/', label: 'Accueil' },
+    { href: '/shop', label: 'Boutique' },
     { 
-      href: '/about', 
-      label: 'About',
+      href: '/soins', 
+      label: 'Soins',
       submenu: [
-        { href: '/about/studio', label: 'Studio' },
-        { href: '/about/philosophy', label: 'Philosophy' },
-        { href: '/about/team', label: 'Team' },
-        { href: '/about/projects', label: 'Projects' },
+        { href: '/soins/visage', label: 'Soins visage' },
+        { href: '/soins/corps', label: 'Soins corps' },
+        { href: '/soins/rituels', label: 'Rituels beauté' },
       ]
     },
-    { href: '/academy', label: 'Academy' },
-    { href: '/pricing', label: 'Pricing' },
+    { href: '/about', label: 'À propos' },
     { href: '/contact', label: 'Contact' },
   ]
 
@@ -44,7 +42,7 @@ const Navbar = () => {
         <nav className="container-wide h-20 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="relative z-50">
-            <h1 className="text-xl font-medium tracking-wider">SWISS PILATES</h1>
+            <h1 className="text-xl font-medium tracking-wider">ELEIA</h1>
           </Link>
 
           {/* Desktop Navigation */}
@@ -80,10 +78,13 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* CTA Button */}
-          <div className="hidden lg:block">
-            <Link href="/booking" className="btn-primary">
+          {/* CTA Buttons */}
+          <div className="hidden lg:flex items-center space-x-4">
+            <Link href="/booking" className="btn-ghost">
               Réserver
+            </Link>
+            <Link href="/shop" className="btn-primary">
+              Boutique
             </Link>
           </div>
 
@@ -145,14 +146,21 @@ const Navbar = () => {
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.8 }}
-                className="mt-12"
+                className="mt-12 flex flex-col space-y-4"
               >
                 <Link
                   href="/booking"
                   onClick={() => setIsMenuOpen(false)}
-                  className="btn-primary inline-block"
+                  className="btn-outline inline-block text-center"
                 >
-                  Réserver un cours
+                  Réserver un soin
+                </Link>
+                <Link
+                  href="/shop"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="btn-primary inline-block text-center"
+                >
+                  Voir la boutique
                 </Link>
               </motion.div>
             </motion.nav>
