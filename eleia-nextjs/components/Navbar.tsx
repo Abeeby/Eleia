@@ -3,12 +3,12 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useRouter } from 'next/router'
+import { usePathname } from 'next/navigation'
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const router = useRouter()
+  const pathname = usePathname()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,7 +45,7 @@ const Navbar: React.FC = () => {
                   key={item.href}
                   href={item.href}
                   className={`text-sm font-light tracking-widest uppercase link-underline ${
-                    router.pathname === item.href ? 'text-beige-900' : 'text-beige-700'
+                    pathname === item.href ? 'text-beige-900' : 'text-beige-700'
                   } hover:text-beige-900 transition-colors`}
                 >
                   {item.label}
