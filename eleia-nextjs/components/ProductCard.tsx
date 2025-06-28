@@ -31,7 +31,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <Link href={`/product/${slug}`}>
       <motion.article
-        className="product-card relative"
+        className="product-card group relative"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         whileHover={{ y: -4 }}
@@ -43,7 +43,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             src={image}
             alt={name}
             fill
-            className="object-cover transition-opacity duration-500"
+            className="product-card-image object-cover transition-opacity duration-500"
             style={{ opacity: isHovered && secondaryImage ? 0 : 1 }}
           />
           {secondaryImage && (
@@ -51,7 +51,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               src={secondaryImage}
               alt={`${name} - vue alternative`}
               fill
-              className="object-cover transition-opacity duration-500 absolute inset-0"
+              className="product-card-image object-cover transition-opacity duration-500 absolute inset-0"
               style={{ opacity: isHovered ? 1 : 0 }}
             />
           )}

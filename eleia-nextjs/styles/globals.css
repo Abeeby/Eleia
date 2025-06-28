@@ -72,11 +72,15 @@
 
   /* Product grid */
   .product-card {
-    @apply group cursor-pointer;
+    @apply cursor-pointer;
   }
 
-  .product-card img {
-    @apply transition-transform duration-500 group-hover:scale-105;
+  .product-card-image {
+    @apply transition-transform duration-500;
+  }
+  
+  .product-card:hover .product-card-image {
+    @apply scale-105;
   }
 
   /* Hero section */
