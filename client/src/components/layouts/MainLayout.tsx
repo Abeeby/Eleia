@@ -1,8 +1,9 @@
+import React from 'react';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { Menu, X, User, Calendar, CreditCard, LogOut, LayoutDashboard, ChevronDown } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useAuthStore } from '../../store/authStore';
-import toast from 'react-hot-toast';
+import customToast from '../../utils/toast';
 
 export default function MainLayout() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -20,7 +21,7 @@ export default function MainLayout() {
 
   const handleLogout = () => {
     logout();
-    toast.success('Déconnexion réussie');
+    customToast.success('Déconnexion réussie');
     navigate('/');
   };
 
@@ -261,7 +262,6 @@ export default function MainLayout() {
                     079 718 10 09
                   </a>
                 </p>
-                <p>rue de l'Etraz 14<br />1196 Gland</p>
                 <p className="pt-4">
                   Langues : FR • EN • ES • AL
                 </p>

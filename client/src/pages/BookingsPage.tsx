@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { format, isPast, differenceInHours } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { Calendar, Clock, MapPin, AlertCircle, Check, X } from 'lucide-react';
 import { bookingService } from '../services/api';
-import toast from 'react-hot-toast';
+import customToast from '../utils/toast';
 
 interface Booking {
   id: number;
@@ -37,11 +37,11 @@ export default function BookingsPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['my-bookings'] });
       queryClient.invalidateQueries({ queryKey: ['upcoming-bookings'] });
-      toast.success('Réservation annulée avec succès');
+      customToast.success('Réservation annulée avec succès');
       setCancellingId(null);
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.message || 'Erreur lors de l\'annulation');
+      customToast.error(error.response?.data?.message || 'Erreur lors de l\'annulation');
       setCancellingId(null);
     },
   });
@@ -50,7 +50,7 @@ export default function BookingsPage() {
     const hoursUntilClass = differenceInHours(new Date(booking.start_time), new Date());
     
     if (hoursUntilClass < 12) {
-      toast.error(`Annulation impossible : le cours commence dans ${hoursUntilClass}h (minimum 12h requis)`);
+      customToast.error(`Annulation impossible : le cours commence dans ${hoursUntilClass}h (minimum 12h requis)`);
       return;
     }
 

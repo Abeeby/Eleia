@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Eye, EyeOff, User } from 'lucide-react';
-import toast from 'react-hot-toast';
+import customToast from '../utils/toast';
 import { useAuthStore } from '../store/authStore';
 
 interface LoginFormData {
@@ -24,10 +24,10 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginFormData) => {
     try {
       await login(data.email, data.password);
-      toast.success('Connexion réussie !');
+      customToast.success('Connexion réussie !');
       navigate('/dashboard');
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Erreur lors de la connexion');
+      customToast.error(error.response?.data?.message || 'Erreur lors de la connexion');
     }
   };
 

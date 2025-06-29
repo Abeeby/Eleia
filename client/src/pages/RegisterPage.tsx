@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Eye, EyeOff, Check } from 'lucide-react';
-import toast from 'react-hot-toast';
+import customToast from '../utils/toast';
 import { useAuthStore } from '../store/authStore';
 import DemoNotice from '../components/DemoNotice';
 
@@ -38,10 +38,10 @@ export default function RegisterPage() {
     try {
       const { confirmPassword, acceptTerms, ...userData } = data;
       await registerUser(userData);
-      toast.success('Inscription réussie ! Bienvenue chez Elaïa Studio');
+      customToast.success('Inscription réussie ! Bienvenue chez Elaïa Studio');
       navigate('/dashboard');
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Erreur lors de l\'inscription');
+      customToast.error(error.response?.data?.message || 'Erreur lors de l\'inscription');
     }
   };
 

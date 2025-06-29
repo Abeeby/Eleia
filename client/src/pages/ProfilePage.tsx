@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { User, Mail, Phone, MapPin, Lock, Save, Camera } from 'lucide-react';
-import toast from 'react-hot-toast';
+import customToast from '../utils/toast';
 import { useAuthStore } from '../store/authStore';
 import { authService } from '../services/api';
 
@@ -57,21 +57,21 @@ export default function ProfilePage() {
     try {
       const response = await authService.updateProfile(data);
       updateUser(response.user);
-      toast.success('Profil mis à jour avec succès');
+      customToast.success('Profil mis à jour avec succès');
       setIsEditingProfile(false);
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Erreur lors de la mise à jour');
+      customToast.error(error.response?.data?.message || 'Erreur lors de la mise à jour');
     }
   };
 
   const onSubmitPassword = async (data: PasswordFormData) => {
     try {
       await authService.changePassword(data.currentPassword, data.newPassword);
-      toast.success('Mot de passe modifié avec succès');
+      customToast.success('Mot de passe modifié avec succès');
       setIsChangingPassword(false);
       resetPassword();
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Erreur lors du changement de mot de passe');
+      customToast.error(error.response?.data?.message || 'Erreur lors du changement de mot de passe');
     }
   };
 
