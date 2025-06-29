@@ -1,188 +1,218 @@
 import { Users, Award, Heart, Target } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function AboutPage() {
   return (
-    <div className="py-8 bg-elaia-beige min-h-screen">
-      {/* Header */}
-      <div className="bg-elaia-green text-elaia-beige py-16 text-center">
-        <h1 className="text-4xl font-bold mb-4">Notre histoire</h1>
-        <p className="text-lg">Découvrez les parcours qui ont façonné Elaïa Studio</p>
+    <div className="min-h-screen bg-elaia-cream">
+      {/* Hero Section */}
+      <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0">
+          <img 
+            src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920" 
+            alt="Équipe"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-elaia-charcoal/70 to-elaia-charcoal/50"></div>
       </div>
-
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        <div className="relative z-10 text-center text-elaia-white px-6">
+          <h1 className="heading-xl mb-4">Notre Histoire</h1>
+          <p className="body-lg max-w-2xl mx-auto opacity-90">
+            Deux passionnés, une vision commune : transformer votre approche du bien-être
+          </p>
+        </div>
+      </section>
         
         {/* Introduction */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-semibold text-elaia-gray mb-8 flex items-center justify-center">
-            <Users className="h-8 w-8 mr-3" />
-            Notre équipe fondatrice
+      <section className="section-padding">
+        <div className="container-custom">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="heading-lg text-elaia-charcoal mb-8">
+              L'essence d'ELAÏA
           </h2>
-          
-          <div className="max-w-4xl mx-auto text-lg text-elaia-gray leading-relaxed space-y-6">
-            <p>
-              Nous sommes Albina et Baptist, deux passionnés du mouvement, de la santé et de la transformation humaine. 
-              À travers nos parcours respectifs dans le fitness, le Pilates, la médecine et le yoga, nous avons développé une approche 
-              globale et humaine du bien-être.
-            </p>
-            
-            <p>
-              Elaïa Studio est né de notre envie commune de créer un lieu unique à Gland : un espace élégant, professionnel et accessible, 
-              où chacun peut se reconnecter à son corps dans un environnement bienveillant et inspirant.
-            </p>
-            
-            <p>
-              Plus qu'un simple studio, Elaïa est un projet de cœur. Notre mission est d'accompagner nos clients avec exigence et douceur, 
-              en leur offrant des cours sur mesure, un suivi de qualité, et des outils concrets pour se sentir mieux, durablement.
-            </p>
-          </div>
-        </div>
-
-        {/* Profils des fondateurs */}
-        <div className="space-y-12">
-          
-          {/* Albina Zeqiri */}
-          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-            <div className="md:flex">
-              <div className="md:flex-shrink-0">
-                <div className="h-64 w-full md:w-64 bg-gradient-to-br from-elaia-gold to-elaia-green flex items-center justify-center">
-                  <div className="text-white text-center">
-                    <div className="text-6xl font-bold mb-2">AZ</div>
-                    <div className="text-sm">Coach Sportive CFC</div>
-                  </div>
-                </div>
-              </div>
-              <div className="p-8 md:flex-1">
-                <h3 className="text-2xl font-bold text-elaia-green mb-4">Albina Zeqiri</h3>
-                <div className="text-elaia-gray space-y-4">
-              <p>
-                    Depuis mon plus jeune âge, le sport a toujours occupé une place centrale dans ma vie. Cette passion m'a naturellement conduite à me former dans ce domaine. J'ai ainsi suivi une formation de trois ans pour obtenir un CFC de coach sportive, puis j'ai poursuivi avec le Brevet fédéral, afin de me spécialiser davantage dans les domaines du mouvement et de la santé.
+            <div className="space-y-6">
+              <p className="body-lg text-elaia-warm-gray leading-relaxed">
+                Nous sommes Albina et Baptist, deux passionnés du mouvement et de la transformation humaine. 
+                À travers nos parcours dans le fitness, le Pilates et le yoga, nous avons développé 
+                une approche globale et humaine du bien-être.
               </p>
-              <p>
-                    Au fil des années, j'ai eu la chance de travailler dans plusieurs centres de fitness, tels que Let's Go Fitness, Harmony Fitness et Aquamed. En parallèle, j'ai enrichi mon expérience dans des studios de Pilates Reformer, ce qui m'a permis de développer une expertise variée, une grande capacité d'adaptation, et surtout, de construire un réseau solide et étendu dans le domaine du fitness et du bien-être.
+              <p className="body-lg text-elaia-warm-gray leading-relaxed">
+                ELAÏA Studio est né de notre envie de créer un lieu unique à Gland : un espace moderne 
+                et accessible où chacun peut se reconnecter à son corps dans un environnement inspirant.
               </p>
-              <p>
-                    Aujourd'hui, j'accomplis une étape importante de mon parcours en ouvrant mon propre studio à Gland : un espace moderne et chaleureux dédié au Pilates Reformer et à la remise en forme.
+              <p className="body-lg text-elaia-warm-gray leading-relaxed">
+                Notre mission est d'accompagner nos clients avec exigence et douceur, en leur offrant 
+                des cours sur mesure et des outils concrets pour se sentir mieux, durablement.
               </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Baptist Mercereau */}
-          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-            <div className="md:flex md:flex-row-reverse">
-              <div className="md:flex-shrink-0">
-                <div className="h-64 w-full md:w-64 bg-gradient-to-br from-elaia-green to-elaia-mint flex items-center justify-center">
-                  <div className="text-white text-center">
-                    <div className="text-6xl font-bold mb-2">BM</div>
-                    <div className="text-sm">Expert Fitness</div>
-                  </div>
-                </div>
-              </div>
-              <div className="p-8 md:flex-1">
-                <h3 className="text-2xl font-bold text-elaia-green mb-4">Baptist Mercereau</h3>
-                <div className="text-elaia-gray space-y-4">
-                  <p>
-                    Fort de plus d'une décennie d'expérience dans l'univers du fitness et du bien-être, j'ai eu l'opportunité de me forger une expertise solide en France, au Maroc, à La Réunion et en Suisse. Chaque étape de mon parcours a renforcé ma passion pour l'accompagnement des clients vers leurs objectifs, dans un cadre exigeant, bienveillant et toujours innovant.
-                  </p>
-                  <p>
-                    À travers mes expériences, notamment chez Aquamed où j'ai managé les coaches santé externes et enrichi l'offre de cours collectifs, j'ai appris à piloter des projets ambitieux tout en gardant au cœur de mon action la satisfaction client.
-                  </p>
-                  <p>
-                    Mon objectif est simple : aider chacun à devenir la meilleure version de lui-même.
-                  </p>
-                </div>
-              </div>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Notre vision */}
-        <div className="mt-16">
-          <div className="bg-gradient-to-r from-elaia-green to-elaia-mint rounded-xl p-8 text-white">
-            <div className="text-center mb-8">
-              <Target className="h-12 w-12 mx-auto mb-4" />
-              <h2 className="text-3xl font-bold">Notre vision d'avenir</h2>
+      {/* Fondateurs */}
+      <section className="py-32 bg-elaia-white">
+        <div className="container-custom">
+          <div className="text-center mb-16">
+            <h2 className="heading-lg text-elaia-charcoal">Les fondateurs</h2>
+                  </div>
+
+          {/* Albina */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-32">
+            <div className="order-2 lg:order-1">
+              <h3 className="heading-md text-elaia-charcoal mb-4">
+                Albina Zeqiri
+              </h3>
+              <p className="text-lg font-lora italic text-ohemia-accent mb-6">
+                Coach Sportive CFC • Maîtrise fédérale
+              </p>
+              <div className="space-y-4 text-elaia-warm-gray">
+                <p className="leading-relaxed">
+                  Depuis mon plus jeune âge, le sport a toujours occupé une place centrale dans ma vie. 
+                  Cette passion m'a conduite à obtenir un CFC de coach sportive, puis le Brevet fédéral 
+                  pour me spécialiser dans le mouvement et la santé.
+                </p>
+                <p className="leading-relaxed">
+                  J'ai travaillé dans plusieurs centres de fitness et studios de Pilates Reformer, 
+                  développant une expertise variée et un réseau solide dans le domaine du bien-être.
+                </p>
+                <p className="leading-relaxed">
+                  Aujourd'hui, j'accomplis une étape importante en ouvrant ELAÏA Studio : 
+                  un espace moderne dédié au Pilates Reformer et à la transformation physique.
+                </p>
+              </div>
             </div>
+            <div className="order-1 lg:order-2">
+              <img 
+                src="https://images.unsplash.com/photo-1594381298921-9e18df7909f9?w=800" 
+                alt="Albina Zeqiri"
+                className="w-full h-[600px] object-cover grayscale"
+              />
+            </div>
+          </div>
+
+          {/* Baptist */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <img 
+                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800" 
+                alt="Baptist Mercereau"
+                className="w-full h-[600px] object-cover grayscale"
+              />
+                  </div>
+            <div>
+              <h3 className="heading-md text-elaia-charcoal mb-4">
+                Baptist Mercereau
+              </h3>
+              <p className="text-lg font-lora italic text-ohemia-accent mb-6">
+                Expert Fitness • Management & Innovation
+              </p>
+              <div className="space-y-4 text-elaia-warm-gray">
+                <p className="leading-relaxed">
+                  Fort de plus d'une décennie d'expérience internationale dans le fitness et le bien-être, 
+                  j'ai développé une expertise solide en France, au Maroc, à La Réunion et en Suisse.
+                </p>
+                <p className="leading-relaxed">
+                  Chez Aquamed, j'ai managé les coaches santé externes et enrichi l'offre de cours collectifs, 
+                  apprenant à piloter des projets ambitieux tout en gardant la satisfaction client au cœur 
+                  de mon action.
+                </p>
+                <p className="leading-relaxed">
+                  Mon objectif est simple : aider chacun à devenir la meilleure version de lui-même 
+                  à travers une approche exigeante et bienveillante.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Vision */}
+      <section className="py-32 bg-elaia-charcoal text-elaia-white">
+        <div className="container-custom">
+          <div className="max-w-4xl mx-auto text-center">
+            <Target className="h-16 w-16 mx-auto mb-8 text-ohemia-accent" />
+            <h2 className="heading-lg mb-8">Notre vision d'avenir</h2>
             
-            <div className="max-w-4xl mx-auto text-lg leading-relaxed space-y-6">
-              <p>
-                Dans une volonté de transmettre notre passion au plus grand nombre, nous avons l'ambition de créer à terme une <strong>académie de Pilates et de Yoga</strong>.
+            <div className="space-y-6">
+              <p className="body-lg opacity-90 leading-relaxed">
+                Dans une volonté de transmettre notre passion au plus grand nombre, 
+                nous avons l'ambition de créer à terme une <strong>académie de Pilates et de Yoga</strong>.
               </p>
               
-              <p>
-                Cette académie proposera des formations complètes pour les futurs enseignants, ainsi que des stages immersifs pour les élèves souhaitant approfondir leur pratique ou se reconvertir professionnellement.
+              <p className="body-lg opacity-90 leading-relaxed">
+                Cette académie proposera des formations complètes pour les futurs enseignants, 
+                ainsi que des stages immersifs pour approfondir sa pratique ou se reconvertir.
               </p>
               
-              <p>
-                Elle incarnera notre philosophie : faire du mouvement un art de vivre accessible à tous, encadré avec rigueur, humanité et passion. Nous croyons que chacun, élève ou enseignant, peut devenir un relais de bien-être autour de lui.
+              <p className="body-lg opacity-90 leading-relaxed">
+                Elle incarnera notre philosophie : faire du mouvement un art de vivre accessible 
+                à tous, encadré avec rigueur, humanité et passion.
               </p>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Nos valeurs */}
-        <div className="mt-16">
-          <h2 className="text-3xl font-semibold text-elaia-gray text-center mb-12">Nos valeurs fondamentales</h2>
+      {/* Valeurs */}
+      <section className="section-padding bg-elaia-light-gray">
+        <div className="container-custom">
+          <div className="text-center mb-16">
+            <h2 className="heading-lg text-elaia-charcoal">Nos valeurs</h2>
+          </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center p-6">
-              <div className="bg-elaia-gold rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <Heart className="h-8 w-8 text-white" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div className="text-center">
+              <div className="w-20 h-20 bg-elaia-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
+                <Heart className="h-10 w-10 text-ohemia-accent" />
               </div>
-              <h3 className="text-xl font-semibold text-elaia-gray mb-3">Bienveillance</h3>
-              <p className="text-elaia-gray">
+              <h3 className="heading-sm text-elaia-charcoal mb-4">Bienveillance</h3>
+              <p className="body-md text-elaia-warm-gray">
                 Un accompagnement personnalisé, sans jugement, dans le respect du rythme de chacun.
               </p>
             </div>
             
-            <div className="text-center p-6">
-              <div className="bg-elaia-green rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <Award className="h-8 w-8 text-white" />
+            <div className="text-center">
+              <div className="w-20 h-20 bg-elaia-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
+                <Award className="h-10 w-10 text-ohemia-accent" />
               </div>
-              <h3 className="text-xl font-semibold text-elaia-gray mb-3">Excellence</h3>
-              <p className="text-elaia-gray">
+              <h3 className="heading-sm text-elaia-charcoal mb-4">Excellence</h3>
+              <p className="body-md text-elaia-warm-gray">
                 Une approche rigoureuse et professionnelle pour des résultats durables et visibles.
               </p>
             </div>
             
-            <div className="text-center p-6">
-              <div className="bg-elaia-mint rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <Users className="h-8 w-8 text-white" />
+            <div className="text-center">
+              <div className="w-20 h-20 bg-elaia-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
+                <Users className="h-10 w-10 text-ohemia-accent" />
               </div>
-              <h3 className="text-xl font-semibold text-elaia-gray mb-3">Communauté</h3>
-              <p className="text-elaia-gray">
-                Créer des liens authentiques et un sentiment d'appartenance à notre famille Elaïa.
+              <h3 className="heading-sm text-elaia-charcoal mb-4">Communauté</h3>
+              <p className="body-md text-elaia-warm-gray">
+                Créer des liens authentiques et un sentiment d'appartenance à notre famille ELAÏA.
               </p>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Call to action */}
-        <div className="mt-16 text-center">
-          <div className="bg-white rounded-lg shadow-md p-8">
-            <h3 className="text-2xl font-semibold text-elaia-gray mb-4">Prêt à commencer votre parcours ?</h3>
-            <p className="text-elaia-gray mb-6">
+      {/* CTA */}
+      <section className="section-padding bg-elaia-white">
+        <div className="container-custom text-center">
+          <h2 className="heading-lg text-elaia-charcoal mb-8">
+            Prêt à commencer votre parcours ?
+          </h2>
+          <p className="body-lg text-elaia-warm-gray mb-12 max-w-2xl mx-auto">
               Rejoignez-nous pour découvrir une nouvelle approche du bien-être et du mouvement.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a 
-                href="/register" 
-                className="btn-primary text-center"
-              >
+            <Link to="/register" className="btn-accent">
                 Découvrir nos offres
-              </a>
-              <a 
-                href="/contact" 
-                className="btn-secondary text-center"
-              >
+            </Link>
+            <Link to="/contact" className="btn-secondary">
                 Nous contacter
-              </a>
-            </div>
+            </Link>
           </div>
         </div>
-
-      </div>
+      </section>
     </div>
   );
 } 

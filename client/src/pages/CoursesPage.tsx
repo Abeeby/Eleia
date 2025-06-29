@@ -1,139 +1,166 @@
-import React from 'react';
-import { Star, ArrowRight, Clock, Users, Target } from 'lucide-react';
+// Note: Cette page n'est plus accessible depuis la navigation principale
+// Elle reste disponible pour référence mais les utilisateurs sont redirigés vers /schedule
+
+import React, { useState } from 'react';
+import { Star, ArrowRight, Clock, Users, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
 
 interface Course {
   id: string;
   title: string;
+  subtitle: string;
   description: string;
   intensity: number;
-  relaxation: number;
-  breathing: number;
   duration: string;
   participants: string;
   credits: number;
+  level: string;
   benefits: string[];
-  imagePosition: 'left' | 'right';
+  image: string;
 }
 
 const CoursesPage: React.FC = () => {
+  const [selectedCategory, setSelectedCategory] = useState('all');
+
   const courses: Course[] = [
     {
       id: 'reformer-classique',
       title: 'Reformer Classique',
-      description: 'Renforcez votre corps en profondeur, améliorez votre posture et développez votre stabilité grâce à une approche fidèle à la méthode originale de Joseph Pilates. Cette séance sur Reformer, construite autour de mouvements précis, progressifs et contrôlés, vous permet de poser les bases d\'une pratique consciente et durable.',
+      subtitle: 'L\'essence du Pilates',
+      description: 'Renforcez votre corps en profondeur, améliorez votre posture et développez votre stabilité grâce à une approche fidèle à la méthode originale de Joseph Pilates.',
       intensity: 3,
-      relaxation: 3,
-      breathing: 3,
       duration: '50 min',
-      participants: '6 max',
+      participants: '6 personnes max',
       credits: 3,
-      benefits: ['Améliore la posture', 'Renforce le core', 'Développe la stabilité', 'Mouvements contrôlés'],
-      imagePosition: 'left'
+      level: 'Tous niveaux',
+      benefits: ['Améliore la posture', 'Renforce le core', 'Développe la stabilité'],
+      image: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800'
     },
     {
       id: 'reformer-dynamique-flow',
       title: 'Reformer Dynamique Flow',
-      description: 'Un entraînement complet et rythmé conçu pour renforcer l\'ensemble du corps de façon fluide et harmonieuse. Chaque séance enchaîne des mouvements ciblés sur Reformer pour tonifier les bras, les jambes, le centre et le dos, tout en améliorant la posture et la coordination.',
+      subtitle: 'Énergie et fluidité',
+      description: 'Un entraînement complet et rythmé conçu pour renforcer l\'ensemble du corps de façon fluide et harmonieuse.',
       intensity: 5,
-      relaxation: 1,
-      breathing: 2,
       duration: '50 min',
-      participants: '6 max',
+      participants: '6 personnes max',
       credits: 3,
-      benefits: ['Entraînement complet', 'Améliore la coordination', 'Tonifie tout le corps', 'Rythme soutenu'],
-      imagePosition: 'right'
+      level: 'Intermédiaire/Avancé',
+      benefits: ['Entraînement complet', 'Améliore la coordination', 'Tonifie tout le corps'],
+      image: 'https://images.unsplash.com/photo-1599901860146-d62f2ebdb5d4?w=800'
     },
     {
       id: 'reformer-booty-core',
       title: 'Reformer Booty & Core',
-      description: 'Un cours ciblé et puissant pour tonifier les fessiers, affiner les jambes et renforcer les abdominaux profonds. En combinant le travail des ressorts Reformer à l\'utilisation d\'accessoires, vous activez vos muscles stabilisateurs, sculptez votre silhouette et gagnez en stabilité.',
+      subtitle: 'Sculpter et tonifier',
+      description: 'Un cours ciblé et puissant pour tonifier les fessiers, affiner les jambes et renforcer les abdominaux profonds.',
       intensity: 5,
-      relaxation: 1,
-      breathing: 2,
       duration: '50 min',
-      participants: '6 max',
+      participants: '6 personnes max',
       credits: 3,
-      benefits: ['Tonifie les fessiers', 'Renforce les abdos', 'Sculpte la silhouette', 'Travail avec accessoires'],
-      imagePosition: 'left'
+      level: 'Intermédiaire/Avancé',
+      benefits: ['Tonifie les fessiers', 'Renforce les abdos', 'Sculpte la silhouette'],
+      image: 'https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=800'
     },
     {
       id: 'reformer-balance',
       title: 'Reformer Balance',
-      description: 'Une pratique douce et rééquilibrante pour retrouver fluidité, légèreté et ancrage dans votre corps. Cette séance sur Reformer allie mobilité, assouplissements, alignement et renforcement postural pour apaiser les tensions tout en consolidant votre base intérieure.',
+      subtitle: 'Douceur et équilibre',
+      description: 'Une pratique douce et rééquilibrante pour retrouver fluidité, légèreté et ancrage dans votre corps.',
       intensity: 2,
-      relaxation: 5,
-      breathing: 4,
       duration: '50 min',
-      participants: '6 max',
+      participants: '6 personnes max',
       credits: 3,
-      benefits: ['Pratique douce', 'Améliore la mobilité', 'Apaise les tensions', 'Alignement postural'],
-      imagePosition: 'right'
+      level: 'Tous niveaux',
+      benefits: ['Pratique douce', 'Améliore la mobilité', 'Apaise les tensions'],
+      image: 'https://images.unsplash.com/photo-1540206063137-4a88ca974d1a?w=800'
     },
     {
       id: 'pre-post-natal',
       title: 'Pré & Post-natal',
-      description: 'Pensé pour accompagner les mamans avant et après l\'accouchement, ce cours allie douceur, renforcement et mobilité pour répondre aux besoins spécifiques du corps en pleine transformation. Au programme : des exercices ciblés de mobilité, de stabilité, de respiration et de renforcement du centre, avec un focus particulier sur le travail du périnée et des muscles profonds.',
+      subtitle: 'Accompagnement maternel',
+      description: 'Pensé pour accompagner les mamans avant et après l\'accouchement, ce cours allie douceur, renforcement et mobilité.',
       intensity: 3,
-      relaxation: 3,
-      breathing: 4,
       duration: '50 min',
-      participants: '4 max',
+      participants: '4 personnes max',
       credits: 3,
-      benefits: ['Spécialisé femmes enceintes', 'Travail du périnée', 'Accompagnement personnalisé', 'Mobilité adaptée'],
-      imagePosition: 'left'
+      level: 'Adapté',
+      benefits: ['Spécialisé grossesse', 'Travail du périnée', 'Accompagnement personnalisé'],
+      image: 'https://images.unsplash.com/photo-1493894473891-10fc1e5dbd22?w=800'
     },
     {
       id: 'power-vinyasa-yoga',
       title: 'Power Vinyasa Yoga',
-      description: 'Un yoga énergisant qui allie force, fluidité et respiration dans une séquence dynamique et engageante. Chaque séance vous permet de renforcer votre corps, d\'améliorer votre souplesse et de calmer votre esprit à travers des enchaînements puissants et rythmés.',
+      subtitle: 'Force et fluidité',
+      description: 'Un yoga énergisant qui allie force, fluidité et respiration dans une séquence dynamique et engageante.',
       intensity: 5,
-      relaxation: 1,
-      breathing: 3,
       duration: '60 min',
-      participants: '8 max',
+      participants: '8 personnes max',
       credits: 2,
-      benefits: ['Yoga dynamique', 'Améliore la souplesse', 'Renforce le corps', 'Calme l\'esprit'],
-      imagePosition: 'right'
+      level: 'Intermédiaire/Avancé',
+      benefits: ['Yoga dynamique', 'Améliore la souplesse', 'Renforce le corps'],
+      image: 'https://images.unsplash.com/photo-1506126613715-e00b0af6e0a8?w=800'
     },
     {
       id: 'yoga-doux',
       title: 'Yoga Doux',
-      description: 'Un moment de calme et d\'introspection pour relâcher les tensions du corps et de l\'esprit. Ce cours met l\'accent sur la respiration, la pleine conscience et des mouvements lents accessibles à tous. Il permet de retrouver un équilibre intérieur, d\'améliorer la souplesse et de réduire le stress, sans forcer sur le corps. Idéal en complément d\'un entraînement plus intense ou pour démarrer une pratique en douceur.',
+      subtitle: 'Sérénité et conscience',
+      description: 'Un moment de calme et d\'introspection pour relâcher les tensions du corps et de l\'esprit.',
       intensity: 1,
-      relaxation: 5,
-      breathing: 5,
       duration: '60 min',
-      participants: '8 max',
+      participants: '8 personnes max',
       credits: 2,
-      benefits: ['Pratique accessible', 'Réduit le stress', 'Pleine conscience', 'Améliore la souplesse'],
-      imagePosition: 'left'
+      level: 'Tous niveaux',
+      benefits: ['Pratique accessible', 'Réduit le stress', 'Pleine conscience'],
+      image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800'
     },
     {
       id: 'pilates',
       title: 'Pilates',
-      description: 'Un entraînement complet et ciblé pour renforcer, tonifier et sculpter l\'ensemble du corps. Grâce à des exercices au sol accompagnés d\'accessoires (élastiques, ballons, cercles…), chaque séance engage les muscles profonds, améliore la posture et affine la silhouette de façon harmonieuse.',
+      subtitle: 'Renforcement global',
+      description: 'Un entraînement complet et ciblé pour renforcer, tonifier et sculpter l\'ensemble du corps.',
       intensity: 3,
-      relaxation: 3,
-      breathing: 3,
       duration: '50 min',
-      participants: '8 max',
+      participants: '8 personnes max',
       credits: 2,
-      benefits: ['Exercices au sol', 'Utilise des accessoires', 'Engage muscles profonds', 'Améliore la posture'],
-      imagePosition: 'right'
+      level: 'Tous niveaux',
+      benefits: ['Exercices au sol', 'Engage muscles profonds', 'Améliore la posture'],
+      image: 'https://images.unsplash.com/photo-1594737626072-90dc274bc2bd?w=800'
     }
   ];
 
-  const renderStars = (count: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <Star
+  const categories = [
+    { id: 'all', name: 'Tous les cours' },
+    { id: 'reformer', name: 'Reformer' },
+    { id: 'yoga', name: 'Yoga' },
+    { id: 'pilates', name: 'Pilates' },
+    { id: 'special', name: 'Spécialisés' }
+  ];
+
+  const filteredCourses = selectedCategory === 'all' 
+    ? courses 
+    : courses.filter(course => {
+        if (selectedCategory === 'reformer') return course.id.includes('reformer');
+        if (selectedCategory === 'yoga') return course.id.includes('yoga');
+        if (selectedCategory === 'pilates') return course.id === 'pilates';
+        if (selectedCategory === 'special') return course.id === 'pre-post-natal';
+        return true;
+      });
+
+  const renderIntensity = (level: number) => {
+    return (
+      <div className="flex items-center space-x-1">
+        {Array.from({ length: 5 }, (_, i) => (
+          <div
         key={i}
-        className={`h-4 w-4 ${
-          i < count ? 'text-elaia-gold fill-current' : 'text-gray-300'
+            className={`h-1 w-8 ${
+              i < level ? 'bg-ohemia-accent' : 'bg-elaia-muted'
         }`}
       />
-    ));
+        ))}
+      </div>
+    );
   };
 
   return (
@@ -144,149 +171,181 @@ const CoursesPage: React.FC = () => {
         keywords={["cours pilates gland", "reformer classique", "yoga doux", "cours prenatal", "pilates accessoires", "cours yoga vinyasa"]}
       />
       
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+      <div className="min-h-screen bg-elaia-cream">
         {/* Hero Section */}
-        <div className="bg-gradient-to-r from-elaia-green/10 to-elaia-gold/10 py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-5xl font-bold text-elaia-gray mb-6 animate-fadeInUp">
-              Nos Cours
-            </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto animate-fadeInUp animation-delay-200">
-              Découvrez notre gamme complète de cours adaptés à tous les niveaux
+        <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
+          <div className="absolute inset-0">
+            <img 
+              src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=1920" 
+              alt="Studio Elaïa"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-elaia-charcoal/60 to-elaia-charcoal/40"></div>
+          </div>
+          
+          <div className="relative z-10 text-center text-elaia-white px-6">
+            <h1 className="heading-xl mb-4">Nos Cours</h1>
+            <p className="body-lg max-w-2xl mx-auto opacity-90">
+              Explorez notre sélection de cours conçus pour révéler votre potentiel
             </p>
           </div>
-        </div>
+        </section>
 
-        {/* Courses Section */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="space-y-24">
-            {courses.map((course, index) => (
+        {/* Categories Filter */}
+        <section className="sticky top-20 z-30 bg-elaia-white shadow-sm">
+          <div className="container-custom py-6">
+            <div className="flex space-x-8 overflow-x-auto scrollbar-hide">
+              {categories.map((category) => (
+                <button
+                  key={category.id}
+                  onClick={() => setSelectedCategory(category.id)}
+                  className={`text-sm font-inter uppercase tracking-wider whitespace-nowrap pb-2 transition-all ${
+                    selectedCategory === category.id
+                      ? 'text-elaia-charcoal border-b-2 border-elaia-charcoal'
+                      : 'text-elaia-warm-gray hover:text-elaia-charcoal'
+                  }`}
+                >
+                  {category.name}
+                </button>
+              ))}
+          </div>
+        </div>
+        </section>
+
+        {/* Courses Grid */}
+        <section className="section-padding">
+          <div className="container-custom">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredCourses.map((course) => (
               <div
                 key={course.id}
-                className={`flex flex-col lg:flex-row items-center gap-12 ${
-                  course.imagePosition === 'right' ? 'lg:flex-row-reverse' : ''
-                } animate-fadeInUp`}
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                {/* Image */}
-                <div className="flex-1 lg:max-w-md">
-                  <div className="aspect-[4/3] bg-gradient-to-br from-elaia-gold/20 to-elaia-green/20 rounded-2xl shadow-lg flex items-center justify-center">
-                    <div className="text-center p-8">
-                      <Target className="h-16 w-16 text-elaia-gold mx-auto mb-4" />
-                      <h3 className="text-xl font-semibold text-elaia-gray">{course.title}</h3>
-                    </div>
+                  className="group cursor-pointer"
+                >
+                  <Link to={`/schedule?course=${course.id}`}>
+                    <div className="relative h-80 overflow-hidden mb-6">
+                      <img 
+                        src={course.image}
+                        alt={course.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-elaia-charcoal/60 to-transparent"></div>
+                      <div className="absolute bottom-6 left-6 right-6 text-elaia-white">
+                        <p className="text-sm font-inter uppercase tracking-wider mb-2 opacity-90">
+                          {course.level} • {course.duration}
+                        </p>
+                        <h3 className="heading-sm">{course.title}</h3>
                   </div>
                 </div>
 
-                {/* Content */}
-                <div className="flex-1 space-y-6">
+                    <div className="space-y-4">
                   <div>
-                    <h2 className="text-3xl font-bold text-elaia-gray mb-4">
-                      {course.title}
-                    </h2>
-                    <p className="text-gray-600 leading-relaxed text-lg">
+                        <p className="text-lg font-lora italic text-ohemia-accent mb-2">
+                          {course.subtitle}
+                        </p>
+                        <p className="body-md text-elaia-warm-gray line-clamp-3">
                       {course.description}
                     </p>
                   </div>
 
-                  {/* Course Stats */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Clock className="h-5 w-5 text-elaia-gold" />
-                        <span className="font-medium text-elaia-gray">Durée</span>
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm text-elaia-warm-gray">Intensité</span>
+                          {renderIntensity(course.intensity)}
                       </div>
-                      <p className="text-gray-600">{course.duration}</p>
-                    </div>
-                    <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Users className="h-5 w-5 text-elaia-gold" />
-                        <span className="font-medium text-elaia-gray">Participants</span>
-                      </div>
-                      <p className="text-gray-600">{course.participants}</p>
-                    </div>
-                    <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Target className="h-5 w-5 text-elaia-gold" />
-                        <span className="font-medium text-elaia-gray">Crédits</span>
-                      </div>
-                      <p className="text-gray-600">{course.credits} crédits</p>
-                    </div>
+                        
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-elaia-warm-gray">Participants</span>
+                          <span className="text-elaia-charcoal">{course.participants}</span>
                   </div>
 
-                  {/* Intensity Ratings */}
-                  <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <h4 className="font-semibold text-elaia-gray mb-4">Niveaux d'intensité</h4>
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <span className="text-gray-600">Intensité:</span>
-                        <div className="flex gap-1">{renderStars(course.intensity)}</div>
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-elaia-warm-gray">Crédits</span>
+                          <span className="text-elaia-charcoal font-semibold">{course.credits} crédits</span>
                       </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-gray-600">Relaxation:</span>
-                        <div className="flex gap-1">{renderStars(course.relaxation)}</div>
                       </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-gray-600">Respiration:</span>
-                        <div className="flex gap-1">{renderStars(course.breathing)}</div>
+                      
+                      <div className="pt-4">
+                        <span className="inline-flex items-center text-sm font-inter uppercase tracking-wider text-elaia-charcoal group-hover:text-ohemia-accent transition-colors">
+                          Réserver ce cours
+                          <ChevronRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                        </span>
                       </div>
                     </div>
-                  </div>
-
-                  {/* Benefits */}
-                  <div className="bg-gradient-to-r from-elaia-gold/5 to-elaia-green/5 p-6 rounded-xl">
-                    <h4 className="font-semibold text-elaia-gray mb-3">Bénéfices principaux</h4>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                      {course.benefits.map((benefit, idx) => (
-                        <div key={idx} className="flex items-center gap-2">
-                          <div className="h-2 w-2 bg-elaia-gold rounded-full"></div>
-                          <span className="text-gray-600 text-sm">{benefit}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* CTA Button */}
-                  <Link
-                    to={`/schedule?course=${course.id}`}
-                    className="btn-primary inline-flex items-center gap-2 text-lg px-8 py-4 hover:scale-105 transition-all"
-                  >
-                    Réserver dès maintenant
-                    <ArrowRight className="h-5 w-5" />
                   </Link>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        </section>
+
+        {/* Benefits Section */}
+        <section className="section-padding bg-elaia-white">
+          <div className="container-custom">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="heading-lg text-elaia-charcoal mb-12">
+                Pourquoi choisir nos cours ?
+              </h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div>
+                  <div className="w-20 h-20 bg-elaia-light-gray rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Users className="h-8 w-8 text-elaia-charcoal" />
+                  </div>
+                  <h3 className="heading-sm text-elaia-charcoal mb-3">
+                    Petits groupes
+                  </h3>
+                  <p className="body-md text-elaia-warm-gray">
+                    4 à 8 personnes maximum pour un suivi personnalisé et une attention individuelle
+                  </p>
+                  </div>
+
+                <div>
+                  <div className="w-20 h-20 bg-elaia-light-gray rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Star className="h-8 w-8 text-elaia-charcoal" />
+                        </div>
+                  <h3 className="heading-sm text-elaia-charcoal mb-3">
+                    Expertise certifiée
+                  </h3>
+                  <p className="body-md text-elaia-warm-gray">
+                    Instructrice diplômée avec maîtrise fédérale et formation continue
+                  </p>
+                    </div>
+                
+                <div>
+                  <div className="w-20 h-20 bg-elaia-light-gray rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Clock className="h-8 w-8 text-elaia-charcoal" />
+                  </div>
+                  <h3 className="heading-sm text-elaia-charcoal mb-3">
+                    Horaires flexibles
+                  </h3>
+                  <p className="body-md text-elaia-warm-gray">
+                    Des créneaux adaptés à votre emploi du temps, du matin au soir
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* CTA Section */}
-        <div className="bg-gradient-to-r from-elaia-green to-elaia-gold py-16">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl font-bold text-white mb-4">
+        <section className="section-padding bg-elaia-charcoal">
+          <div className="container-custom text-center">
+            <h2 className="heading-lg text-elaia-white mb-6">
               Prêt à commencer votre parcours ?
             </h2>
-            <p className="text-white/90 mb-8 text-lg">
-              Découvrez nos cours d'essai et trouvez la pratique qui vous correspond
+            <p className="body-lg text-elaia-white/80 mb-10 max-w-2xl mx-auto">
+              Réservez votre première séance et découvrez une nouvelle approche du mouvement
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to="/schedule"
-                className="bg-white text-elaia-gray px-8 py-4 rounded-full font-medium hover:bg-gray-50 transition-colors inline-flex items-center justify-center gap-2"
-              >
+              <Link to="/schedule" className="btn-accent">
                 Voir le planning
-                <ArrowRight className="h-5 w-5" />
               </Link>
-              <Link
-                to="/trial"
-                className="border-2 border-white text-white px-8 py-4 rounded-full font-medium hover:bg-white hover:text-elaia-gray transition-colors inline-flex items-center justify-center gap-2"
-              >
-                Cours d'essai gratuit
-                <Target className="h-5 w-5" />
+              <Link to="/pricing" className="btn-secondary border-elaia-white text-elaia-white hover:bg-elaia-white hover:text-elaia-charcoal">
+                Découvrir nos tarifs
               </Link>
             </div>
           </div>
-        </div>
+        </section>
       </div>
     </>
   );

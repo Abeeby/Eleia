@@ -50,4 +50,7 @@ export const authorizeInstructor = (req: Request, res: Response, next: NextFunct
   } else {
     res.status(403).json({ message: 'Accès réservé aux instructeurs' });
   }
-}; 
+};
+
+// Alias pour compatibilité
+export const authMiddleware = authenticateToken; 

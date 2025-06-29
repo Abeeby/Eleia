@@ -17,7 +17,10 @@
   "author": "Elaia Studio",
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.9.0",
+    "@supabase/supabase-js": "^2.50.2",
+    "axios": "^1.10.0",
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.0.0",
     "sqlite3": "^5.1.7"
   }
 }

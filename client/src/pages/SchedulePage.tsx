@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { format, addDays, startOfWeek, addWeeks } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import { Calendar, Clock, Users, ChevronLeft, ChevronRight, MapPin, Star, TrendingUp, Info, Heart, Target, Zap } from 'lucide-react';
+import { Calendar, Clock, Users, ChevronLeft, ChevronRight, MapPin, Star, TrendingUp, Info, Heart, Target, Zap, X } from 'lucide-react';
 import { classService, bookingService } from '../services/api';
 import { useAuthStore } from '../store/authStore';
 import customToast from '../utils/toast';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 interface ClassSession {
   id: number;
@@ -163,11 +163,11 @@ export default function SchedulePage() {
     const days = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
     
     const coursTypes = [
-      { name: 'Pilates Reformer Débutant', credits: 3, color: 'bg-elaia-gold' },
-      { name: 'Pilates Reformer Intermédiaire', credits: 3, color: 'bg-elaia-green' },
-      { name: 'Pilates Reformer Avancé', credits: 3, color: 'bg-elaia-mint' },
-      { name: 'Pilates Yoga Mat', credits: 2, color: 'bg-elaia-rose' },
-      { name: 'Pilates Yoga Mat Détente', credits: 2, color: 'bg-purple-400' },
+      { name: 'Pilates Reformer Débutant', credits: 3, color: 'bg-ohemia-accent' },
+      { name: 'Pilates Reformer Intermédiaire', credits: 3, color: 'bg-elaia-sage' },
+      { name: 'Pilates Reformer Avancé', credits: 3, color: 'bg-elaia-charcoal' },
+      { name: 'Pilates Yoga Mat', credits: 2, color: 'bg-elaia-sand' },
+      { name: 'Pilates Yoga Mat Détente', credits: 2, color: 'bg-elaia-warm-gray' },
     ];
     
     const instructors = ['Sarah Martin', 'Julie Dubois', 'Emma Rousseau', 'Claire Moreau'];
@@ -228,145 +228,128 @@ export default function SchedulePage() {
   };
 
   return (
-    <div className="py-8 bg-elaia-beige min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-elaia-gray mb-4">
-            Planning des cours
-          </h1>
-          <p className="text-lg text-elaia-gray mb-4">
+    <div className="min-h-screen bg-elaia-cream">
+      {/* Hero Section */}
+      <section className="relative h-[30vh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0">
+          <img 
+            src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=1920" 
+            alt="Planning"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-elaia-charcoal/60 to-elaia-charcoal/40"></div>
+        </div>
+        
+        <div className="relative z-10 text-center text-elaia-white px-6">
+          <h1 className="heading-xl mb-4">Planning</h1>
+          <p className="body-lg max-w-2xl mx-auto opacity-90">
             {isAuthenticated 
               ? 'Réservez votre séance de Pilates Reformer' 
-              : 'Découvrez nos cours de Pilates Reformer'
+              : 'Découvrez notre planning hebdomadaire'
             }
           </p>
+        </div>
+      </section>
+
+      {/* Main Content */}
+      <section className="section-padding">
+        <div className="container-custom">
           {!isAuthenticated && (
-            <div className="bg-gradient-to-r from-elaia-gold/10 to-elaia-green/10 border border-elaia-gold/30 rounded-xl p-6 max-w-4xl mx-auto">
-              <div className="flex items-center justify-center mb-4">
-                <Star className="h-6 w-6 text-elaia-gold mr-2" />
-                <span className="text-xl font-semibold text-elaia-gray">Plus de 150 cours par mois !</span>
-                <Star className="h-6 w-6 text-elaia-gold ml-2" />
-              </div>
-              <p className="text-elaia-gray mb-4">
-                🌟 Rejoignez notre communauté et accédez à tous nos cours de Pilates Reformer
+            <div className="bg-elaia-white border border-elaia-muted p-8 mb-12 text-center">
+              <h2 className="heading-md text-elaia-charcoal mb-4">
+                Plus de 150 cours par mois
+              </h2>
+              <p className="body-lg text-elaia-warm-gray mb-8">
+                Rejoignez notre communauté et accédez à tous nos cours
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                <div className="bg-white/50 rounded-lg p-3 text-center">
-                  <TrendingUp className="h-5 w-5 text-elaia-green mx-auto mb-1" />
-                  <div className="text-sm font-medium">7 créneaux/jour</div>
-                </div>
-                <div className="bg-white/50 rounded-lg p-3 text-center">
-                  <Users className="h-5 w-5 text-elaia-mint mx-auto mb-1" />
-                  <div className="text-sm font-medium">Groupes 6-12 pers.</div>
-                </div>
-                <div className="bg-white/50 rounded-lg p-3 text-center">
-                  <Calendar className="h-5 w-5 text-elaia-rose mx-auto mb-1" />
-                  <div className="text-sm font-medium">7j/7 ouvert</div>
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-3 justify-center">
-                <button
-                  onClick={() => navigate('/pricing')}
-                  className="btn-primary flex items-center"
-                >
-                  <Star className="h-4 w-4 mr-2" />
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link to="/pricing" className="btn-accent">
                   Offre Welcome 45 CHF
-                </button>
-                <button
-                  onClick={() => navigate('/register')}
-                  className="btn-secondary"
-                >
+                </Link>
+                <Link to="/register" className="btn-secondary">
                   Créer un compte
-                </button>
+                </Link>
               </div>
             </div>
           )}
-        </div>
 
         {/* Navigation par semaine */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <div className="flex items-center justify-between mb-6">
+          <div className="bg-elaia-white border border-elaia-muted p-8 mb-8">
+            <div className="flex items-center justify-between mb-8">
             <button
               onClick={() => setSelectedWeekOffset(selectedWeekOffset - 1)}
-              className="flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                className="flex items-center text-sm font-inter uppercase tracking-wider text-elaia-charcoal hover:text-ohemia-accent transition-colors"
             >
-              <ChevronLeft className="h-5 w-5 mr-2" />
-              Semaine précédente
+                <ChevronLeft className="h-4 w-4 mr-2" />
+                <span className="hidden sm:inline">Semaine précédente</span>
             </button>
             
             <div className="text-center">
-              <h2 className="text-xl font-semibold text-elaia-gray">
+                <h2 className="heading-sm text-elaia-charcoal mb-2">
                 {format(currentWeekStart, 'MMMM yyyy', { locale: fr })}
               </h2>
-              <p className="text-sm text-gray-600">
+                <p className="text-sm text-elaia-warm-gray">
                 {format(currentWeekStart, 'd MMM', { locale: fr })} - {format(addDays(currentWeekStart, 6), 'd MMM', { locale: fr })}
               </p>
             </div>
             
             <button
               onClick={() => setSelectedWeekOffset(selectedWeekOffset + 1)}
-              className="flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                className="flex items-center text-sm font-inter uppercase tracking-wider text-elaia-charcoal hover:text-ohemia-accent transition-colors"
             >
-              Semaine suivante
-              <ChevronRight className="h-5 w-5 ml-2" />
+                <span className="hidden sm:inline">Semaine suivante</span>
+                <ChevronRight className="h-4 w-4 ml-2" />
             </button>
           </div>
 
-          {/* Menu déroulant de sélection rapide */}
-          <div className="text-center mb-6">
-            <select
-              value={selectedWeekOffset}
-              onChange={(e) => setSelectedWeekOffset(parseInt(e.target.value))}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-elaia-gold focus:border-transparent"
-            >
-              <option value={-2}>Il y a 2 semaines</option>
-              <option value={-1}>Semaine dernière</option>
-              <option value={0}>Cette semaine</option>
-              <option value={1}>Semaine prochaine</option>
-              <option value={2}>Dans 2 semaines</option>
-              <option value={3}>Dans 3 semaines</option>
-              <option value={4}>Dans 4 semaines</option>
-            </select>
-          </div>
-
-          {/* Planning hebdomadaire */}
+            {/* Planning hebdomadaire moderne */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-4">
             {weekDays.map((day) => {
               const dayClasses = getClassesForDay(day);
+                const isToday = format(day, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd');
+                
               return (
-                <div key={day.toISOString()} className="bg-gray-50 rounded-lg p-4">
+                  <div 
+                    key={day.toISOString()} 
+                    className={`${isToday ? 'bg-elaia-light-gray' : 'bg-elaia-white'} border border-elaia-muted p-4`}
+                  >
                   <div className="text-center mb-4">
-                    <div className="font-semibold text-elaia-gray">
+                      <div className="text-xs font-inter uppercase tracking-wider text-elaia-warm-gray">
                       {format(day, 'EEE', { locale: fr })}
                     </div>
-                    <div className="text-2xl font-bold text-elaia-gray">
+                      <div className="text-2xl font-playfair text-elaia-charcoal">
                       {format(day, 'd')}
                     </div>
-                    <div className="text-xs text-gray-500">
+                      {dayClasses.length > 0 && (
+                        <div className="text-xs text-elaia-warm-gray mt-1">
                       {dayClasses.length} cours
                     </div>
+                      )}
                   </div>
                   
                   <div className="space-y-2">
                     {dayClasses.map((cls, index: number) => (
                       <div
                         key={cls.id || index}
-                        className={`p-3 rounded-lg cursor-pointer transition-all hover:shadow-md ${'color' in cls ? cls.color : 'bg-elaia-gold'} text-white text-sm`}
+                          className="group cursor-pointer"
                         onClick={() => handleClassClick(cls)}
                       >
-                        <div className="font-medium">{'time' in cls ? cls.time : format(new Date(cls.start_time), 'HH:mm')}</div>
-                        <div className="text-xs opacity-90 truncate">
+                          <div className="border border-elaia-muted p-3 hover:border-ohemia-accent transition-all">
+                            <div className="text-sm font-inter text-elaia-charcoal">
+                              {'time' in cls ? cls.time : format(new Date(cls.start_time), 'HH:mm')}
+                            </div>
+                            <div className="text-xs text-elaia-warm-gray truncate mt-1">
                           {'name' in cls ? cls.name : cls.class_type_name}
                         </div>
-                        <div className="text-xs opacity-75">
+                            <div className="text-xs text-ohemia-accent mt-1">
                           {'credits' in cls ? cls.credits : cls.credits_required} crédits
+                            </div>
                         </div>
                       </div>
                     ))}
                     
                     {dayClasses.length === 0 && (
-                      <div className="text-center text-gray-400 text-sm py-4">
+                        <div className="text-center text-elaia-warm-gray text-xs py-8">
                         Aucun cours
                       </div>
                     )}
@@ -377,160 +360,91 @@ export default function SchedulePage() {
           </div>
         </div>
 
-        {/* Call-to-action final pour visiteurs */}
-        {!isAuthenticated && (
-          <div className="mt-8 bg-gradient-to-r from-elaia-gold to-elaia-green rounded-xl p-8 text-center text-white">
-            <h2 className="text-3xl font-bold mb-4">Prêt(e) à commencer ?</h2>
-            <p className="text-xl mb-6 opacity-90">
-              Découvrez le Pilates Reformer dans notre nouveau studio à Gland
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              <div className="bg-white/20 rounded-lg p-4">
-                <Star className="h-8 w-8 mx-auto mb-2" />
-                <h3 className="font-semibold mb-2">Offre Welcome</h3>
-                <p className="text-sm opacity-90">1 séance + 2 offertes<br/>45 CHF seulement</p>
+          {/* Légende minimaliste */}
+          <div className="flex flex-wrap gap-6 justify-center text-sm text-elaia-warm-gray">
+            <div className="flex items-center">
+              <div className="w-1 h-4 bg-ohemia-accent mr-3"></div>
+              <span>Pilates Reformer (3 crédits)</span>
               </div>
-              <div className="bg-white/20 rounded-lg p-4">
-                <Calendar className="h-8 w-8 mx-auto mb-2" />
-                <h3 className="font-semibold mb-2">Planning flexible</h3>
-                <p className="text-sm opacity-90">150+ cours par mois<br/>7 créneaux par jour</p>
-              </div>
-              <div className="bg-white/20 rounded-lg p-4">
-                <Users className="h-8 w-8 mx-auto mb-2" />
-                <h3 className="font-semibold mb-2">Suivi personnalisé</h3>
-                <p className="text-sm opacity-90">Groupes 6-12 personnes<br/>Instructeurs certifiés</p>
-              </div>
+            <div className="flex items-center">
+              <div className="w-1 h-4 bg-elaia-sand mr-3"></div>
+              <span>Pilates Yoga Mat (2 crédits)</span>
             </div>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <button
-                onClick={() => navigate('/pricing')}
-                className="bg-white text-elaia-gray px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition-all text-lg"
-              >
-                🎯 Profiter de l'offre Welcome
-              </button>
-              <button
-                onClick={() => navigate('/register')}
-                className="border-2 border-white text-white px-8 py-3 rounded-lg font-bold hover:bg-white/10 transition-all text-lg"
-              >
-                Créer mon compte
-              </button>
+            <div className="flex items-center">
+              <MapPin className="h-4 w-4 mr-2" />
+              <span>Elaïa Studio - Gland</span>
             </div>
-          </div>
-        )}
-
-        {/* Légende */}
-        <div className="mt-6 flex flex-wrap gap-4 justify-center text-sm">
-          <div className="flex items-center">
-            <div className="w-4 h-4 bg-elaia-gold rounded mr-2"></div>
-            <span className="text-elaia-gray">Pilates Reformer (3 crédits)</span>
-          </div>
-          <div className="flex items-center">
-            <div className="w-4 h-4 bg-elaia-rose rounded mr-2"></div>
-            <span className="text-elaia-gray">Pilates Yoga Mat (2 crédits)</span>
-          </div>
-          <div className="flex items-center">
-            <MapPin className="h-4 w-4 text-elaia-gray mr-2" />
-            <span className="text-elaia-gray">Elaïa Studio - Gland</span>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Modal d'information sur les cours (visiteurs) */}
       {showCourseInfo && courseInfos[showCourseInfo] && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center mb-4">
-              <div className={`p-3 rounded-lg ${courseInfos[showCourseInfo].color} text-white mr-4`}>
-                {React.createElement(courseInfos[showCourseInfo].icon, { className: "h-6 w-6" })}
-              </div>
+          <div className="bg-elaia-white max-w-2xl w-full p-8 max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-start mb-6">
               <div>
-                <h3 className="text-2xl font-bold text-elaia-gray">
+                <h3 className="heading-md text-elaia-charcoal mb-2">
                   {courseInfos[showCourseInfo].name}
                 </h3>
-                <div className="flex items-center gap-4 text-sm text-gray-600">
+                <div className="flex items-center gap-4 text-sm text-elaia-warm-gray">
                   <span className="flex items-center">
-                    <Clock className="h-4 w-4 mr-1" />
+                    <Clock className="h-4 w-4 mr-2" />
                     {courseInfos[showCourseInfo].duration}
                   </span>
-                  <span className="flex items-center">
-                    <Star className="h-4 w-4 mr-1" />
+                  <span className="text-ohemia-accent">
                     {courseInfos[showCourseInfo].credits} crédits
-                  </span>
-                  <span className="px-3 py-1 bg-elaia-gold/20 text-elaia-gold rounded-full font-medium">
-                    {courseInfos[showCourseInfo].level}
                   </span>
                 </div>
               </div>
+              <button
+                onClick={() => setShowCourseInfo(null)}
+                className="text-elaia-warm-gray hover:text-elaia-charcoal transition-colors"
+              >
+                <X className="h-6 w-6" />
+              </button>
             </div>
 
-            <div className="mb-6">
-              <p className="text-gray-700 leading-relaxed">
+            <div className="mb-8">
+              <p className="body-md text-elaia-warm-gray leading-relaxed">
                 {courseInfos[showCourseInfo].description}
               </p>
             </div>
 
-            <div className="mb-6">
-              <h4 className="font-semibold text-elaia-gray mb-3 flex items-center">
-                <Heart className="h-5 w-5 mr-2 text-elaia-rose" />
-                Bénéfices de cette séance
+            <div className="mb-8">
+              <h4 className="text-sm font-inter uppercase tracking-wider text-elaia-charcoal mb-4">
+                Bénéfices
               </h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {courseInfos[showCourseInfo].benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-center">
-                    <div className="w-2 h-2 bg-elaia-gold rounded-full mr-3 flex-shrink-0"></div>
-                    <span className="text-gray-700">{benefit}</span>
+                  <div key={index} className="flex items-start">
+                    <div className="w-1 h-1 bg-ohemia-accent rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                    <span className="text-sm text-elaia-warm-gray">{benefit}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="bg-gradient-to-r from-elaia-gold/10 to-elaia-green/10 rounded-lg p-4 mb-6">
-              <div className="flex items-center justify-center mb-3">
-                <Info className="h-5 w-5 text-elaia-gold mr-2" />
-                <span className="font-semibold text-elaia-gray">Pour réserver ce cours</span>
-              </div>
-              <p className="text-center text-gray-700 mb-4">
-                Créez votre compte et découvrez notre offre Welcome : 3 séances pour 45 CHF !
+            <div className="border-t border-elaia-muted pt-8">
+              <p className="text-sm text-elaia-warm-gray text-center mb-6">
+                Créez votre compte pour réserver ce cours
               </p>
-              <div className="flex flex-wrap gap-3 justify-center">
-                <button
-                  onClick={() => {
-                    setShowCourseInfo(null);
-                    navigate('/courses');
-                  }}
-                  className="bg-elaia-gold/10 text-elaia-gold border border-elaia-gold/30 hover:bg-elaia-gold hover:text-white transition-colors px-6 py-2 rounded-lg font-medium"
+              <div className="flex gap-4 justify-center">
+                <Link
+                  to="/pricing"
+                  className="btn-accent"
+                  onClick={() => setShowCourseInfo(null)}
                 >
-                  Voir tous nos cours
-                </button>
-                <button
-                  onClick={() => {
-                    setShowCourseInfo(null);
-                    navigate('/pricing');
-                  }}
-                  className="btn-primary flex items-center"
-                >
-                  <Star className="h-4 w-4 mr-2" />
-                  Offre Welcome 45 CHF
-                </button>
-                <button
-                  onClick={() => {
-                    setShowCourseInfo(null);
-                    navigate('/register');
-                  }}
+                  Voir nos offres
+                </Link>
+                <Link
+                  to="/register"
                   className="btn-secondary"
+                  onClick={() => setShowCourseInfo(null)}
                 >
-                  Créer un compte
-                </button>
+                  S'inscrire
+                </Link>
               </div>
-            </div>
-
-            <div className="text-center">
-              <button
-                onClick={() => setShowCourseInfo(null)}
-                className="text-gray-500 hover:text-gray-700 font-medium"
-              >
-                Fermer
-              </button>
             </div>
           </div>
         </div>
@@ -539,64 +453,80 @@ export default function SchedulePage() {
       {/* Modal de réservation (utilisateurs connectés) */}
       {selectedClass && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-md w-full p-6">
-            <h3 className="text-xl font-semibold text-elaia-gray mb-4">
-              Réserver ce cours
+          <div className="bg-elaia-white max-w-md w-full p-8">
+            <div className="flex justify-between items-start mb-6">
+              <h3 className="heading-md text-elaia-charcoal">
+                Confirmer la réservation
             </h3>
+              <button
+                onClick={() => setSelectedClass(null)}
+                className="text-elaia-warm-gray hover:text-elaia-charcoal transition-colors"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
             
-            <div className="space-y-3 mb-6">
-              <p className="font-medium text-elaia-gray">
+            <div className="space-y-4 mb-8">
+              <div>
+                <p className="text-sm font-inter uppercase tracking-wider text-elaia-warm-gray mb-1">
+                  Cours
+                </p>
+                <p className="text-elaia-charcoal font-semibold">
                 {selectedClass.class_type_name}
               </p>
-              <p className="text-sm text-gray-600">
-                {format(new Date(selectedClass.start_time), 'EEEE d MMMM à HH:mm', { locale: fr })}
-              </p>
-              {selectedClass.instructor_first_name && (
-                <p className="text-sm text-gray-600">
-                  Avec {selectedClass.instructor_first_name} {selectedClass.instructor_last_name}
-                </p>
-              )}
-              <div className="flex items-center justify-between py-2 border-t border-b">
-                <span className="text-sm text-gray-600">Crédits requis</span>
-                <span className="font-semibold text-elaia-gold">
-                  {selectedClass.credits_required} crédits
-                </span>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Places disponibles</span>
-                <span className={`font-semibold ${
-                  selectedClass.available_spots > 0 ? 'text-green-600' : 'text-red-600'
-                }`}>
+
+              <div>
+                <p className="text-sm font-inter uppercase tracking-wider text-elaia-warm-gray mb-1">
+                  Date & Heure
+                </p>
+                <p className="text-elaia-charcoal">
+                  {format(new Date(selectedClass.start_time), 'EEEE d MMMM', { locale: fr })} à {format(new Date(selectedClass.start_time), 'HH:mm')}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-sm font-inter uppercase tracking-wider text-elaia-warm-gray mb-1">
+                  Instructeur
+                </p>
+                <p className="text-elaia-charcoal">
+                  {selectedClass.instructor_first_name} {selectedClass.instructor_last_name}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-sm font-inter uppercase tracking-wider text-elaia-warm-gray mb-1">
+                  Places disponibles
+                </p>
+                <p className="text-elaia-charcoal">
                   {selectedClass.available_spots} / {selectedClass.max_participants}
-                </span>
+                </p>
+              </div>
+
+              <div className="pt-4 border-t border-elaia-muted">
+                <p className="text-sm font-inter uppercase tracking-wider text-elaia-warm-gray mb-1">
+                  Crédits requis
+                </p>
+                <p className="text-2xl font-playfair text-ohemia-accent">
+                  {selectedClass.credits_required}
+                </p>
               </div>
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex gap-4">
+              <button
+                onClick={() => handleBookClass(selectedClass.id)}
+                disabled={isBooking}
+                className="btn-accent flex-1 disabled:opacity-50"
+              >
+                {isBooking ? 'Réservation...' : 'Confirmer'}
+              </button>
               <button
                 onClick={() => setSelectedClass(null)}
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-elaia-gray hover:bg-gray-50"
+                className="btn-secondary flex-1"
               >
-                Fermer
+                Annuler
               </button>
-              {selectedClass.available_spots > 0 ? (
-                <button
-                  onClick={() => handleBookClass(selectedClass.id)}
-                  disabled={isBooking}
-                  className="flex-1 btn-primary disabled:opacity-50"
-                >
-                  {isBooking ? 'Réservation...' : 'Confirmer'}
-                </button>
-              ) : (
-                <button
-                  onClick={() => {
-                    customToast.info('Liste d\'attente bientôt disponible');
-                  }}
-                  className="flex-1 btn-secondary"
-                >
-                  Liste d'attente
-                </button>
-              )}
             </div>
           </div>
         </div>

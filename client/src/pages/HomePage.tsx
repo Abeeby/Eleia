@@ -1,383 +1,300 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Star, Users, Heart, Award, Clock, ChevronRight, ChevronLeft, Sparkles, Target, Zap, CheckCircle, PlayCircle, Calendar, TrendingUp } from 'lucide-react';
+import { ArrowRight, ChevronDown, Star, Users, Heart, Award, Clock, Play } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
-import AnimatedCounter from '../components/AnimatedCounter';
 import { useNotifications } from '../components/NotificationSystem';
 
 export default function HomePage() {
-  const [currentCourseIndex, setCurrentCourseIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
-  const [showStats, setShowStats] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState('reformer');
   const heroRef = useRef<HTMLDivElement>(null);
-  const statsRef = useRef<HTMLDivElement>(null);
   const notifications = useNotifications();
 
   useEffect(() => {
     setIsVisible(true);
     
-    // Observer pour les animations lors du scroll
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.target === statsRef.current && entry.isIntersecting) {
-            setShowStats(true);
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-
-    if (statsRef.current) {
-      observer.observe(statsRef.current);
-    }
-
-    // Notification de bienvenue après 3 secondes
+    // Notification élégante après quelques secondes
     const welcomeTimer = setTimeout(() => {
       notifications.showSuccess(
-        "Bienvenue chez Elaïa ! 🌿",
-        "Découvrez notre offre Welcome : 1 séance achetée + 1 offerte !",
+        "Offre de lancement disponible",
+        "Profitez de notre offre Welcome : 1 séance achetée + 1 offerte",
         {
-          label: "Voir l'offre",
-          onClick: () => document.getElementById('welcome-offer')?.scrollIntoView({ behavior: 'smooth' })
+          label: "Découvrir",
+          onClick: () => document.getElementById('intro-section')?.scrollIntoView({ behavior: 'smooth' })
         }
       );
-    }, 3000);
+    }, 5000);
 
-    return () => {
-      observer.disconnect();
-      clearTimeout(welcomeTimer);
-    };
+    return () => clearTimeout(welcomeTimer);
   }, [notifications]);
 
-  const testimonials = [
-    {
-      name: "Albina - Fondatrice",
-      rating: 5,
-      text: "Diplômée avec maîtrise fédérale, j'ai à cœur de transmettre une pratique du Pilates exigeante et bienveillante pour accompagner chacun vers ses objectifs.",
+  const courses = {
+    reformer: {
+      title: 'Reformer',
+      subtitle: 'Force • Alignement • Contrôle',
+      description: 'Transformez votre corps avec notre équipement de pointe. Le Reformer permet un travail en profondeur avec une résistance ajustable pour tous les niveaux.',
+      intensity: 'Modérée à intense'
     },
-    {
-      name: "Formation Continue",
-      rating: 5,
-      text: "Notre équipe suit régulièrement des formations pour vous offrir les techniques les plus actuelles et efficaces du Pilates Reformer.",
-    },
-    {
-      name: "Équipement Premium",
-      rating: 5,
-      text: "8 Reformers haut de gamme dans un studio lumineux de 120m² à Gland, conçu spécialement pour votre confort et sécurité.",
-    },
-  ];
-
-  const benefits = [
-    {
-      icon: Heart,
-      title: "Santé & Bien-être",
-      description: "Améliorez votre posture, renforcez votre corps et réduisez le stress",
-    },
-    {
-      icon: Users,
-      title: "Cours Personnalisés",
-      description: "Des séances adaptées à vos besoins avec un suivi individualisé de 1 à 10 personnes max",
-    },
-    {
-      icon: Award,
-      title: "Instructeurs Certifiés", 
-      description: "Une équipe d'experts passionnés pour vous guider en toute sécurité",
-    },
-    {
-      icon: Clock,
-      title: "Tous niveaux",
-      description: "Débutants bienvenus, progression adaptée à chacun",
-    },
-  ];
-
-  const courses = [
-    {
-      id: 'reformer-classique',
-      title: 'Reformer Classique',
-      description: 'Renforcez votre corps en profondeur, améliorez votre posture et développez votre stabilité grâce à une approche fidèle à la méthode originale de Joseph Pilates.',
-      credits: 3,
-      intensity: 3,
-      relaxation: 3,
-      breathing: 3,
-      image: 'cours-1.jpg'
-    },
-    {
-      id: 'dynamique-flow',
-      title: 'Reformer Dynamique Flow',
-      description: 'Un entraînement complet et rythmé conçu pour renforcer l\'ensemble du corps de façon fluide et harmonieuse.',
-      credits: 3,
-      intensity: 5,
-      relaxation: 1,
-      breathing: 2,
-      image: 'cours-2.jpg'
-    },
-    {
-      id: 'booty-core',
-      title: 'Reformer Booty & Core',
-      description: 'Un cours ciblé et puissant pour tonifier les fessiers, affiner les jambes et renforcer les abdominaux profonds.',
-      credits: 3,
-      intensity: 5,
-      relaxation: 1,
-      breathing: 2,
-      image: 'cours-3.jpg'
-    },
-    {
-      id: 'balance',
-      title: 'Reformer Balance',
-      description: 'Une pratique douce et rééquilibrante pour retrouver fluidité, légèreté et ancrage dans votre corps.',
-      credits: 3,
-      intensity: 2,
-      relaxation: 5,
-      breathing: 4,
-      image: 'cours-4.jpg'
-    },
-    {
-      id: 'prenatal',
-      title: 'Pré & Post-natal',
-      description: 'Pensé pour accompagner les mamans avant et après l\'accouchement, ce cours allie douceur, renforcement et mobilité.',
-      credits: 3,
-      intensity: 3,
-      relaxation: 3,
-      breathing: 4,
-      image: 'cours-5.jpg'
-    },
-    {
-      id: 'power-vinyasa',
-      title: 'Power Vinyasa Yoga',
-      description: 'Un yoga énergisant qui allie force, fluidité et respiration dans une séquence dynamique et engageante.',
-      credits: 2,
-      intensity: 5,
-      relaxation: 1,
-      breathing: 3,
-      image: 'cours-6.jpg'
-    },
-    {
-      id: 'yoga-doux',
-      title: 'Yoga Doux',
-      description: 'Un moment de calme et d\'introspection pour relâcher les tensions du corps et de l\'esprit.',
-      credits: 2,
-      intensity: 1,
-      relaxation: 5,
-      breathing: 5,
-      image: 'cours-7.jpg'
-    },
-    {
-      id: 'pilates',
+    pilates: {
       title: 'Pilates',
-      description: 'Un entraînement complet et ciblé pour renforcer, tonifier et sculpter l\'ensemble du corps.',
-      credits: 2,
-      intensity: 3,
-      relaxation: 3,
-      breathing: 3,
-      image: 'cours-8.jpg'
+      subtitle: 'Centre • Fluidité • Précision',
+      description: 'Développez votre force profonde et améliorez votre posture. Nos cours de Pilates classique sont conçus pour renforcer et équilibrer votre corps.',
+      intensity: 'Douce à modérée'
+    },
+    yoga: {
+      title: 'Yoga',
+      subtitle: 'Respiration • Souplesse • Sérénité',
+      description: 'Trouvez votre équilibre intérieur. Nos séances de yoga allient mouvement conscient et respiration pour une harmonie corps-esprit.',
+      intensity: 'Douce'
+    }
+  };
+
+  const instructors = [
+    {
+      name: 'Albina',
+      role: 'Fondatrice & Instructrice principale',
+      specialty: 'Maîtrise fédérale Pilates',
+      image: '/instructor-1.jpg'
+    },
+    {
+      name: 'Sarah',
+      role: 'Instructrice Pilates',
+      specialty: 'Spécialiste Reformer',
+      image: '/instructor-2.jpg'
+    },
+    {
+      name: 'Marie',
+      role: 'Instructrice Yoga',
+      specialty: 'Vinyasa & Yin Yoga',
+      image: '/instructor-3.jpg'
     }
   ];
 
-  const partners = [
-    { name: 'Partenaire 1', logo: '/logos/partner1.png' },
-    { name: 'Partenaire 2', logo: '/logos/partner2.png' },
-    { name: 'Partenaire 3', logo: '/logos/partner3.png' },
-    { name: 'Partenaire 4', logo: '/logos/partner4.png' },
-    { name: 'Partenaire 5', logo: '/logos/partner5.png' },
-    { name: 'Partenaire 6', logo: '/logos/partner6.png' },
-  ];
-
-  const renderStars = (count: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <Star key={i} className={`h-4 w-4 ${i < count ? 'text-elaia-gold fill-current' : 'text-gray-300'}`} />
-    ));
-  };
-
-  const nextCourse = () => {
-    setCurrentCourseIndex((prev) => (prev + 1) % courses.length);
-  };
-
-  const prevCourse = () => {
-    setCurrentCourseIndex((prev) => (prev - 1 + courses.length) % courses.length);
-  };
-
   return (
-    <div className="bg-elaia-beige">
-      {/* Hero Section */}
-      <section ref={heroRef} className="relative min-h-[90vh] flex items-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-elaia-gold/20 to-elaia-green/20"></div>
-        
-        {/* Animated background elements */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className={`absolute top-20 left-10 transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-30' : 'translate-y-10 opacity-0'}`}>
-            <Sparkles className="h-8 w-8 text-elaia-gold animate-pulse" />
-          </div>
-          <div className={`absolute top-1/3 right-20 transform transition-all duration-1000 delay-300 ${isVisible ? 'translate-y-0 opacity-20' : 'translate-y-10 opacity-0'}`}>
-            <Target className="h-12 w-12 text-elaia-green animate-spin-slow" />
-          </div>
-          <div className={`absolute bottom-1/4 left-1/4 transform transition-all duration-1000 delay-500 ${isVisible ? 'translate-y-0 opacity-25' : 'translate-y-10 opacity-0'}`}>
-            <Zap className="h-6 w-6 text-elaia-mint animate-bounce" />
+    <div className="bg-elaia-cream">
+      {/* Hero Section Moderne */}
+      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Image de fond */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-elaia-cream/90 z-10"></div>
+          <img 
+            src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1920" 
+            alt="Studio Pilates"
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        {/* Contenu */}
+        <div className={`relative z-20 text-center px-6 transform transition-all duration-1000 ${
+          isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+        }`}>
+          <h1 className="heading-xl text-elaia-charcoal mb-6">
+            The perfect union of<br />
+            <span className="italic font-normal">Body & Mind</span>
+          </h1>
+          <p className="body-lg text-elaia-warm-gray max-w-2xl mx-auto mb-12">
+            Découvrez une approche holistique du mouvement dans notre studio 
+            de Pilates Reformer à Gland. Ouverture juillet 2025.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/register" className="btn-primary group">
+              Réserver votre séance
+              <ArrowRight className="ml-2 h-4 w-4 inline-block group-hover:translate-x-1 transition-transform" />
+            </Link>
+            <Link to="/schedule" className="btn-secondary">
+              Voir le planning
+            </Link>
           </div>
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <div className="text-center">
-            <div className={`transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-              <h1 className="text-5xl md:text-7xl font-alex text-elaia-gold mb-6 animate-fade-in-up">
-                Bienvenue chez Elaïa
-              </h1>
-              <div className="flex items-center justify-center mb-6">
-                <Sparkles className="h-6 w-6 text-elaia-gold mr-2 animate-pulse" />
-                <span className="text-lg font-medium text-elaia-gray">Studio de Pilates Reformer • Gland</span>
-                <Sparkles className="h-6 w-6 text-elaia-gold ml-2 animate-pulse" />
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <ChevronDown className="h-8 w-8 text-elaia-warm-gray" />
+              </div>
+      </section>
+
+      {/* Section Introduction */}
+      <section id="intro-section" className="section-padding bg-elaia-white">
+        <div className="container-custom">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <h2 className="heading-lg text-elaia-charcoal mb-8">
+                Un espace dédié à votre transformation
+              </h2>
+              <p className="body-lg text-elaia-warm-gray mb-6">
+                ELAÏA est né de la passion d'Albina, instructrice diplômée avec maîtrise fédérale, 
+                pour transmettre une pratique du Pilates exigeante et bienveillante.
+              </p>
+              <p className="body-md text-elaia-warm-gray mb-8">
+                Notre studio de 120m² équipé de 8 Reformers haut de gamme vous accueille 
+                dans un cadre moderne et apaisant, conçu pour votre confort et votre progression.
+              </p>
+              <div className="space-y-4">
+                <div className="flex items-start">
+                  <div className="w-1 h-16 bg-ohemia-accent mr-6"></div>
+                  <div>
+                    <h3 className="font-inter font-semibold text-elaia-charcoal mb-2">Excellence</h3>
+                    <p className="text-elaia-warm-gray">Formation continue et équipement premium</p>
+            </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="w-1 h-16 bg-ohemia-accent mr-6"></div>
+                  <div>
+                    <h3 className="font-inter font-semibold text-elaia-charcoal mb-2">Personnalisation</h3>
+                    <p className="text-elaia-warm-gray">Cours adaptés à vos besoins et objectifs</p>
+                </div>
+                </div>
               </div>
             </div>
-            
-            <div className={`transform transition-all duration-1000 delay-300 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-              <p className="text-xl md:text-2xl text-elaia-gray mb-8 max-w-3xl mx-auto">
-                Découvrez le Pilates Reformer dans notre studio à Gland et transformez votre corps en douceur
-              </p>
-            </div>
-            
-            <div className={`flex flex-col sm:flex-row gap-4 justify-center transform transition-all duration-1000 delay-500 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-              <Link to="/register" className="btn-primary text-lg px-8 py-4 group hover:scale-105 transition-all">
-                <PlayCircle className="mr-2 h-5 w-5 inline group-hover:animate-pulse" />
-                Commencer maintenant
-                <ArrowRight className="ml-2 h-5 w-5 inline group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <Link to="/pricing" className="btn-secondary text-lg px-8 py-4 hover:scale-105 transition-all">
-                <Calendar className="mr-2 h-5 w-5 inline" />
-                Découvrir nos offres
-              </Link>
-            </div>
-
-            {/* CTA secondaire avec stats */}
-            <div className={`mt-12 transform transition-all duration-1000 delay-700 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-              <div className="flex flex-wrap justify-center gap-8 text-sm text-elaia-gray">
-                <div className="flex items-center">
-                  <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                  <span>Ouverture juillet 2025</span>
-                </div>
-                <div className="flex items-center">
-                  <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                  <span>Instructrice maîtrise fédérale</span>
-                </div>
-                <div className="flex items-center">
-                  <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                  <span>Équipement Reformer premium</span>
-                </div>
+            <div className="relative">
+              <img 
+                src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=800" 
+                alt="Studio intérieur"
+                className="w-full h-[600px] object-cover"
+              />
+              <div className="absolute -bottom-8 -left-8 bg-elaia-charcoal text-elaia-white p-8 max-w-xs">
+                <p className="text-3xl font-playfair mb-2">10+</p>
+                <p className="text-sm uppercase tracking-wider">Années d'expérience</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Section Statistiques Animées */}
-      <section ref={statsRef} className="py-20 bg-gradient-to-r from-elaia-green to-elaia-mint">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Elaïa en chiffres
+      {/* Section Cours Sélecteur */}
+      <section className="section-padding bg-elaia-light-gray">
+        <div className="container-custom">
+          <div className="text-center mb-16">
+            <h2 className="heading-lg text-elaia-charcoal mb-4">
+              Choose your journey
             </h2>
-            <p className="text-xl text-white/90">
-              L'excellence avant l'ouverture
+            <p className="body-lg text-elaia-warm-gray max-w-2xl mx-auto">
+              Trois approches complémentaires pour révéler votre potentiel
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center text-white">
-              <TrendingUp className="h-12 w-12 mx-auto mb-4 text-white/90" />
-              <div className="text-4xl md:text-5xl font-bold mb-2">
-                {showStats ? (
-                  <AnimatedCounter end={8} duration={2000} />
-                ) : (
-                  "0"
-                )}
-              </div>
-              <p className="text-lg text-white/90">Reformers premium</p>
+          {/* Sélecteur de cours */}
+          <div className="flex justify-center mb-12">
+            <div className="inline-flex border-b-2 border-elaia-muted">
+              {Object.keys(courses).map((key) => (
+                <button
+                  key={key}
+                  onClick={() => setSelectedCourse(key)}
+                  className={`px-8 py-4 text-sm font-inter uppercase tracking-wider transition-all ${
+                    selectedCourse === key
+                      ? 'text-elaia-charcoal border-b-2 border-elaia-charcoal -mb-[2px]'
+                      : 'text-elaia-warm-gray hover:text-elaia-charcoal'
+                  }`}
+                >
+                  {courses[key as keyof typeof courses].title}
+                </button>
+              ))}
+            </div>
             </div>
             
-            <div className="text-center text-white">
-              <Target className="h-12 w-12 mx-auto mb-4 text-white/90" />
-              <div className="text-4xl md:text-5xl font-bold mb-2">
-                {showStats ? (
-                  <AnimatedCounter end={100} suffix="%" duration={2500} />
-                ) : (
-                  "0"
-                )}
-              </div>
-              <p className="text-lg text-white/90">Certification instructeurs</p>
+          {/* Contenu du cours sélectionné */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="order-2 lg:order-1">
+              <img 
+                src={`https://images.unsplash.com/photo-${
+                  selectedCourse === 'reformer' ? '1599901860146-d62f2ebdb5d4' :
+                  selectedCourse === 'pilates' ? '1518611012118-696072aa579a' :
+                  '1506126613715-e00b0af6e0a8'
+                }?w=800`}
+                alt={courses[selectedCourse as keyof typeof courses].title}
+                className="w-full h-[500px] object-cover"
+              />
             </div>
-            
-            <div className="text-center text-white">
-              <Zap className="h-12 w-12 mx-auto mb-4 text-white/90" />
-              <div className="text-4xl md:text-5xl font-bold mb-2">
-                {showStats ? (
-                  <AnimatedCounter end={1} duration={1500} />
-                ) : (
-                  "0"
-                )}
+            <div className="order-1 lg:order-2">
+              <h3 className="heading-md text-elaia-charcoal mb-4">
+                {courses[selectedCourse as keyof typeof courses].title}
+              </h3>
+              <p className="text-lg font-lora italic text-ohemia-accent mb-6">
+                {courses[selectedCourse as keyof typeof courses].subtitle}
+              </p>
+              <p className="body-lg text-elaia-warm-gray mb-8">
+                {courses[selectedCourse as keyof typeof courses].description}
+              </p>
+              <div className="mb-8">
+                <span className="text-sm font-inter uppercase tracking-wider text-elaia-warm-gray">
+                  Intensité : 
+                </span>
+                <span className="text-sm font-inter uppercase tracking-wider text-elaia-charcoal ml-2">
+                  {courses[selectedCourse as keyof typeof courses].intensity}
+                </span>
               </div>
-              <p className="text-lg text-white/90">Maîtrise fédérale</p>
-            </div>
-            
-            <div className="text-center text-white">
-              <Award className="h-12 w-12 mx-auto mb-4 text-white/90" />
-              <div className="text-4xl md:text-5xl font-bold mb-2">
-                {showStats ? (
-                  <AnimatedCounter end={10} suffix="+" duration={2000} />
-                ) : (
-                  "0"
-                )}
-              </div>
-              <p className="text-lg text-white/90">Années d'expérience Albina</p>
+              <Link to="/schedule" className="btn-accent">
+                Explorer ce cours
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Offre Welcome */}
-      <section id="welcome-offer" className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-r from-elaia-gold to-elaia-green rounded-2xl p-8 md:p-12 text-white text-center">
-            <h2 className="text-4xl font-alex mb-4">Offre Welcome</h2>
-            <div className="flex items-center justify-center mb-6">
-              <Star className="h-8 w-8 mr-2" />
-              <p className="text-2xl font-semibold">1 Séance achetée + 1 offerte</p>
-              <Star className="h-8 w-8 ml-2" />
+      {/* Section Offre */}
+      <section className="relative py-32 overflow-hidden">
+        <div className="absolute inset-0">
+          <img 
+            src="https://images.unsplash.com/photo-1540206063137-4a88ca974d1a?w=1920" 
+            alt="Background"
+            className="w-full h-full object-cover opacity-20"
+          />
             </div>
-            <p className="text-5xl font-bold mb-6">45 CHF</p>
-            <p className="text-lg mb-8 max-w-2xl mx-auto">
-              Profitez de cette offre exclusive pour découvrir notre studio et commencer votre transformation
+        <div className="relative container-custom text-center">
+          <h2 className="heading-lg text-elaia-charcoal mb-4">
+            Offre Welcome
+          </h2>
+          <p className="text-2xl font-lora italic text-ohemia-accent mb-8">
+            Votre première expérience ELAÏA
             </p>
-            <Link 
-              to="/register" 
-              className="inline-block bg-white text-elaia-gray px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition-all transform hover:scale-105"
-            >
-              Je profite de l'offre
+          <div className="max-w-xl mx-auto bg-elaia-white p-12 shadow-lg">
+            <p className="text-5xl font-playfair text-elaia-charcoal mb-4">
+              45 CHF
+            </p>
+            <p className="text-lg text-elaia-warm-gray mb-8">
+              1 séance achetée + 1 offerte<br />
+              <span className="text-sm">Valable pour les nouveaux clients uniquement</span>
+            </p>
+            <Link to="/register" className="btn-primary">
+              Profiter de l'offre
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Bénéfices */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-elaia-gray mb-4">
-              Pourquoi choisir Elaïa Studio ?
+      {/* Section Instructeurs */}
+      <section className="section-padding bg-elaia-white">
+        <div className="container-custom">
+          <div className="text-center mb-16">
+            <h2 className="heading-lg text-elaia-charcoal mb-4">
+              Meet your instructors
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Un espace unique dédié à votre bien-être et à votre transformation physique
+            <p className="body-lg text-elaia-warm-gray max-w-2xl mx-auto">
+              Une équipe passionnée et certifiée pour vous accompagner dans votre transformation
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {benefits.map((benefit, index) => (
-              <div key={index} className="card text-center hover:shadow-xl transition-all">
-                <div className="w-16 h-16 bg-elaia-gold/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <benefit.icon className="h-8 w-8 text-elaia-gold" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {instructors.map((instructor, index) => (
+              <div key={index} className="text-center group">
+                <div className="relative mb-6 overflow-hidden">
+                  <img 
+                    src={`https://images.unsplash.com/photo-${
+                      index === 0 ? '1594381298921-9e18df7909f9' :
+                      index === 1 ? '1573496359142-b8d87734a5a2' :
+                      '1582534113276-784e6fb7c3dc'
+                    }?w=400`}
+                    alt={instructor.name}
+                    className="w-full h-96 object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                  />
                 </div>
-                <h3 className="text-xl font-semibold text-elaia-gray mb-3">
-                  {benefit.title}
+                <h3 className="heading-sm text-elaia-charcoal mb-2">
+                  {instructor.name}
                 </h3>
-                <p className="text-gray-600">
-                  {benefit.description}
+                <p className="text-sm font-inter uppercase tracking-wider text-ohemia-accent mb-2">
+                  {instructor.role}
+                </p>
+                <p className="text-sm text-elaia-warm-gray">
+                  {instructor.specialty}
                 </p>
               </div>
             ))}
@@ -385,217 +302,22 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Nos Cours - Nouveau Design */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-elaia-gray mb-4">
-              Nos Cours
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Découvrez notre gamme complète de cours adaptés à tous les niveaux
-            </p>
-          </div>
-          
-          <div className="relative h-96 flex items-center justify-center overflow-hidden">
-            {/* Navigation buttons */}
-            <button 
-              onClick={prevCourse}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm shadow-lg rounded-full p-3 hover:bg-white transition-all hover:scale-110"
-            >
-              <ChevronLeft className="h-6 w-6 text-elaia-gray" />
-            </button>
-            <button 
-              onClick={nextCourse}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm shadow-lg rounded-full p-3 hover:bg-white transition-all hover:scale-110"
-            >
-              <ChevronRight className="h-6 w-6 text-elaia-gray" />
-            </button>
-
-            {/* Stacked cards carousel */}
-            <div className="relative w-full max-w-5xl mx-auto h-full flex items-center justify-center">
-              {courses.map((course, index) => {
-                const offset = index - currentCourseIndex;
-                const absOffset = Math.abs(offset);
-                
-                // Calculer la position et l'échelle
-                const translateX = offset * 80; // Espacement horizontal
-                const scale = 1 - absOffset * 0.1; // Échelle réduite pour les cartes éloignées
-                const zIndex = courses.length - absOffset;
-                const opacity = absOffset <= 2 ? (1 - absOffset * 0.3) : 0;
-                
-                // Masquer les cartes trop éloignées
-                if (absOffset > 2) return null;
-                
-                return (
-                  <div
-                    key={course.id}
-                    className="absolute transition-all duration-500 ease-out cursor-pointer"
-                    style={{
-                      transform: `translateX(${translateX}px) scale(${scale})`,
-                      zIndex,
-                      opacity,
-                    }}
-                    onClick={() => setCurrentCourseIndex(index)}
-                  >
-                    <div className="w-80 bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-transparent hover:border-elaia-gold/30 transition-all">
-                      <div className="h-48 bg-gradient-to-br from-elaia-gold/20 to-elaia-green/20 flex items-center justify-center p-6">
-                        <div className="text-center">
-                          <h3 className="text-xl font-bold text-elaia-gray mb-3">{course.title}</h3>
-                          <div className="text-xs text-elaia-gray space-y-1">
-                            <div className="flex items-center justify-center">
-                              <span className="font-medium mr-2">Intensité:</span>
-                              <div className="flex">{renderStars(course.intensity)}</div>
-                            </div>
-                            <div className="flex items-center justify-center">
-                              <span className="font-medium mr-2">Relaxation:</span>
-                              <div className="flex">{renderStars(course.relaxation)}</div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      {/* Contenu détaillé visible seulement pour la carte active */}
-                      {offset === 0 && (
-                        <div className="p-6 bg-white">
-                          <p className="text-gray-600 mb-4 text-sm leading-relaxed">
-                            {course.description}
-                          </p>
-                          <div className="mb-4">
-                            <span className="text-elaia-gold font-semibold text-sm">
-                              {course.credits} crédits par séance
-                            </span>
-                          </div>
-                          <div className="space-y-2">
-                            <Link 
-                              to="/courses"
-                              className="bg-elaia-gold/10 text-elaia-gold border border-elaia-gold/30 hover:bg-elaia-gold hover:text-white transition-colors inline-flex items-center text-sm px-4 py-2 w-full justify-center rounded-full"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              Voir détails du cours
-                              <ArrowRight className="ml-2 h-4 w-4" />
-                            </Link>
-                            <Link 
-                              to={`/schedule?course=${course.id}`}
-                              className="btn-primary inline-flex items-center text-sm px-4 py-2 w-full justify-center"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              Réserver maintenant
-                              <ArrowRight className="ml-2 h-4 w-4" />
-                            </Link>
-                          </div>
-                        </div>
-                      )}
-                      
-                      {/* Badge pour les cartes non-actives */}
-                      {offset !== 0 && (
-                        <div className="p-4 bg-white">
-                          <div className="text-center space-y-2">
-                            <span className="text-elaia-gold font-semibold text-sm">
-                              {course.credits} crédits
-                            </span>
-                            <p className="text-xs text-gray-500">Cliquez pour activer</p>
-                            <Link 
-                              to="/courses"
-                              className="text-xs text-elaia-gold hover:underline block"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              Voir tous les détails
-                            </Link>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Course indicators */}
-            <div className="flex justify-center mt-8 space-x-2">
-              {courses.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentCourseIndex(index)}
-                  className={`w-3 h-3 rounded-full transition-all ${
-                    index === currentCourseIndex 
-                      ? 'bg-elaia-gold' 
-                      : 'bg-gray-300 hover:bg-gray-400'
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Témoignages */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-elaia-gray mb-4">
-              L'expertise reconnue
-            </h2>
-            <p className="text-lg text-gray-600">
-              La passion et la formation au service de votre bien-être
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className="card hover:shadow-xl transition-all">
-                <div className="flex mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 text-elaia-gold fill-current" />
-                  ))}
-                </div>
-                <p className="text-gray-600 mb-4 italic">"{testimonial.text}"</p>
-                <p className="font-semibold text-elaia-gray">{testimonial.name}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Ils nous font confiance */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-elaia-gray mb-4">
-              Ils nous font confiance
-            </h2>
-            <p className="text-lg text-gray-600">
-              Nos partenaires qui partagent notre vision du bien-être
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center">
-            {partners.map((partner, index) => (
-              <div key={index} className="flex items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-all">
-                <div className="w-24 h-16 bg-gray-200 rounded flex items-center justify-center text-xs text-gray-500">
-                  {partner.name}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Final */}
-      <section className="py-16 bg-gradient-to-r from-elaia-green to-elaia-mint">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Prêt à transformer votre corps ?
+      {/* Section CTA Final */}
+      <section className="section-padding bg-elaia-charcoal text-elaia-white">
+        <div className="container-custom text-center">
+          <h2 className="heading-lg mb-8">
+            Prêt à commencer votre transformation ?
           </h2>
-          <p className="text-xl text-white/90 mb-8">
-            Rejoignez Elaïa Studio aujourd'hui et découvrez une nouvelle façon de prendre soin de vous
+          <p className="body-lg mb-12 max-w-2xl mx-auto opacity-90">
+            Rejoignez-nous dès juillet 2025 dans notre nouveau studio à Gland et 
+            découvrez une nouvelle approche du bien-être.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/register" className="bg-white text-elaia-gray px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition-all">
-              Créer mon compte
+            <Link to="/register" className="btn-accent">
+              Réserver maintenant
             </Link>
-            <Link to="/about" className="border-2 border-white text-white px-8 py-3 rounded-lg font-medium hover:bg-white/10 transition-all">
-              En savoir plus
+            <Link to="/contact" className="btn-secondary border-elaia-white text-elaia-white hover:bg-elaia-white hover:text-elaia-charcoal">
+              Nous contacter
             </Link>
           </div>
         </div>
